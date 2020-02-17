@@ -6,8 +6,5 @@ jobs:
       dist: trusty
     - os: osx
 
-before_install:
-- if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install shellcheck; fi
-
 script:
   - shellcheck -x $(find . -name "*.sh") bash_profile bashrc

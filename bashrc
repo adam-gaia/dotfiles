@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-# shellcheck source=bash/bash_profile
+# shellcheck source=bash_profile
 source ~/.bash_profile

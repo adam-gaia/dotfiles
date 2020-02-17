@@ -19,17 +19,27 @@ unameOut="$(uname -s)"
 case "${unameOut}" in
     Darwin*) 
         export DOTFILEDIR="/Users/${USER}/repo/dotfiles"
+        # shellcheck source=OS/mac.sh
         source "${DOTFILEDIR}/OS/mac.sh"
         ;;
     Linux*)
         export DOTFILEDIR="/home/${USER}/repo/dotfiles"
+        # shellcheck source=OS/linux.sh
         source "${DOTFILEDIR}/OS/linux.sh"
         ;;
     *)
         echo "Unknown OS type, defaulting to Linux setup"
         export DOTFILEDIR="/home/${USER}/repo/dotfiles"
+        # shellcheck source=OS/linux.sh
         source "${DOTFILEDIR}/OS/linux.sh"
 esac
+
+
+# --------------------------------------------------------------------------------
+# Path
+# --------------------------------------------------------------------------------
+# Add current directory to the path
+export PATH=".:$PATH"
 
 
 # --------------------------------------------------------------------------------
@@ -48,10 +58,10 @@ source "${DOTFILEDIR}/python.sh" # Python paths
 # Colors - prompt, dir colors, 
 # --------------------------------------------------------------------------------
 if [ "$TERM" != dumb ]; then
-    # shellcheck source=color.sh
+    # shellcheck source=colors/color.sh
     source "${DOTFILEDIR}/colors/color.sh"
 else
-    export PS1="$ "
+    export PS1="$ " # TODO
 fi
 
 

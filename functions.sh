@@ -12,7 +12,7 @@
 # --------------------------------------------------------------------------------
 function reload()
 {
-    #shellcheck source=./bash/bashrc
+    #shellcheck source=./bashrc
     source "${HOME}/.bashrc"
 }
 
@@ -25,7 +25,7 @@ function todo()
 function which()
 {
     if [[ "${#}" -eq 0 ]]; then
-        echo "Error, no argument provided."
+        echo "Error, no argument provided."  1>&2
         return 1
     fi
 
@@ -95,9 +95,9 @@ function mkcd()
     cd "${1}" || { echo "${1} created, but cd failed"; exit 1; }
 }
 
-function path()
+function path() # This is nice, but we lose the order of the path by sorting
 {
-    echo "$PATH" |gsed 's/:/\n/g' |sort
+    echo "$PATH" |sed 's/:/\n/g' |sort
 }
 
 # TODO
@@ -355,7 +355,7 @@ cp_undoable()
 {
 	# Check arguments
 	if [[ $# != 2 ]] ; then 
-		echo "Error, must input two file paths"
+		echo "Error, must input two file paths"  1>&2
 		return 1
 	fi
 
@@ -382,7 +382,7 @@ mv_undoable()
 {
 	# Check arguments
 	if [[ $# != 2 ]] ; then 
-		echo "Error, must input two file paths"
+		echo "Error, must input two file paths"  1>&2
 		return 1
 	fi
 
@@ -412,14 +412,14 @@ rm_undoable()
 	# Check bash version number
 	bashVersionFirstNum=$(echo "$BASH_VERSION" | head -c 1)
 	if (( "$bashVersionFirstNum" < 5 )) ; then
-		echo "Error: The remap rm to mv ~/.Trash function requires bash v4+ to work"
+		echo "Error: The remap rm to mv ~/.Trash function requires bash v4+ to work"  1>&2
 		return 1
 	fi
 
 	# Check that realpath utility is installed (and)
 	realPathUtill="$(command -v realpath)"
 	if [[ ! -e "$realPathUtill" ]]; then
-		echo "Error: realpath utility is not installed (or not on the path)"
+		echo "Error: realpath utility is not installed (or not on the path)"  1>&2
 		return 1
 	fi
 
@@ -438,10 +438,10 @@ rm_undoable()
 	fi
 
 	# Save time to append to trashed file name - TODO
-	time="$(date +%d.%m.%Y_%H:%M:%S)"
+	timestamp="$(date +%d.%m.%Y_%H:%M:%S)"
 
 	# Set destination path
-	trashPath="${HOME}/.Trash/${fileToRemove}"
+	trashPath="${HOME}/.Trash/${fileToRemove}" #_${timestamp}"
 
 	# Save variables for undoing
 	UNDOABLE_FUNCTIONS_LAST_USED_SOURCE_PATH="$(realPath "${fileToRemove}")"
@@ -468,7 +468,7 @@ rmdir_undoable()
 undo() # TODO: Get really clever and use a stack to keep track of undo able actions - maybe even write these functions in c
 {
 	if [[ "$UNDOABLE" == "false" ]] ; then
-		echo "Error, nothing to undo"
+		echo "Error, nothing to undo"  1>&2
 		return 1
 	fi
 
@@ -495,7 +495,7 @@ undo() # TODO: Get really clever and use a stack to keep track of undo able acti
 redo()
 {
 	if [[ "$REDOABLE" == "false" ]] ; then
-		echo "Error, nothing to redo"
+		echo "Error, nothing to redo"  1>&2
 		return 1
 	fi
 
@@ -545,7 +545,7 @@ wm() # Toggle
             return 0
 
         else
-            echo "Error, unknown argument: ${1}"
+            echo "Error, unknown argument: ${1}"  1>&2
             echo "Valid usage: wm <start|stop>"
             return 1
 

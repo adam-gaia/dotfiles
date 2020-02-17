@@ -17,7 +17,8 @@ if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
     if [ -f "/Users/adamgaia/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/adamgaia/anaconda3/etc/profile.d/conda.sh"
+        # shellcheck disable=SC1091
+        source "/Users/adamgaia/anaconda3/etc/profile.d/conda.sh"
     else
         export PATH="/Users/adamgaia/anaconda3/bin:$PATH"
     fi

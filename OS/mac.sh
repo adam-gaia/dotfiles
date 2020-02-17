@@ -30,15 +30,16 @@ export -f sed awk find head mktemp date shred cut tr od cp cat sort kill xargs r
 
 
 # --------------------------------------------------------------------------------
-# Set Mac specific path
+# Set Mac specific paths
 # --------------------------------------------------------------------------------
-PATH="/bin:/sbin:/sbin:/usr/bin:/usr/sbin/:/opt/X11/bin:"
-
 # Python3
 PATH="${PATH}:/Library/Frameworks/Python.framework/Versions/3.6/bin:/Users/adamgaia/Library/Python/3.6/bin"
 
 # Brew
 PATH="${PATH}:/usr/local/bin"
+
+# MacOS
+PATH="${PATH}/bin:/sbin:/sbin:/usr/bin:/usr/sbin/:/opt/X11/bin:"
 
 # Mac Ports
 PATH="${PATH}:/opt/local/bin:/opt/local/sbin"

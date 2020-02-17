@@ -10,4 +10,5 @@ before_install:
 - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
 
 script:
+  - pwd
   - shellcheck -x $(find . -name "*.sh") bash_profile bashrc

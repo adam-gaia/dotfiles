@@ -60,9 +60,11 @@ brew install tmux \
              pipes-sh \
              source-highlight \
              watch \
-             xmlstarlet
+             xmlstarlet \
+             imagemagick
 
-
+# LaTeX
+brew cask install basicte
 
 # TODO: install gdb. Requires extra steps to make work
 # TODO: sort out brew ruby vs mac ruby

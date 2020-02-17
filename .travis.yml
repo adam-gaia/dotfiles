@@ -1,0 +1,13 @@
+language: bash
+
+jobs:
+  include:
+    - os: linux
+      dist: trusty
+    - os: osx
+
+before_install:
+- if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
+
+script:
+  - shellcheck -x $(find . -name "*.sh") bash_profile bashrc

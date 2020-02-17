@@ -95,9 +95,10 @@ function mkcd()
     cd "${1}" || { echo "${1} created, but cd failed"; exit 1; }
 }
 
-function path() # This is nice, but we lose the order of the path by sorting
+function path()
 {
-    echo "$PATH" |sed 's/:/\n/g' |sort
+    # shellcheck disable=SC2001
+    echo "${PATH}" |sed 's/:/\n/g'
 }
 
 # TODO
@@ -429,7 +430,8 @@ rm_undoable()
 		fileToRemove="$2"
     else
     	fileToRemove="$1"
-    	flags="$2"
+        # shellcheck disable=SC2034
+    	flags="$2" # unused var ignored for now.
     fi
 
     # Remove possible trailing slash from path
@@ -437,7 +439,8 @@ rm_undoable()
     	fileToRemove="${fileToRemove::-1}" # only works with bash v4+
 	fi
 
-	# Save time to append to trashed file name - TODO
+	# Save time to append to trashed file name - TODO unused var ignored for now
+    # shellcheck disable=SC2034
 	timestamp="$(date +%d.%m.%Y_%H:%M:%S)"
 
 	# Set destination path

@@ -12,6 +12,7 @@ alias myAnacondaDont="/Users/adamgaia/anaconda3/bin/python"
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/Users/adamgaia/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+# shellcheck disable=SC2181
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else

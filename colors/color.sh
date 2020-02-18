@@ -184,7 +184,7 @@ if [[ "$(command -v grc)" ]]; then # TODO add more checks for commands before us
     alias free='colorify free'
     alias fdisk='colorify fdisk'
     alias findmnt='colorify findmnt'
-    alias make='colorify make'
+    #alias make='colorify make' # Removed in favor of gmake alias
     alias gcc='colorify gcc'
     alias g++='colorify g++'
     alias id='colorify id'

@@ -8,6 +8,7 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 # Use Gnu utilities - Idea taken from https://github.com/denisidoro/dotfiles
 # --------------------------------------------------------------------------------
 dircolors() { gdircolors "$@"; }
+make() { gmake "$@"; }
 sed() { gsed "$@"; }
 awk() { gawk "$@"; }
 find() { gfind "$@"; }

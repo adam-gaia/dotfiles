@@ -31,7 +31,7 @@ export PS1="\n\[\033[01;32m\]\u\[\033[1m\]\[\033[00m\]@\[\033[01;32m\]\h\[\033[0
 # --------------------------------------------------------------------------------
 # Pywal theme
 # --------------------------------------------------------------------------------
-"${HOME}/anaconda3/bin/wal" -q --theme "${DOTFILEDIR}/colors/pywal_modified_monokai.json" #TODO: save python location as a var, then sub here # TODO: fix highlighting issues from pywal 
+timeout 1 python3 -m pywal -q --theme "${DOTFILEDIR}/colors/pywal_modified_monokai.json" --vte #TODO: save python location as a var, then sub here # TODO: fix highlighting issues from pywal on mac
 eval "$(dircolors "${DOTFILEDIR}/colors/dircolors_Monokai")" # Associate .dircolors_Monokai file with the dircolors utility
 
 

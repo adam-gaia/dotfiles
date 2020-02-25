@@ -8,8 +8,9 @@
 #       see 'builtin cd --help for more'
 # TODO: use 'bash --rcfile file' to force bash to only source specific files at startup
 # TODO: set settings based on login shell and/or interactive shell
+# TODO: check if files have already been sourced. Make some sort of '#ifndef' check - oh but this could stop the 'reload' function from making any changes
 
-# Source order: OS, aliases, functions, color utilities
+# Source order: OS, aliases, functions, python environment, color utilities
 
 
 # --------------------------------------------------------------------------------

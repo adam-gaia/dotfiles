@@ -168,7 +168,7 @@ helper_lsAfterCD()
     unameOut="$(uname -s)"
     case "${unameOut}" in
         Darwin*) 
-            ind /bin/ls # TODO: set flags for mac ls
+            /bin/ls -G # TODO: set flags for mac ls
             ;;
         Linux*)
             ind ls --color=always --group-directories-first -Cq -I "*~"

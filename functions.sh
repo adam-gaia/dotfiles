@@ -12,6 +12,7 @@
 # --------------------------------------------------------------------------------
 function reload()
 {
+    # TODO: can we first unsource/clear everything? (be careful when clearing env vars. Maybe don't clear them)
     #shellcheck source=./bashrc
     source "${HOME}/.bashrc"
 }
@@ -168,7 +169,7 @@ helper_lsAfterCD()
     unameOut="$(uname -s)"
     case "${unameOut}" in
         Darwin*) 
-            ind /bin/ls # TODO: set flags for mac ls
+            /bin/ls -G # TODO: set flags for mac ls
             ;;
         Linux*)
             ind ls --color=always --group-directories-first -Cq -I "*~"

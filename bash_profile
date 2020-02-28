@@ -70,7 +70,7 @@ fi
 # Pager & Editor
 # --------------------------------------------------
 export PAGER="less" # Set less as the default pager (like when reading man pages)
-export EDITOR='nvim' # Default editor
+export EDITOR='vim' # Default editor
 
 # --------------------------------------------------
 # History

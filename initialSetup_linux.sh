@@ -28,19 +28,15 @@ sudo apt-get install -y \
 # TODO: sort by essential to non essential. Have this script take a flag to only install essentials
 sudo apt-get install -y \
              tmux \
-             qt \
              navi \
              tree \
-             yabai \
              w3m \
              cowsay \
              fortune \
-             blueutil \
              cppman \
              jq \
              lynx \
              neofetch \
-             pipes-sh \
              source-highlight \
              watch \
              xmlstarlet \

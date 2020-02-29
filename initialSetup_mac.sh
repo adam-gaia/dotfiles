@@ -77,3 +77,8 @@ brew cask install basicte
 ./deploy.sh
 
 
+# Mac SIP gdb fix
+echo "set startup-with-shell off" >> ~/.gdbinit
+
+
+

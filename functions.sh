@@ -75,7 +75,7 @@ function which()
                 # Files are always listed last, so it's ok to list all and return after finding the first one.
                 # This was the best way I could figure to handle printing all possible matches on the path.
                 
-                files=$(type -af "${query}" | /usr/bin/grep "/")
+                files=$(type -af "${query}" | grep "/")
                 readarray -t filesArray <<<"$files"
                 for f in "${filesArray[@]}"; do
                     printBlue "${indent}file "

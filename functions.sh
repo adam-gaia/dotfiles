@@ -567,7 +567,7 @@ getGitBranch()
     if [[ -n $gitBranch ]]; then
         echo -n "(${gitBranch})"
         
-        if [[ -n "$(git status -s)" ]]; then
+        if [[ -n "$(git status -s 2> /dev/null)" ]]; then
             echo "*" # show uncommited changes
         fi
 

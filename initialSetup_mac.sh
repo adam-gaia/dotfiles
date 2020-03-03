@@ -8,6 +8,7 @@ fi
 # TODO: save mac defaults before and after running this ('defaults' command)
 # Compare differences in case user wants to keep something they have set
 
+mkdir -p "${HOME}/tmp"
 
 brew update
 brew analytics off

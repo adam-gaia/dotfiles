@@ -1,0 +1,100 @@
+" Vim Configuration
+" Shoutout to Doug Black for his notes here: https://dougblack.io/words/a-good-vimrc.html
+
+
+" --------------------------------------------------
+" General
+" --------------------------------------------------
+set showmatch   " Highlight matching [{()}]
+set number      " show line numbers
+set mouse=a     " Allow cursor placement with the mouse
+set cursorline  " Add a line under the cursor
+set showcmd     " Show command in bottom bar
+set lazyredraw  " Only redraw the screen when needed
+set wildmenu    " Visual autocomplete for command menu
+set whichwrap+=<,>,[,]    " Make left and right arrow keys wrap around 
+
+
+" --------------------------------------------------
+" Cursor - Change thickness by mode
+" --------------------------------------------------
+" Extra work needs to be done for this to work in tmux
+if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
+
+
+" --------------------------------------------------
+" Search
+" --------------------------------------------------
+set hlsearch    " Highlight search terms
+set incsearch   " search as characters are entered
+
+
+" --------------------------------------------------
+" Indentation
+" --------------------------------------------------
+set tabstop=4        " Tab visual spacing
+set softtabstop=4    " Tab editing spacing
+set expandtab        " Insert spaces instead of tabs
+set autoindent       "
+set shiftwidth=4     " 
+set smarttab         "
+filetype indent on   " Load filetype-specific indent files # TODO create/find a makefile specific file
+
+
+" --------------------------------------------------
+" Colors
+" --------------------------------------------------
+syntax on       " Syntax highlighting
+colorscheme peachpuff " TODO: find a perfect monokai scheme
+
+
+" --------------------------------------------------
+" Folding
+" --------------------------------------------------
+set foldenable           " Enable folding
+set foldmethod=indent    " Fold based on indent level
+set foldlevelstart=5     " Fold anything at level 5+
+set foldnestmax=10       " 10 nested fold max
+
+
+" --------------------------------------------------
+" Keybinds
+" --------------------------------------------------
+nnoremap <space> za    " space open/closes folds
+" TODO: map ':nohlsearch<CR>' to something to toggle search highlights off
+
+" Move vertically through wrapped lines
+nnoremap j gj
+nnoremap k gk
+
+
+" --------------------------------------------------
+" Autogroups
+" --------------------------------------------------
+augroup configgroup
+    autocmd VimEnter * highlight clear SignColumn
+    "autocmd BufWritePre *.php,*.py,*.js,*.txt,*.hs,*.java,*.md
+    "            \:call <SID>StripTrailingWhitespaces()
+
+    autocmd BufEnter Makefile setlocal noexpandtab
+    autocmd FileType python setlocal commentstring=#\ %s
+augroup END
+
+
+" --------------------------------------------------
+" Backups
+" --------------------------------------------------
+set backup      " filename~
+set backupdir=~/tmp/vim-backup                   "Backup~ file location
+set backupskip=/tmp/*,/private/tmp/*,~/tmp/*
+set directory=~/tmp/vim-backup                   "Swap file location
+set writebackup
+
+
+

@@ -29,7 +29,7 @@ make
 nano
 vim
 gcc
-
+bear # https://github.com/rizsotto/Bear
 
 the_silver_searcher # mac
 silversearcher-ag # debian

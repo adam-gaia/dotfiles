@@ -35,6 +35,10 @@ deploy "${DOTFILEDIR}/bashrc" "${HOME}/.bashrc"
 deploy "${DOTFILEDIR}/bash_profile" "${HOME}/.bash_profile"
 
 # Vim
+mkdir -p "${HOME}/tmp/vim-backup"
+mkdir -p "${HOME}/tmp/vim-backup"
+mkdir -p "${HOME}/tmp/vim-backup"
+
 deploy "${DOTFILEDIR}/vim/vimrc" "${HOME}/.vimrc"
 
 # Install vim plugin manager if needed
@@ -42,4 +46,6 @@ if [[ ! -e "${HOME}/.vim/autoload/plug.vim" ]]; then
     curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim || echo "Error installing vim plugin manager"
 fi
+
+
 

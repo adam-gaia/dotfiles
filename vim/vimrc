@@ -91,10 +91,18 @@ augroup END
 " Backups
 " --------------------------------------------------
 set backup      " filename~
-set backupdir=~/tmp/vim-backup                   "Backup~ file location
+
+set backupdir=~/tmp/vim-backup/backup//,.    " Backup~ file location
+set directory=~/tmp/vim-backup/swp//,.       " Swap file location
+set undodir=~/tmp/vim-backup/undo//,.        " Undo file location
+
 set backupskip=/tmp/*,/private/tmp/*,~/tmp/*
-set directory=~/tmp/vim-backup                   "Swap file location
 set writebackup
+
+
+
+
+
 
 
 

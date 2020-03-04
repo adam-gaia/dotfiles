@@ -47,5 +47,8 @@ if [[ ! -e "${HOME}/.vim/autoload/plug.vim" ]]; then
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim || echo "Error installing vim plugin manager"
 fi
 
+# TODO: somehow configure vim plugin
+# To do so, first ':PlugInstall' must be ran in vim. Can vim commands be ran programatically?
+
 
 

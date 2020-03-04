@@ -14,9 +14,8 @@ alias ls='ind ls --color=always --group-directories-first -alh' # The only way I
 alias tree="ind tree"
 
 # NeoVim
-alias vi="nvim"
-alias vim="nvim"
-alias emacs="nvim" # lol
+alias vi="vim"
+alias emacs="vim" # lol
 
 # git
 alias ga="git add"

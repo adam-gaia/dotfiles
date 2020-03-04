@@ -21,7 +21,7 @@ case "${unameOut}" in
     Darwin*) 
         export DOTFILEDIR="/Users/${USER}/repo/dotfiles"
         # shellcheck source=bash/OS/mac.sh
-        source "${DOTFILEDIR}/bash/bash/OS/mac.sh"
+        source "${DOTFILEDIR}/bash/OS/mac.sh"
         ;;
     Linux*)
         export DOTFILEDIR="/home/${USER}/repo/dotfiles"
@@ -48,11 +48,11 @@ export PATH=".:$PATH"
 # --------------------------------------------------------------------------------
 #TODO: always source aliases first or remove anything that is an alias from bash_functions
 # shellcheck source=bash/aliases.sh
-source "${DOTFILEDIR}/bash/bash/aliases.sh"
+source "${DOTFILEDIR}/bash/aliases.sh"
 # shellcheck source=bash/functions.sh
-source "${DOTFILEDIR}/bash/bash/functions.sh"
+source "${DOTFILEDIR}/bash/functions.sh"
 # shellcheck source=bash/python.sh
-source "${DOTFILEDIR}/bash/bash/python.sh" # Python paths
+source "${DOTFILEDIR}/bash/python.sh" # Python paths
 
 
 # --------------------------------------------------------------------------------

@@ -21,18 +21,18 @@ case "${unameOut}" in
     Darwin*) 
         export DOTFILEDIR="/Users/${USER}/repo/dotfiles"
         # shellcheck source=OS/mac.sh
-        source "${DOTFILEDIR}/OS/mac.sh"
+        source "${DOTFILEDIR}/bash/OS/mac.sh"
         ;;
     Linux*)
         export DOTFILEDIR="/home/${USER}/repo/dotfiles"
         # shellcheck source=OS/linux.sh
-        source "${DOTFILEDIR}/OS/linux.sh"
+        source "${DOTFILEDIR}/bash/OS/linux.sh"
         ;;
     *)
         echo "Unknown OS type, defaulting to Linux setup"
         export DOTFILEDIR="/home/${USER}/repo/dotfiles"
         # shellcheck source=OS/linux.sh
-        source "${DOTFILEDIR}/OS/linux.sh"
+        source "${DOTFILEDIR}/bash/OS/linux.sh"
 esac
 
 
@@ -48,11 +48,11 @@ export PATH=".:$PATH"
 # --------------------------------------------------------------------------------
 #TODO: always source aliases first or remove anything that is an alias from bash_functions
 # shellcheck source=aliases.sh
-source "${DOTFILEDIR}/aliases.sh"
+source "${DOTFILEDIR}/bash/aliases.sh"
 # shellcheck source=functions.sh
-source "${DOTFILEDIR}/functions.sh"
+source "${DOTFILEDIR}/bash/functions.sh"
 # shellcheck source=python.sh
-source "${DOTFILEDIR}/python.sh" # Python paths
+source "${DOTFILEDIR}/bash/python.sh" # Python paths
 
 
 # --------------------------------------------------------------------------------

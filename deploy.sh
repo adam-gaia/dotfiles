@@ -31,8 +31,8 @@ deploy()
 DOTFILEDIR="$(pwd)"
 
 # Bash
-deploy "${DOTFILEDIR}/bashrc" "${HOME}/.bashrc"
-deploy "${DOTFILEDIR}/bash_profile" "${HOME}/.bash_profile"
+deploy "${DOTFILEDIR}/bash/bashrc" "${HOME}/.bashrc"
+deploy "${DOTFILEDIR}/bash/bash_profile" "${HOME}/.bash_profile"
 
 # Vim
 mkdir -p "${HOME}/tmp/vim-backup"

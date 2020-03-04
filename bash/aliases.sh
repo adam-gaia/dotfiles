@@ -7,19 +7,15 @@ alias grep='ind grep --color=always' # loses color with ind
 
 
 # ls with color - pulls from gnuCoreUtils dircolors
-alias ls='ind ls --color=always --group-directories-first -alh -I "*~"' # The only way I could get the indentation to work. If ls was already an alias, it would lose color with ind.
+alias ls='ind ls --color=always --group-directories-first -alh' # The only way I could get the indentation to work. If ls was already an alias, it would lose color with ind.
 # TODO: Create a function that shows when a file has a complimenting 'file~'  Example: if 'fileName' and 'fileName~', output 'fileName(~)'
 
 # Tree with indentation and color
 alias tree="ind tree"
 
 # NeoVim
-alias vi="nvim"
-alias vim="nvim"
-alias emacs="nvim" # lol
-
-# Catch common misspellings and mistypings
-alias sl="ls"
+alias vi="vim"
+alias emacs="vim" # lol
 
 # git
 alias ga="git add"
@@ -56,5 +52,7 @@ alias :q='exit'
 alias top='htop'
 
 
-
+# Catch common misspellings and mistypings
+alias sl="ls"
+alias Grep="grep"
 

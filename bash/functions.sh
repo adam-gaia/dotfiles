@@ -172,10 +172,10 @@ helper_lsAfterCD()
             /bin/ls -G # TODO: set flags for mac ls
             ;;
         Linux*)
-            ind ls --color=always --group-directories-first -Cq -I "*~"
+            ind ls --color=always --group-directories-first -Cq
             ;;
         *)
-            ind ls --color=always --group-directories-first -Cq -I "*~"
+            ind ls --color=always --group-directories-first -Cq
     esac
           # TODO: like with the ls alias, if ~file found, print filename(~)
     
@@ -567,7 +567,7 @@ getGitBranch()
     if [[ -n $gitBranch ]]; then
         echo -n "(${gitBranch})"
         
-        if [[ -n "$(git status -s)" ]]; then
+        if [[ -n "$(git status -s 2> /dev/null)" ]]; then
             echo "*" # show uncommited changes
         fi
 

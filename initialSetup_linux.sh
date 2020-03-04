@@ -6,6 +6,8 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
+mkdir -p "${HOME}/tmp"
+
 sudo apt-get update
 sudo apt-get -f install
 sudo apt-get -y upgrade -y

@@ -8,6 +8,7 @@ fi
 # TODO: save mac defaults before and after running this ('defaults' command)
 # Compare differences in case user wants to keep something they have set
 
+mkdir -p "${HOME}/tmp"
 
 brew update
 brew analytics off
@@ -21,7 +22,8 @@ brew install git \
              make \
              nano \
              vim \
-             gcc
+             gcc \
+             gdb # TODO: gdb initial setup
 
 
 # GNU Utilities
@@ -75,5 +77,10 @@ brew cask install basicte
 
 # Deploy dotfiles
 ./deploy.sh
+
+
+# Mac SIP gdb fix
+echo "set startup-with-shell off" >> ~/.gdbinit
+
 
 

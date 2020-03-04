@@ -50,5 +50,8 @@ fi
 # TODO: somehow configure vim plugin
 # To do so, first ':PlugInstall' must be ran in vim. Can vim commands be ran programatically?
 
+# Git
+deploy "${DOTFILEDIR}/git/gitconfig" "${HOME}/.gitconfig"
+deploy "${DOTFILEDIR}/git/gitignore_global" "${HOME}/.gitignore_global"
 
 

@@ -9,6 +9,7 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 # --------------------------------------------------------------------------------
 dircolors() { gdircolors "$@"; }
 make() { gmake "$@"; }
+mv() { gmv "$@"; }
 sed() { gsed "$@"; }
 awk() { gawk "$@"; }
 find() { gfind "$@"; }

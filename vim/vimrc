@@ -16,6 +16,26 @@ set whichwrap+=<,>,[,]    " Make left and right arrow keys wrap around
 
 
 " --------------------------------------------------
+" Plugins
+" --------------------------------------------------
+call plug#begin('~/.vim/plugged')    " Begin Plug plugins
+
+" Monokai theme - https://github.com/patstockwell/vim-monokai-tasty
+Plug 'patstockwell/vim-monokai-tasty'
+
+" ack Search - https://github.com/mileszs/ack.vim
+Plug 'mileszs/ack.vim'
+
+" Silver Searcher - relies on ack.vim - https://github.com/ggreer/the_silver_searcher
+if executable('ag')
+    let g:ackprg = 'ag --vimgrep'
+endif
+
+call plug#end()    " Initialize plugin system
+
+
+
+" --------------------------------------------------
 " Cursor - Change thickness by mode
 " --------------------------------------------------
 " Extra work needs to be done for this to work in tmux
@@ -51,7 +71,12 @@ filetype indent on   " Load filetype-specific indent files # TODO create/find a 
 " Colors
 " --------------------------------------------------
 syntax on       " Syntax highlighting
-colorscheme peachpuff " TODO: find a perfect monokai scheme
+"colorscheme peachpuff " TODO: find a perfect monokai scheme
+
+" Set monokai color scheme
+let g:vim_monokai_tasty_italic = 1
+colorscheme vim-monokai-tasty
+let g:airline_theme='monokai_tasty'
 
 
 " --------------------------------------------------
@@ -90,15 +115,14 @@ augroup END
 " --------------------------------------------------
 " Backups
 " --------------------------------------------------
-set backup      " filename~
+set backup    " Create a backup of 'file' to 'file~''
 
 set backupdir=~/tmp/vim-backup/backup//,.    " Backup~ file location
 set directory=~/tmp/vim-backup/swp//,.       " Swap file location
 set undodir=~/tmp/vim-backup/undo//,.        " Undo file location
 
-set backupskip=/tmp/*,/private/tmp/*,~/tmp/*
-set writebackup
-
+set backupskip=/tmp/*,/private/tmp/*,~/tmp/*,~/private/*    " Don't backup these
+set writebackup     " Make a backup before overwriting a file
 
 
 

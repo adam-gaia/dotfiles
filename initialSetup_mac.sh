@@ -22,7 +22,8 @@ brew install git \
              make \
              nano \
              vim \
-             gcc
+             gcc \
+             gdb # TODO: gdb initial setup
 
 
 # GNU Utilities

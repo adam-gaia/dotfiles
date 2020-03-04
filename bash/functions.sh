@@ -13,7 +13,7 @@
 function reload()
 {
     # TODO: can we first unsource/clear everything? (be careful when clearing env vars. Maybe don't clear them)
-    #shellcheck source=./bashrc
+    #shellcheck source=./bash/bashrc
     source "${HOME}/.bashrc"
 }
 

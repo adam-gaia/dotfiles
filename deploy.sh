@@ -10,19 +10,41 @@ set -Eeuo pipefail
 # --------------------------------------------------
 deploy()
 {
-    file="$1"
+    sourceFile="$1"
     linkTarget="$2"
 
-    # If already exists
-    if [[ -e "${linkTarget}" ]]; then
-        timeStamp="$(date "+%Y-%m-%d_%H:%M:%S")"
-        backup="${linkTarget}_backup_${timeStamp}"
-        mv "${linkTarget}" "${linkTarget}_backup_${timeStamp}"
-        echo "Backed up '${linkTarget}' to '${backup}'"
+    # Check if target already exists
+    if [[ -f "${linkTarget}" ]]; then
+
+        # Check if target is a link
+        if [[ -L "${linkTarget}" ]]; then
+
+            # If the link points to $sourceFile we don't need to do any work
+            if [[ readlink -f "${linkTarget}" == "${sourceFile}" ]]; then
+                echo "${linkTarget} is linked to ${sourceFile}"
+                return
+            fi
+
+            # Else, we need to back up by copying whatever the link points to and remove the link itself
+            timeStamp="$(date "+%Y-%m-%d_%H:%M:%S")"
+            backup="$(readlink -f "${linkTarget}")_backup_${timeStamp}"
+            echo "Backed up '${linkTarget}' to '${backup}'"
+            rm "${linkTarget}"
+        
+        else
+
+            # Otherwise, we need to back up by moving the target file
+            timeStamp="$(date "+%Y-%m-%d_%H:%M:%S")"
+            backup="${linkTarget}_backup_${timeStamp}"
+            mv "${linkTarget}" "${backup}"
+            echo "Backed up '${linkTarget}' to '${backup}'"
+
+        fi
     fi
 
-    ln -s "${file}" "${linkTarget}" || { echo "Error linking '${file}' to '${linkTarget}'"; exit 1; }
-    echo "Linked '${file}' to '${linkTarget}'"
+    # Make a link to our sourcefile
+    ln -s "${sourceFile}" "${linkTarget}" || { echo "Error linking '${sourceFile}' to '${linkTarget}'"; exit 1; }
+    echo "Linked '${sourceFile}' to '${linkTarget}'"
 }
 
 # --------------------------------------------------

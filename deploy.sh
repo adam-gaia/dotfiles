@@ -20,7 +20,7 @@ deploy()
         if [[ -L "${linkTarget}" ]]; then
 
             # If the link points to $sourceFile we don't need to do any work
-            if [[ readlink -f "${linkTarget}" == "${sourceFile}" ]]; then
+            if [[ "$(readlink -f "${linkTarget}")" == "${sourceFile}" ]]; then
                 echo "${linkTarget} is linked to ${sourceFile}"
                 return
             fi

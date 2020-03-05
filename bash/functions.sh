@@ -13,7 +13,7 @@
 function reload()
 {
     # TODO: can we first unsource/clear everything? (be careful when clearing env vars. Maybe don't clear them)
-    #shellcheck source=./bashrc
+    #shellcheck source=./bash/bashrc
     source "${HOME}/.bashrc"
 }
 
@@ -75,7 +75,7 @@ function which()
                 # Files are always listed last, so it's ok to list all and return after finding the first one.
                 # This was the best way I could figure to handle printing all possible matches on the path.
                 
-                files=$(type -af "${query}" | /usr/bin/grep "/")
+                files=$(type -af "${query}" | grep "/")
                 readarray -t filesArray <<<"$files"
                 for f in "${filesArray[@]}"; do
                     printBlue "${indent}file "

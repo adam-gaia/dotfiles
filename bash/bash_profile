@@ -20,18 +20,18 @@ unameOut="$(uname -s)"
 case "${unameOut}" in
     Darwin*) 
         export DOTFILEDIR="/Users/${USER}/repo/dotfiles"
-        # shellcheck source=/bashOS/mac.sh
+        # shellcheck source=bash/OS/mac.sh
         source "${DOTFILEDIR}/bash/OS/mac.sh"
         ;;
     Linux*)
         export DOTFILEDIR="/home/${USER}/repo/dotfiles"
-        # shellcheck source=/bashOS/linux.sh
+        # shellcheck source=bash/OS/linux.sh
         source "${DOTFILEDIR}/bash/OS/linux.sh"
         ;;
     *)
         echo "Unknown OS type, defaulting to Linux setup"
         export DOTFILEDIR="/home/${USER}/repo/dotfiles"
-        # shellcheck source=/bashOS/linux.sh
+        # shellcheck source=bash/OS/linux.sh
         source "${DOTFILEDIR}/bash/OS/linux.sh"
 esac
 
@@ -47,11 +47,11 @@ export PATH=".:$PATH"
 # Source external files
 # --------------------------------------------------------------------------------
 #TODO: always source aliases first or remove anything that is an alias from bash_functions
-# shellcheck source=/bashaliases.sh
+# shellcheck source=bash/aliases.sh
 source "${DOTFILEDIR}/bash/aliases.sh"
-# shellcheck source=/bashfunctions.sh
+# shellcheck source=bash/functions.sh
 source "${DOTFILEDIR}/bash/functions.sh"
-# shellcheck source=/bashpython.sh
+# shellcheck source=bash/python.sh
 source "${DOTFILEDIR}/bash/python.sh" # Python paths
 
 
@@ -59,7 +59,8 @@ source "${DOTFILEDIR}/bash/python.sh" # Python paths
 # Colors - prompt, dir colors, 
 # --------------------------------------------------------------------------------
 if [ "$TERM" != dumb ]; then
-    # shellcheck source=/bashcolors/color.sh
+
+    # shellcheck source=bash/colors/color.sh
     source "${DOTFILEDIR}/bash/colors/color.sh"
 else
     export PS1="$ " # TODO

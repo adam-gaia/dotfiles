@@ -15,6 +15,7 @@ set wildmenu    " Visual autocomplete for command menu
 set whichwrap+=<,>,[,]    " Make left and right arrow keys wrap around
 set backspace=indent,eol,start    " Back space behaves as expected
 packadd termdebug    " gdb integration with ':Termdebug'
+set spell spelllang=en_us " Spell check
 
 
 " --------------------------------------------------

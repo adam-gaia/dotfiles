@@ -15,6 +15,9 @@ function reload()
     # TODO: can we first unsource/clear everything? (be careful when clearing env vars. Maybe don't clear them)
     #shellcheck source=./bash/bashrc
     source "${HOME}/.bashrc"
+
+    # Reload readline's inputrc
+    bind -f ~/.inputrc
 }
 
 function todo()

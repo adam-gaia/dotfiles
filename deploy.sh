@@ -11,6 +11,12 @@ set -Eeuo pipefail
 deploy()
 {
     sourceFile="$1"
+
+    if [[ ! -r "${sourceFile}" ]]; then
+        echo "Error, '${sourcefile}' does not exist"
+        return 1
+    fi
+
     linkTarget="$2"
 
     fileName=$(basename "${sourceFile}")
@@ -23,7 +29,7 @@ deploy()
 
             # If the link points to $sourceFile we don't need to do any work
             if [[ "$(readlink -f "${linkTarget}")" == "${sourceFile}" ]]; then
-                echo "${linkTarget} is linked to ${sourceFile}"
+                echo "'${linkTarget}'' is linked to '${sourceFile}'"
                 return
             fi
 
@@ -60,6 +66,9 @@ mkdir -p "${BACKUPDIR}"
 # Bash
 deploy "${DOTFILEDIR}/bash/bashrc" "${HOME}/.bashrc"
 deploy "${DOTFILEDIR}/bash/bash_profile" "${HOME}/.bash_profile"
+
+# Readline
+deploy "${DOTFILEDIR}/readline/inputrc" "${HOME}/.inputrc"
 
 # Vim
 mkdir -p "${HOME}/tmp/vim-backup"

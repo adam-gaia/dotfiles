@@ -67,7 +67,7 @@ mkdir -p "${BACKUPDIR}"
 deploy "${DOTFILEDIR}/bash/bashrc" "${HOME}/.bashrc"
 deploy "${DOTFILEDIR}/bash/bash_profile" "${HOME}/.bash_profile"
 
-# Readline
+# Readline (inputrc)
 deploy "${DOTFILEDIR}/readline/inputrc" "${HOME}/.inputrc"
 
 # Vim

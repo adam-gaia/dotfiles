@@ -2,21 +2,33 @@
 " Shoutout to Doug Black for his notes here: https://dougblack.io/words/a-good-vimrc.html
 
 
+" Significantly speed vim up by changing the regex engine
+" see https://stackoverflow.com/questions/16902317/vim-slow-with-ruby-syntax-highlighting
+" and https://stackoverflow.com/questions/19030290/syntax-highlighting-causes-terrible-lag-in-vim/
+set re=1
+
+
 " --------------------------------------------------
 " General
 " --------------------------------------------------
-set showmatch   " Highlight matching [{()}]
-set number      " show line numbers
-set mouse=a     " Allow cursor placement with the mouse
-set cursorline  " Add a line under the cursor
-set showcmd     " Show command in bottom bar
-set lazyredraw  " Only redraw the screen when needed
-set wildmenu    " Visual autocomplete for command menu
-set whichwrap+=<,>,[,]    " Make left and right arrow keys wrap around
-set backspace=indent,eol,start    " Back space behaves as expected
-packadd termdebug    " gdb integration with ':Termdebug'
-set spell spelllang=en_us " Spell check
+set noerrorbells    " No noise/notification on error
+set showmatch       " Highlight matching [{()}]
+set number          " show line numbers
+set mouse=a         " Allow cursor placement with the mouse
+set cursorline      " Add a line under the cursor
+set showcmd         " Show command in bottom bar
+set lazyredraw      " Only redraw the screen when needed
+set wildmenu        " Visual autocomplete for command menu
 
+set whichwrap+=<,>,[,]            " Make left and right arrow keys wrap around
+set backspace=indent,eol,start    " Back space behaves as expected
+packadd termdebug                 " gdb integration with ':Termdebug'
+set spell spelllang=en_us         " Spell check
+
+set splitright    " Split vertical windows right to the current windows
+set splitbelow    " Split horizontal windows below to the current windows
+set autowrite     " Automatically save before :next, :make etc.
+set autoread      " Automatically reread changed files without prompting
 
 " --------------------------------------------------
 " Plugins
@@ -232,6 +244,8 @@ set undodir=~/tmp/vim-backup/undo//,.        " Undo file location
 
 set backupskip=/tmp/*,/private/tmp/*,~/tmp/*,~/private/*    " Don't backup these
 set writebackup     " Make a backup before overwriting a file
+
+
 
 
 

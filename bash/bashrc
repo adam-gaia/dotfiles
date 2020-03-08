@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
+
+# Do not do anything if it's a non interactive shell.
+[ -z "$PS1" ] && return
+
 # shellcheck source=bash/bash_profile
 source ~/.bash_profile

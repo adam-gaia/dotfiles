@@ -13,6 +13,8 @@ deploy()
     sourceFile="$1"
     linkTarget="$2"
 
+    fileName=$(basename "${sourceFile}")
+
     # Check if target already exists
     if [[ -f "${linkTarget}" ]]; then
 
@@ -27,15 +29,16 @@ deploy()
 
             # Else, we need to back up by copying whatever the link points to and remove the link itself
             timeStamp="$(date "+%Y-%m-%d_%H:%M:%S")"
-            backup="$(readlink -f "${linkTarget}")_backup_${timeStamp}"
-            echo "Backed up '${linkTarget}' to '${backup}'"
+            backup="${BACKUPDIR}/${fileName}_backup_${timeStamp}"
+            cp "$(readlink -f "${linkTarget}")" "${backup}"
             rm "${linkTarget}"
+            echo "Backed up '${linkTarget}' to '${backup}'"
         
         else
 
             # Otherwise, we need to back up by moving the target file
             timeStamp="$(date "+%Y-%m-%d_%H:%M:%S")"
-            backup="${linkTarget}_backup_${timeStamp}"
+            backup="${BACKUPDIR}/${fileName}_backup_${timeStamp}"
             mv "${linkTarget}" "${backup}"
             echo "Backed up '${linkTarget}' to '${backup}'"
 
@@ -51,6 +54,8 @@ deploy()
 # Main
 # --------------------------------------------------
 DOTFILEDIR="$(pwd)"
+BACKUPDIR="${DOTFILEDIR}/backups"
+mkdir -p "${BACKUPDIR}"
 
 # Bash
 deploy "${DOTFILEDIR}/bash/bashrc" "${HOME}/.bashrc"

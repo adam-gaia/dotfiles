@@ -10,3 +10,5 @@ Thumbs.db
 # Ignore my todo notes
 todo.txt
 
+# Ignore backups
+/backups/

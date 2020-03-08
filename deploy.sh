@@ -2,7 +2,6 @@
 # TODO: determine scope. Where does the initial setup script end and this begin?
 set -Eeuo pipefail
 
-
 # TODO: Turn this into a makefile?
 
 # --------------------------------------------------
@@ -38,7 +37,6 @@ deploy()
             backup="${BACKUPDIR}/${fileName}_backup_${timeStamp}"
             cp "$(readlink -f "${linkTarget}")" "${backup}"
             rm "${linkTarget}"
-            echo "Backed up '${linkTarget}' to '${backup}'"
         
         else
 
@@ -46,15 +44,16 @@ deploy()
             timeStamp="$(date "+%Y-%m-%d_%H:%M:%S")"
             backup="${BACKUPDIR}/${fileName}_backup_${timeStamp}"
             mv "${linkTarget}" "${backup}"
-            echo "Backed up '${linkTarget}' to '${backup}'"
 
         fi
+        echo "Backed up '${linkTarget}' to '${backup}'"
     fi
 
     # Make a link to our sourcefile
     ln -s "${sourceFile}" "${linkTarget}" || { echo "Error linking '${sourceFile}' to '${linkTarget}'"; exit 1; }
     echo "Linked '${sourceFile}' to '${linkTarget}'"
 }
+
 
 # --------------------------------------------------
 # Main
@@ -85,6 +84,9 @@ fi
 
 # TODO: somehow configure vim plugin
 # To do so, first ':PlugInstall' must be ran in vim. Can vim commands be ran programatically?
+
+# Tmux
+deploy "${DOTFILEDIR}/tmux/tmux.conf" "${HOME}/.tmux.conf"
 
 # Git
 deploy "${DOTFILEDIR}/git/gitconfig" "${HOME}/.gitconfig"

@@ -95,6 +95,12 @@ function which()
     done 
 }
 
+# Override 'test' to print exit status. No more 'test <expression>; echo $?'
+function test()
+{
+    builtin test $@ && echo 'true' || echo 'false'
+}
+
 # Create a directory and cd to it
 function mkcd()
 {

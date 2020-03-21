@@ -29,6 +29,18 @@ function todo()
     ind git -c color.grep.linenumber="green" -c color.grep.filename="magenta" grep -in --color "TODO\|FIXME\|HACK" | /usr/local/bin/ggrep -v "Binary file" || echo "No matches" # TODO only use ggrep on mac. use grep when gnu grep is default
 }
 
+function tally()
+{
+    echo "not yet implemented"
+    # Counts keystrokes entered while running.
+    # Used to keep a tally for the user
+    # TODO: have a while read loop running.
+    #   Increment a var each iteration. Print tally when done
+    # input args:
+    #   help for help message
+    #   -n<int> start on some number
+}
+
 # Override which to search aliases and functions
 function which()
 {
@@ -455,6 +467,13 @@ wm() # Toggle
 # TODO: pull prompt stuff into its own file
 gitPromptInfo()
 {
+    # As a way to minimize overhead from subshells, it would be cool to 
+    #   run all subshells first before anything else.
+    #   Run them in parallel with '&', then use 'wait'
+    #
+    # This could be an issue when the computer is under a heavy load
+    # but otherwise would be good
+
     status="$(git status 2> /dev/null)"
 
     # Only echo info if we are in a git repo
@@ -481,7 +500,7 @@ gitPromptInfo()
             'Your branch is up to date with'*)
                 ;;
 
-            'Changes not staged for commit:')
+            'Changes not staged for commit:'|'Changes to be committed:')
                 ;;
 
             *'have diverged,')

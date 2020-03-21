@@ -68,7 +68,12 @@ if [ "$TERM" != dumb ]; then
     # shellcheck source=bash/colors/color.sh
     source "${DOTFILEDIR}/bash/colors/color.sh"
 else
-    export PS1="$ " # TODO
+    # TODO: come up with colorless alternatives for prompts
+    export PS0=''    # Displayed after reading and before executing a command
+    export PS1='$ '  # Default prompt
+    export PS2='> '  # Interactive continuation prompt
+    export PS3='#? ' # 'select' command prompt
+    export PS4='+ '  # 'set +x' prefix. The first char is repeated for multiple levels of indirection
 fi
 
 

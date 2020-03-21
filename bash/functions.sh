@@ -122,7 +122,7 @@ function path()
 
 
 # --------------------------------------------------------------------------------
-# Navigation utilities
+# Navigation utilities - I really should look into pushd and popd
 # --------------------------------------------------------------------------------
 cd()
 {
@@ -201,128 +201,6 @@ helper_lsAfterCD()
     'back?' # back ticks to allow a question mark in a command name
     'pin?'
 }
-
-
-# --------------------------------------------------------------------------------
-# Change Color/Prompt by host
-# --------------------------------------------------------------------------------
-#function setPromptByHost(){
-
-	# if $hostname contains searchstring
-
-	#DOMAIN="$(dnsdomainname)" || 
-
-
-
-	#if [ $HOSTNAME == *"Helix"* ]; then # Helix
-
-	#else if [ "$HOSTNAME" == *"eng.utah.edu"* ]; then # CADE
-
-	#else if [ "$HOSTNAME" == *"HMX"* ]; then # HMX
-
-	#else if [ "$HOSTNAME" == *"cyrus"* || "$HOSTNAME" == *"yrusc"* ]; then # Cyrus
-
-	#else if [ "$HOSTNAME" == *"eng.utah.edu"* ]; then # CHPC
-
-	#else
-
-	#fi
-
-
-	# Cheyenne [ "$HOSTNAME" == *"cheyenne"* ]
-	# Bridges [ "$HOSTNAME" == *"bridges"* ]
-#}
-
-# sshColor()
-# {
-#     tmux select-pane -t:. -P 'bg=red'
-#     ssh "$1"
-#     tmux select-pane -t:. -P 'bg=none'
-#     clear
-# }
-
-
-
-# ssh()
-# {	
-# 	# If multiple args, ssh like normal.
-# 	# TODO: Automatically define any new host in the ssh config, then add a case below for it
-#         # TODO: setup error logging incase color change fails. Set up logs for all fnuctions too
-#         # TODO figure out how to change one tab without changing all tabs. Tmux?
-# 	if [[ "$#" -gt 1 ]]; then
-# 		"${HOME}"/anaconda3/bin/wal -q --theme base16-codeschool
-# 		/usr/bin/ssh "$@"
-# 	fi
-
-
-# 	# Otherwise, set colors based on machines in ssh config
-#         # TODO: set favorite schemes to most used hosts
-# 	host_machine="${1}"
-# 	case "${host_machine}" in
-	
-# 		# CADE
-# 		"cade*")
-# 			colorscheme="sexy-material"
-# 			;;
-	
-# 		# Work
-# 		"cyrus")
-# 			colorscheme="hybrid-material"
-# 			;;
-#                 "hmx")
-# 			colorscheme="darktooth"
-# 			;;
-	
-# 		# CHPC
-# 		"notch")
-# 			colorscheme="sexy-hund"
-# 			;;
-# 		"ember")
-# 			colorscheme="gruvbox"
-# 			;;
-# 		"lone")
-# 			colorscheme="vscode"
-# 			;;
-# 		"kings")
-# 			colorscheme="base16-hopscotch"
-# 			;;
-#                 "ash")
-# 			colorscheme="base16-chalk"
-# 			;;
-
-	
-# 		# Cheyenne
-# 		"chey")
-# 			colorscheme="base16-phd"
-# 			;;
-
-# 		# Bridges
-#                 "bridges")
-# 			colorscheme="3024"
-# 			;;
-
-# 		# Virtual Box
-# 		"cs3505")
-# 			colorscheme="base16-nord"
-# 			;;
-
-# 		# Catch all else
-# 		*)
-# 			colorscheme="sexy-sexcolors"
-# 			;;
-
-# 	esac
-
-	
-# 	"${HOME}"/anaconda3/bin/wal -q --theme "${colorscheme}"
-# 	/usr/bin/ssh "${host_machine}"
-
-
-# 	# After exiting ssh, change colorscheme back to monokai
-# 	"${HOME}"/anaconda3/bin/wal -q --theme monokai	
-	
-# }
-
 
 
 # --------------------------------------------------------------------------------
@@ -572,7 +450,6 @@ wm() # Toggle
 # --------------------------------------------------------------------------------
 # Git Prompt Functions
 # --------------------------------------------------------------------------------
-
 getGitBranch()
 {
     gitBranch="$(git symbolic-ref --short HEAD 2> /dev/null)"

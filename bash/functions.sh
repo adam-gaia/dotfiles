@@ -299,7 +299,7 @@ mv_undoable()
 
 rm_undoable()
 {
-    # TODO: This script may break if user is removing multiple files
+    # TODO: This function may break if user is removing multiple files
 
 	# Check bash version number
 	bashVersionFirstNum=$(echo "$BASH_VERSION" | head -c 1)
@@ -407,7 +407,7 @@ redo()
 
 
 # --------------------------------------------------------------------------------
-# Window Manager Functions
+# Mac Window Manager Functions
 # --------------------------------------------------------------------------------
 startwm() # start window manager
 {
@@ -456,12 +456,42 @@ getGitBranch()
     if [[ -n $gitBranch ]]; then
         echo -n "(${gitBranch})"
         
-        if [[ -n "$(git status -s 2> /dev/null)" ]]; then
+        if [[ -n "$(git status --short 2> /dev/null)" ]]; then
             echo "*" # show uncommited changes
         fi
 
     fi
 }
 
+gitInfo()
+{
+    # Check that we are in a git repo
+    gitBranch="$(git symbolic-ref --short HEAD 2> /dev/null)"
+    if [[ -n "${gitBranch}" ]]; then
+        echo -n "(${gitBranch})"
+        
+        # Check for uncommited changes
+        status="$(git status --porcelain=v2)"
+        if [[ -n "${status}" ]]; then
+            echo "*"
+        fi
+
+    fi
+
+
+    
+}
+
+# $ git status
+# On branch master
+# Your branch is ahead of 'origin/master' by 1 commit.
+#   (use "git push" to publish your local commits)
+
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git restore <file>..." to discard changes in working directory)
+#     modified:   bash/functions.sh
+
+# no changes added to commit (use "git add" and/or "git commit -a")
 
 

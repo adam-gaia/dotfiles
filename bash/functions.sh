@@ -459,25 +459,29 @@ gitPromptInfo()
 
     # Only echo info if we are in a git repo
     if [[ -n "${status}" ]]; then
-
         readarray -t statusArray <<<"${status}"
-
         prompt='('
 
         # Add the branch name
         prompt+="${statusArray[0]//On branch /}|"
 
         # Check the second line of status message for commit diff with origin
+        # TODO: handle the cases that don't do anything
         case "${statusArray[1]}" in
-
-            'Your branch is up to date with'*)
-                # Do nothing
+            '')
+                # No commits yet
                 ;;
 
             'nothing to commit, working tree clean')
                 # No remote branch associated with this local branch
                 prompt+='L'
                 prompt+='|'
+                ;;
+
+            'Your branch is up to date with'*)
+                ;;
+
+            'Changes not staged for commit:')
                 ;;
 
             *'have diverged,')
@@ -510,7 +514,6 @@ gitPromptInfo()
                 echo 'There is an error with your gitPromptInfo function'
                 return 1
                 ;;
-
         esac
 
         # Check for uncommitted changes

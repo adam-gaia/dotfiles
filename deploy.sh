@@ -92,4 +92,7 @@ deploy "${DOTFILEDIR}/tmux/tmux.conf" "${HOME}/.tmux.conf"
 deploy "${DOTFILEDIR}/git/gitconfig" "${HOME}/.gitconfig"
 deploy "${DOTFILEDIR}/git/gitignore_global" "${HOME}/.gitignore_global"
 
+# Sqlite3
+deploy "${DOTFILEDIR}/sqliterc" "${HOME}/.sqliterc"
+
 

@@ -178,6 +178,9 @@ shopt -u assoc_expand_once \
 # --------------------------------------------------------------------------------
 # Shell Analytics - DO THIS LAST! - TODO: make a git subtree?
 # --------------------------------------------------------------------------------
-source /Users/adamgaia/repo/shellAnalytics/shellAnalytics.sh
+analyticsFile="/Users/adamgaia/repo/shellAnalytics/shellAnalytics.sh"
+if [[ -e "$analyticsFile" ]]; then 
+    source ${analyticsFile}
+fi
 
 

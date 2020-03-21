@@ -9,6 +9,11 @@
 # TODO: use 'bash --rcfile file' to force bash to only source specific files at startup
 # TODO: set settings based on login shell and/or interactive shell
 # TODO: check if files have already been sourced. Make some sort of '#ifndef' check - oh but this could stop the 'reload' function from making any changes
+# TODO: add include guards like this:
+#    if [[ "${__bp_imported:-}" == "defined" ]]; then
+#        return 0
+#    fi
+#    __bp_imported="defined"
 
 # Source order: OS, aliases, functions, python environment, color utilities
 
@@ -67,11 +72,17 @@ else
 fi
 
 
+#export PS0="`tput smso`below cmd output started \D{%Y} \d \T \D{%p %Z}`tput rmso`\n"
+#export PS1="\[`tput smso`\]above cmd output done    \D{%Y} \d \T \D{%p %Z}\[`tput rmso`\]\n\[`tput smso`\]\u@\h:\w $MACHTYPE $PPID\[`tput rmso`\]\n\n\$ "
+
+
+
 # --------------------------------------------------
 # Pager & Editor
 # --------------------------------------------------
 export PAGER="less" # Set less as the default pager (like when reading man pages)
 export EDITOR='vim' # Default editor
+
 
 # --------------------------------------------------
 # History
@@ -84,6 +95,9 @@ export HISTFILESIZE=5000
 
 # Avoid duplicates in history when the same command is ran multiple times in a row
 export HISTIGNORE='&:[ ]*'
+
+# 
+export HISTTIMEFORMAT="%d/%m/%Y_%T "  # dd/mm/yyyy_hh:mm:ss
 
 
 # --------------------------------------------------

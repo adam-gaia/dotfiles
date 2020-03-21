@@ -463,23 +463,68 @@ getGitBranch()
     fi
 }
 
-gitInfo()
+# Used in bash var PS1
+gitPromptInfo()
 {
-    # Check that we are in a git repo
-    gitBranch="$(git symbolic-ref --short HEAD 2> /dev/null)"
-    if [[ -n "${gitBranch}" ]]; then
-        echo -n "(${gitBranch})"
-        
-        # Check for uncommited changes
-        status="$(git status --porcelain=v2)"
-        if [[ -n "${status}" ]]; then
-            echo "*"
+    status="$(git status 2> /dev/null)"
+
+    # Only echo info if we are in a git repo
+    if [[ -n "${status}" ]]; then
+
+        readarray -t statusArray <<<"$status"
+
+        echo -n '('
+
+        # Print the branch name
+        echo -n "${statusArray[0]//On branch /}"
+
+        # Check the second line of status message for commit diff with origin
+        case "${statusArray[1]}" in
+
+            'Your branch is up to date with'*)
+                # Do nothing
+                ;;
+
+            'nothing to commit, working tree clean')
+                # No remote set, do nothing
+                ;;
+
+            *'have diverged,')
+                # Take the third line, replace all non-numbers with whitespace
+                nums="${statusArray[2]//[^[:digit:]]/ }"
+                # Turn into whitespace-separated array
+                read -ra commitDiffs <<<"$nums"
+                echo -n '↑'
+                echo -n "${commitDiffs[0]}"
+                echo -n '↓'
+                echo -n "${commitDiffs[1]}"
+                ;;
+
+            'Your branch is ahead of'*)
+                echo -n '↑'
+                echo -n "$(echo "$secondLine" |tr -d -c 0-9)"
+                ;;
+
+            'Your branch is behind'*)
+                echo -n '↓'
+                echo -n "$(echo "$secondLine" |tr -d -c 0-9)"
+                ;;
+
+            *) # Default
+                echo 'There is an error with your gitPromptInfo function'
+                return 1
+                ;;
+
+        esac
+
+        # Check for uncommitted changes
+        if [[ "${statusArray[-1]}" != 'nothing to commit, working tree clean' ]]; then
+            echo -n '*'
         fi
 
+        echo ')'
+
     fi
-
-
-    
 }
 
 # $ git status

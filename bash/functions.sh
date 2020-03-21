@@ -464,6 +464,7 @@ getGitBranch()
 }
 
 # Used in bash var PS1
+# TODO: pull prompt stuff into its own file
 gitPromptInfo()
 {
     status="$(git status 2> /dev/null)"
@@ -473,10 +474,10 @@ gitPromptInfo()
 
         readarray -t statusArray <<<"$status"
 
-        echo -n '('
+        prompt='('
 
-        # Print the branch name
-        echo -n "${statusArray[0]//On branch /}"
+        # Add the branch name
+        prompt+="${statusArray[0]//On branch /}|"
 
         # Check the second line of status message for commit diff with origin
         case "${statusArray[1]}" in
@@ -486,7 +487,8 @@ gitPromptInfo()
                 ;;
 
             'nothing to commit, working tree clean')
-                # No remote set, do nothing
+                # No remote branch associated with this local branch
+                prompt+='L'
                 ;;
 
             *'have diverged,')
@@ -494,20 +496,22 @@ gitPromptInfo()
                 nums="${statusArray[2]//[^[:digit:]]/ }"
                 # Turn into whitespace-separated array
                 read -ra commitDiffs <<<"$nums"
-                echo -n '↑'
-                echo -n "${commitDiffs[0]}"
-                echo -n '↓'
-                echo -n "${commitDiffs[1]}"
+                prompt+='↑'
+                prompt+="${commitDiffs[0]}"
+                prompt+='↓'
+                prompt+="${commitDiffs[1]}"
                 ;;
 
-            'Your branch is ahead of'*)
-                echo -n '↑'
-                echo -n "$(echo "$secondLine" |tr -d -c 0-9)"
+            'Your branch is ahead of'*) 
+                prompt+='↑'
+                # Take the second line and remove all non-digits
+                prompt+="${statusArray[1]//[^[:digit:]]/}"
                 ;;
 
             'Your branch is behind'*)
-                echo -n '↓'
-                echo -n "$(echo "$secondLine" |tr -d -c 0-9)"
+                prompt+='↓'
+                # Take the second line and remove all non-digits
+                prompt+="${statusArray[1]//[^[:digit:]]/}"
                 ;;
 
             *) # Default
@@ -519,10 +523,13 @@ gitPromptInfo()
 
         # Check for uncommitted changes
         if [[ "${statusArray[-1]}" != 'nothing to commit, working tree clean' ]]; then
-            echo -n '*'
+            prompt+='*'
+        else
+            prompt+='✔'
         fi
 
-        echo ')'
+        prompt+=')'
+        echo "$prompt"
 
     fi
 }

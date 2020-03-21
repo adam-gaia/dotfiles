@@ -14,9 +14,10 @@
 #        return 0
 #    fi
 #    __bp_imported="defined"
+#
+# TODO: have some things that take longer run in the background with '&'. Be careful with subshells though! We dont want to set the subshell's environment
 
 # Source order: OS, aliases, functions, python environment, color utilities
-
 
 # --------------------------------------------------------------------------------
 # OS specific config
@@ -173,5 +174,10 @@ shopt -u assoc_expand_once \
          shift_verbose \
          xpg_echo
 
+
+# --------------------------------------------------------------------------------
+# Shell Analytics - DO THIS LAST! - TODO: make a git subtree?
+# --------------------------------------------------------------------------------
+source /Users/adamgaia/repo/shellAnalytics/shellAnalytics.sh
 
 

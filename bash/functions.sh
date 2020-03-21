@@ -143,7 +143,7 @@ cd()
     helper_lsAfterCD
 }
 
-back()
+back() # TODO: look into $OLDPWD
 {
     prev_tmp="$(pwd)"
     builtin cd "$PREVIOUS_DIR" && PREVIOUS_DIR="$prev_tmp"

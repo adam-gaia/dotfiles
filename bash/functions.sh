@@ -6,6 +6,7 @@
 #       This way, type -a will display the comments
 # TODO: Is defining functions with 'function' better?
 # TODO: no hard paths to grep and other utilities aliased to color versions. Instead, make helper functions
+# TODO: Try to minimize using subshells. They add too much overhead
 
 # --------------------------------------------------------------------------------
 # Misc. Utilities
@@ -98,7 +99,7 @@ function which()
 # Override 'test' to print exit status. No more 'test <expression>; echo $?'
 function test()
 {
-    builtin test $@ && echo 'true' || echo 'false'
+    builtin test "$@" && echo 'true' || echo 'false'
 }
 
 # Create a directory and cd to it
@@ -450,19 +451,6 @@ wm() # Toggle
 # --------------------------------------------------------------------------------
 # Git Prompt Functions
 # --------------------------------------------------------------------------------
-getGitBranch()
-{
-    gitBranch="$(git symbolic-ref --short HEAD 2> /dev/null)"
-    if [[ -n $gitBranch ]]; then
-        echo -n "(${gitBranch})"
-        
-        if [[ -n "$(git status --short 2> /dev/null)" ]]; then
-            echo "*" # show uncommited changes
-        fi
-
-    fi
-}
-
 # Used in bash var PS1
 # TODO: pull prompt stuff into its own file
 gitPromptInfo()
@@ -472,7 +460,7 @@ gitPromptInfo()
     # Only echo info if we are in a git repo
     if [[ -n "${status}" ]]; then
 
-        readarray -t statusArray <<<"$status"
+        readarray -t statusArray <<<"${status}"
 
         prompt='('
 
@@ -489,6 +477,7 @@ gitPromptInfo()
             'nothing to commit, working tree clean')
                 # No remote branch associated with this local branch
                 prompt+='L'
+                prompt+='|'
                 ;;
 
             *'have diverged,')
@@ -500,18 +489,21 @@ gitPromptInfo()
                 prompt+="${commitDiffs[0]}"
                 prompt+='↓'
                 prompt+="${commitDiffs[1]}"
+                prompt+='|'
                 ;;
 
-            'Your branch is ahead of'*) 
+            'Your branch is ahead of'*)
                 prompt+='↑'
                 # Take the second line and remove all non-digits
                 prompt+="${statusArray[1]//[^[:digit:]]/}"
+                prompt+='|'
                 ;;
 
             'Your branch is behind'*)
                 prompt+='↓'
                 # Take the second line and remove all non-digits
                 prompt+="${statusArray[1]//[^[:digit:]]/}"
+                prompt+='|'
                 ;;
 
             *) # Default

@@ -20,6 +20,12 @@
 # Source order: OS, aliases, functions, python environment, color utilities
 
 # --------------------------------------------------------------------------------
+# Very important stuff
+# --------------------------------------------------------------------------------
+fortune | cowsay
+
+
+# --------------------------------------------------------------------------------
 # OS specific config
 # --------------------------------------------------------------------------------
 unameOut="$(uname -s)"
@@ -102,8 +108,8 @@ export HISTFILESIZE=5000
 # Avoid duplicates in history when the same command is ran multiple times in a row
 export HISTIGNORE='&:[ ]*'
 
-# 
-export HISTTIMEFORMAT="%d/%m/%Y_%T "  # dd/mm/yyyy_hh:mm:ss
+# Time stamp history
+export HISTTIMEFORMAT="%d/%m/%Y %T " # [histNumber] [dd/mm/yyyy hh:mm:ss] [command]
 
 
 # --------------------------------------------------
@@ -178,7 +184,7 @@ shopt -u assoc_expand_once \
 # --------------------------------------------------------------------------------
 # Shell Analytics - DO THIS LAST! - TODO: make a git subtree?
 # --------------------------------------------------------------------------------
-analyticsFile="/Users/adamgaia/repo/shellAnalytics/shellAnalytics.sh"
+analyticsFile="/Users/adamgaia/repo/shellAnalytics_cpp/shellAnalytics.sh"
 if [[ -e "$analyticsFile" ]]; then 
     source ${analyticsFile}
 fi

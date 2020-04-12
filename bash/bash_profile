@@ -19,11 +19,6 @@
 
 # Source order: OS, aliases, functions, python environment, color utilities
 
-# --------------------------------------------------------------------------------
-# Very important stuff
-# --------------------------------------------------------------------------------
-fortune | cowsay
-
 
 # --------------------------------------------------------------------------------
 # OS specific config
@@ -51,8 +46,8 @@ esac
 # --------------------------------------------------------------------------------
 # Path
 # --------------------------------------------------------------------------------
-# Add current directory to the path
-export PATH=".:$PATH"
+# Add current directory to the end of the path
+export PATH="${PATH}:."
 
 
 # --------------------------------------------------------------------------------
@@ -182,11 +177,15 @@ shopt -u assoc_expand_once \
 
 
 # --------------------------------------------------------------------------------
-# Shell Analytics - DO THIS LAST! - TODO: make a git subtree?
+# Very important stuff
+# --------------------------------------------------------------------------------
+fortune | cowsay
+
+
+# --------------------------------------------------------------------------------
+# Shell Analytics - THIS MUST BE LAST - TODO: make a git subtree?
 # --------------------------------------------------------------------------------
 analyticsFile="/Users/adamgaia/repo/shellAnalytics_cpp/shellAnalytics.sh"
 if [[ -e "$analyticsFile" ]]; then 
     source ${analyticsFile}
 fi
-
-

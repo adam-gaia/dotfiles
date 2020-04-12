@@ -7,6 +7,7 @@
 # TODO: Is defining functions with 'function' better?
 # TODO: no hard paths to grep and other utilities aliased to color versions. Instead, make helper functions
 # TODO: Try to minimize using subshells. They add too much overhead
+# TODO: Use local variables inside functions
 
 # --------------------------------------------------------------------------------
 # Misc. Utilities
@@ -50,12 +51,23 @@ function which()
     fi
 
     query="$1"
-    errmsg="'${query}' is not an alias, builtin, executable, keyword or function on the path."
 
-    typesFound=$(type -at "${query}") || { echo "${errmsg}"; return 1; }
+    # Check query using 'type'
+    if ! typesFound=$(type -at "${query}"); then
+        
+        # If not found, try to use 'file'
+        if fileOutput=$(file "${query}"); then
+            echo "${fileOutput}"
+            return 0
+        else
+            # Otherwise query doesn't exist
+            echo "'${query}' is not an alias, builtin, executable, keyword or function on the path."
+            return 1
+        fi
+    fi
+
     readarray -t typesFoundArray <<<"$typesFound"
     
-
     if [[ ${#typesFoundArray[@]} -ge 1 ]]; then
         echo "'${query}' is"
         indent="    "

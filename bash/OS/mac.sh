@@ -8,26 +8,27 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 # Use Gnu utilities - Idea taken from https://github.com/denisidoro/dotfiles
 # --------------------------------------------------------------------------------
 function dircolors() { gdircolors "$@"; }
-function make() { gmake "$@"; }
-function mv() { gmv "$@"; }
-function sed() { gsed "$@"; }
-function awk() { gawk "$@"; }
-function find() { gfind "$@"; }
-function grep() { ggrep "$@"; }
-function head() { ghead "$@"; }
-function mktemp() { gmktemp "$@"; }
-function ls() { gls "$@"; }
-function date() { gdate "$@"; }
-function shred() { gshred "$@"; }
-function cut() { gcut "$@"; }
-function tr() { gtr "$@"; }
-function od() { god "$@"; }
-function cp() { gcp "$@"; }
-function cat() { gcat "$@"; }
-function sort() { gsort "$@"; }
-function kill() { gkill "$@"; }
-function xargs() { gxargs "$@"; }
-function readlink() { greadlink "$@"; }
+function make()      { gmake "$@"; }
+function mv()        { gmv "$@"; }
+function sed()       { gsed "$@"; }
+function awk()       { gawk "$@"; }
+function find()      { gfind "$@"; }
+function grep()      { ggrep "$@"; }
+function head()      { ghead "$@"; }
+function mktemp()    { gmktemp "$@"; }
+function ls()        { gls "$@"; }
+function date()      { gdate "$@"; }
+function shred()     { gshred "$@"; }
+function cut()       { gcut "$@"; }
+function tr()        { gtr "$@"; }
+function od()        { god "$@"; }
+function cp()        { gcp "$@"; }
+function cat()       { gcat "$@"; }
+function sort()      { gsort "$@"; }
+function kill()      { gkill "$@"; }
+function xargs()     { gxargs "$@"; }
+function readlink()  { greadlink "$@"; }
+function stat()      { gstat "$@"; }
 
 # TODO: should I export these or not?
 # export -f sed awk find head mktemp date shred cut tr od cp cat sort kill xargs readlink

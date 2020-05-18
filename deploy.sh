@@ -12,7 +12,7 @@ deploy()
     sourceFile="$1"
 
     if [[ ! -r "${sourceFile}" ]]; then
-        echo "Error, '${sourcefile}' does not exist"
+        echo "Error, '${sourceFile}' does not exist"
         return 1
     fi
 
@@ -27,7 +27,7 @@ deploy()
         if [[ -L "${linkTarget}" ]]; then
 
             # If the link points to $sourceFile we don't need to do any work
-            if [[ "$(readlink -f "${linkTarget}")" == "${sourceFile}" ]]; then
+            if [[ "$(readlink "${linkTarget}")" == "${sourceFile}" ]]; then
                 echo "'${linkTarget}'' is linked to '${sourceFile}'"
                 return
             fi
@@ -35,7 +35,7 @@ deploy()
             # Else, we need to back up by copying whatever the link points to and remove the link itself
             timeStamp="$(date "+%Y-%m-%d_%H:%M:%S")"
             backup="${BACKUPDIR}/${fileName}_backup_${timeStamp}"
-            cp "$(readlink -f "${linkTarget}")" "${backup}"
+            cp "$(readlink "${linkTarget}")" "${backup}"
             rm "${linkTarget}"
         
         else

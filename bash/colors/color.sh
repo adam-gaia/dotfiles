@@ -19,6 +19,7 @@ export UNDERLINE_OFF='\033[24m'
 export BOLD_ON='\033[1m'
 export BOLD_OFF='\033[21m'
 
+
 # --------------------------------------------------------------------------------
 # Set Prompt
 #   "user@host:/current/path(gitBranch)*

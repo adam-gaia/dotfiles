@@ -1,3 +1,8 @@
+##################################################################
+# gdb configuration file
+# Stolen from https://github.com/gdbinit/Gdbinit
+##################################################################
+#
 # INSTALL INSTRUCTIONS: save as ~/.gdbinit
 #
 # DESCRIPTION: A user-friendly gdb configuration file, for x86/x86_64 and ARM platforms.

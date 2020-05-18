@@ -71,9 +71,6 @@ deploy "${DOTFILEDIR}/readline/inputrc" "${HOME}/.inputrc"
 
 # Vim
 mkdir -p "${HOME}/tmp/vim-backup"
-mkdir -p "${HOME}/tmp/vim-backup"
-mkdir -p "${HOME}/tmp/vim-backup"
-
 deploy "${DOTFILEDIR}/vim/vimrc" "${HOME}/.vimrc"
 
 # Install vim plugin manager if needed

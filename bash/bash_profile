@@ -46,6 +46,8 @@ esac
 # --------------------------------------------------------------------------------
 # Path
 # --------------------------------------------------------------------------------
+# Rust Cargo
+export PATH="$HOME/.cargo/bin:$PATH"
 # Add current directory to the end of the path
 export PATH="${PATH}:."
 

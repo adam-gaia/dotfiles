@@ -45,7 +45,6 @@ sudo apt-get install -y \
              imagemagick
 
 
-
 # Deploy dotfiles
 ./deploy.sh
 

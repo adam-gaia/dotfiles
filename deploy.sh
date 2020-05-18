@@ -95,4 +95,10 @@ deploy "${DOTFILEDIR}/git/gitignore_global" "${HOME}/.gitignore_global"
 # Sqlite3
 deploy "${DOTFILEDIR}/sqliterc" "${HOME}/.sqliterc"
 
+# GDB
+deploy "${DOTFILEDIR}/gdbinit" "${HOME}/.gdbinit"
+# Also update root's gdbinit - needed so that 'sudo gdb' also sources this file
+sudo deploy "${DOTFILEDIR}/gdbinit" "/root/.gdbinit"
+
+
 

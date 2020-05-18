@@ -28,7 +28,7 @@ deploy()
 
             # If the link points to $sourceFile we don't need to do any work
             if [[ "$(readlink "${linkTarget}")" == "${sourceFile}" ]]; then
-                echo "'${linkTarget}'' is linked to '${sourceFile}'"
+                echo "'${linkTarget}' is linked to '${sourceFile}'"
                 return
             fi
 

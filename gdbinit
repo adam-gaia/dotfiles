@@ -69,8 +69,11 @@
 #     - Bug fixes to some ARM related code
 #     - Added the dumpmacho command to memory dump the mach-o header to a file
 #
-#   TODO:
 #
+
+# Aliases
+alias exit = quit
+
 
 # __________________gdb options_________________
 

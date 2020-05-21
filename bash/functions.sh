@@ -147,11 +147,60 @@ function path()
     echo "${PATH}" |sed 's/:/\n/g'
 }
 
+function ascii()
+{
+    # Print the ascii table
+    # Stolen from github.com/nibalizer/bash-tricks
+    ascii | /bin/grep -m1 -A63 --color=never Oct
+}
+
+function yamlcheck()
+{
+    # Validate yaml syntax
+    # Stolen from github.com/nibalizer/bash-tricks
+    python -c 'import sys, yaml as y; y.safe_load(open(sys.argv[1]))'
+}
+
+function jsoncheck()
+{
+    # Validate json syntax
+    # Stolen from github.com/nibalizer/bash-tricks
+    jq '.' > /dev/null
+}
+
+function unicode()
+{
+    # Print favorite unicode characters
+    # Stolen from github.com/nibalizer/bash-tricks
+    echo '✓ ™  ♪ ♫ ☃ ° Ɵ ∫'
+}
+
 # TODO
 #rm()
 #{
 #        /bin/rm $@ || /bin/mdir $@
 #}
+
+
+# --------------------------------------------------------------------------------
+# Math
+# --------------------------------------------------------------------------------
+# The alias first turns globbing off, then calls the 'math' function. 
+# This way, expressions such as '5 * 5' may be entered without '*' being 
+# expanded. The function turns globbing back on before exiting.
+# Unfortunatly, quotation marks or escapes are needed when using parenthesis
+
+alias math='set -o noglob; math'
+function math()
+{
+    # Evaluate expressions using the 'bc' utility
+    echo "${@}" | bc
+    
+    # Turn globbing back on 
+    set +o noglob
+}
+alias calculator='math'
+alias calc='math'
 
 
 # --------------------------------------------------------------------------------

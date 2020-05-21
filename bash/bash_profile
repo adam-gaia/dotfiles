@@ -103,7 +103,9 @@ export HISTSIZE=5000
 export HISTFILESIZE=5000      
 
 # Avoid duplicates in history when the same command is ran multiple times in a row
-export HISTIGNORE='&:[ ]*'
+# Do not save commands prefaced by whitespace
+# See man bash(1)
+export HISTIGNORE='ignoreboth'
 
 # Time stamp history
 export HISTTIMEFORMAT="%d/%m/%Y %T " # [histNumber] [dd/mm/yyyy hh:mm:ss] [command]

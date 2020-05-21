@@ -86,22 +86,26 @@ function which()
                 printBlue "${indent}aliased "
                 echo "to ${value}"
                 ;;
+
             keyword)
                 printBlue "${indent}shell keyword"; echo ""
                 ;;
+
             function)
                 # Display file with function deceleration
-                shopt -s extdebug;
+                shopt -s extdebug # turn on
                 info=$(declare -Ff "${query}")
-                shopt -u extdebug
+                shopt -u extdebug # turn off
                 fileName=$(echo "$info" | cut -f3 -d' ')
                 lineNum=$(echo "$info" | cut -f2 -d' ')
                 printBlue "${indent}function "
-                echo "${fileName}:${lineNum}"
+                echo "${query}() is defined in ${fileName}:${lineNum}"
                 ;;
+
             builtin)
                 printBlue "${indent}shell builtin"; echo ""
                 ;;
+
             file)
                 # Files are always listed last, so it's ok to list all and return after finding the first one.
                 # This was the best way I could figure to handle printing all possible matches on the path.
@@ -112,8 +116,12 @@ function which()
                     printBlue "${indent}file "
                     echo "${f}" | sed 's/.* is \//\//'
                 done
-
                 return 0
+                ;;
+
+            *) # Default
+                echo "error"
+                return 1
                 ;;
         esac
 

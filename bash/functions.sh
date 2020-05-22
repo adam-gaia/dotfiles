@@ -27,7 +27,7 @@ function reloadInputrc()
 
 function todo()
 {
-    ind git -c color.grep.linenumber="green" -c color.grep.filename="magenta" grep -in --color "TODO\|FIXME\|HACK\|WIP" | /usr/local/bin/ggrep -v "Binary file" || echo "No matches" # TODO only use ggrep on mac. use grep when gnu grep is default
+    ind git -c color.grep.linenumber="green" -c color.grep.filename="magenta" grep -inI --color "TODO\|FIXME\|HACK\|WIP" || echo "No matches" # TODO only use ggrep on mac. use grep when gnu grep is default
 }
 
 function tally()
@@ -176,7 +176,7 @@ function which()
                 fi
                 ;;
 
-            *) # Default
+            *) # Default - should never happen
                 printRed "Error,"
                 echo " unknown type: ${t}"
                 return 1

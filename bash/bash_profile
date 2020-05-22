@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Main bash environment setup file
 
-# TODO: 
+# TODO:
 #   organize and cleanup
 #   Change any instances of my username
 # TODO: set CDPATH
@@ -65,7 +65,7 @@ source "${DOTFILEDIR}/bash/python.sh" # Python paths
 
 
 # --------------------------------------------------------------------------------
-# Colors - prompt, dir colors, 
+# Colors - prompt, dir colors, etc
 # --------------------------------------------------------------------------------
 if [ "$TERM" != dumb ]; then
 
@@ -187,7 +187,7 @@ fortune | cowsay
 
 
 # --------------------------------------------------------------------------------
-# Shell Analytics - THIS MUST BE LAST - TODO: make a git subtree?
+# Shell Analytics - THIS MUST BE LAST - TODO: make a git worktree?
 # --------------------------------------------------------------------------------
 analyticsFile="/Users/adamgaia/repo/shellAnalytics_cpp/shellAnalytics.sh"
 if [[ -e "$analyticsFile" ]]; then 

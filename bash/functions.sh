@@ -86,7 +86,7 @@ function which()
     echo -n "${recursionIndent}" # Print indentation from recursion
     if [[ ${#typesFoundArray[@]} -ge 1 ]]; then
         echo "'${query}' is"
-        indent="    "
+        indent="  "
     else
         echo -n "'${query}' is "
         indent=""
@@ -116,13 +116,12 @@ function which()
                 # Check for a loop where a -> b -> c -> a. This should never happen in real life
                 # TODO: This check will fail if $newquery is a substring of any command in $recursionCheck
                 if [[ "${recursionCheck}" == *"${newQuery}"* ]]; then
+                    echo -n "${recursionIndent}"
                     printYellow "    WARNING:"
-                    echo " circular alias or aliased to a function or exec of the same name:"
+                    echo " circular alias or aliased to something of the same name:"
+                    echo -n "${recursionIndent}"
                     echo "    ${recursionCheck//:/ -> } -> ${newQuery}" # print a -> b -> c -> a
                     echo ''
-
-                    recursionCheck=''
-                    recursionIndent=''
                 else
                     # Append to the list that keeps track of the alias chain
                     if [[ -z "${recursionCheck}" ]]; then
@@ -130,15 +129,14 @@ function which()
                     else
                         recursionCheck="${recursionCheck}:${newQuery}"
                     fi
-                    recursionIndent+='        '
+                    recursionIndent+='    ' # If this changes, be sure to change the decrement too!
                     
                     # Recursively make the check
-                    which "${newQuery/ /}" "${recursionCheck}" "${recursionIndent}" # Remove whitespace from first arg
-
-                    # Clear the variables that keep track of recursion
-                    recursionCheck=''
-                    recursionIndent=''
+                    which "${newQuery/ /}" "${recursionCheck}" "${recursionIndent}" # Remove whitespace from first arg 
                 fi
+                # Reset the variables that keep track of recursion
+                    recursionCheck=''
+                    recursionIndent="${recursionIndent::-4}" # Decrease indentation level
                 ;;
     
             keyword)

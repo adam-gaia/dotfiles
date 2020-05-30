@@ -143,8 +143,14 @@ function mkcd()
 
 function path()
 {
-    # shellcheck disable=SC2001
-    echo "${PATH}" |sed 's/:/\n/g'
+    # Pass '-s' or 's' to sort
+    if [[ "$1" == '-s' || "$1" == 's' ]]; then
+        # shellcheck disable=SC2001
+        echo "${PATH}" |sed 's/:/\n/g' | sort
+    else
+        # shellcheck disable=SC2001
+        echo "${PATH}" |sed 's/:/\n/g'
+    fi
 }
 
 function ascii()

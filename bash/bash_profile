@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Main bash environment setup file
 
-# TODO: 
+# TODO:
 #   organize and cleanup
 #   Change any instances of my username
 # TODO: set CDPATH
@@ -65,7 +65,7 @@ source "${DOTFILEDIR}/bash/python.sh" # Python paths
 
 
 # --------------------------------------------------------------------------------
-# Colors - prompt, dir colors, 
+# Colors - prompt, dir colors, etc
 # --------------------------------------------------------------------------------
 if [ "$TERM" != dumb ]; then
 
@@ -80,10 +80,8 @@ else
     export PS4='+ '  # 'set +x' prefix. The first char is repeated for multiple levels of indirection
 fi
 
-
 #export PS0="`tput smso`below cmd output started \D{%Y} \d \T \D{%p %Z}`tput rmso`\n"
 #export PS1="\[`tput smso`\]above cmd output done    \D{%Y} \d \T \D{%p %Z}\[`tput rmso`\]\n\[`tput smso`\]\u@\h:\w $MACHTYPE $PPID\[`tput rmso`\]\n\n\$ "
-
 
 
 # --------------------------------------------------
@@ -187,7 +185,7 @@ fortune | cowsay
 
 
 # --------------------------------------------------------------------------------
-# Shell Analytics - THIS MUST BE LAST - TODO: make a git subtree?
+# Shell Analytics - THIS MUST BE LAST - TODO: make a git worktree?
 # --------------------------------------------------------------------------------
 analyticsFile="/Users/adamgaia/repo/shellAnalytics_cpp/shellAnalytics.sh"
 if [[ -e "$analyticsFile" ]]; then 

@@ -27,7 +27,7 @@ function reloadInputrc()
 
 function todo()
 {
-    ind git -c color.grep.linenumber="green" -c color.grep.filename="magenta" grep -in --color "TODO\|FIXME\|HACK\|WIP" | /usr/local/bin/ggrep -v "Binary file" || echo "No matches" # TODO only use ggrep on mac. use grep when gnu grep is default
+    ind git -c color.grep.linenumber="green" -c color.grep.filename="magenta" grep -inI --color "TODO\|FIXME\|HACK\|WIP" || echo "No matches" # TODO only use ggrep on mac. use grep when gnu grep is default
 }
 
 function tally()
@@ -45,18 +45,32 @@ function tally()
 # Override which to search aliases and functions
 function which()
 {
+    # Must be called with an argument
     if [[ "${#}" -eq 0 ]]; then
-        echo "Error, no argument provided."  1>&2
+        # TODO: make a function that prints to stderr. Call that function here and other places for readability
+        echo "Error, no argument provided."  1>&2 # Echo to stderr
         return 1
     fi
 
-    query="$1"
+    local query="${1}"
+    local recursionIndent=''
+    local recursionCheck=''
+
+    # Args 2 and 3 are for recursion. Can't have only two args. Only 1 or 3 args are acceptable
+    if [[ "${#}" -eq 2 ]]; then
+        # TODO: make a function that prints to stderr. Call that function here and other places for readability
+        echo "Error, no argument provided."  1>&2 # Echo to stderr
+        return 1
+    else
+        recursionCheck="${2}"
+        recursionIndent="${3}"
+    fi
 
     # Check query using 'type'
     if ! typesFound=$(type -at "${query}"); then
         
         # If not found, try to use 'file'
-        if fileOutput=$(file "${query}"); then
+        if fileOutput=$(file "${query}" 2> /dev/null); then # TODO: 'file' utility on debian seems to always returns 0
             echo "${fileOutput}"
             return 0
         else
@@ -68,64 +82,108 @@ function which()
 
     readarray -t typesFoundArray <<<"$typesFound"
     
+    # Print "'query' is" with any necessary indentation (Recursion indentation done separately)
+    echo -n "${recursionIndent}" # Print indentation from recursion
     if [[ ${#typesFoundArray[@]} -ge 1 ]]; then
         echo "'${query}' is"
-        indent="    "
+        indent="  "
     else
         echo -n "'${query}' is "
         indent=""
     fi
 
+    local filesAlreadyFound='0'
+
+    # Iterate over the array in reverse so that aliases are done last
+    #for (( i = ${#typesFoundArray[@]} - 1 ; i >= 0 ; i-- )) ; do
+        #t="${typesFoundArray[i]}"
     for t in "${typesFoundArray[@]}"; do
 
         case "${t}" in
-    
+
             alias)
                 # Grab and display what $query is aliased to
-                value=$(alias "${query}" | sed "s/alias ${query}=//g") # wont work with back ticks
-                printBlue "${indent}aliased "
-                echo "to ${value}"
-                ;;
+                target=$(alias "${query}" | sed "s/alias ${query}=//g") # wont work with back ticks
+                echo -n "${recursionIndent}"
+                printBlue "${indent}alias "
+                echo "${query}=${target}"
 
+                # Recursively check what the target is aliased to
+                newQueryNotFixed="${target:1:${#target}-2}" # ${target} is encased in single quotes that we must remove
+                newQueryWithPossibleSpace="${newQueryNotFixed/*;/}" # HACK: Remove any chars before ';'. Partial bulletproofing for multi-word aliases
+                newQuery="${newQueryWithPossibleSpace/ /}" # Remove space
+
+                # Check for a loop where a -> b -> c -> a. This should never happen in real life
+                # TODO: This check will fail if $newquery is a substring of any command in $recursionCheck
+                if [[ "${recursionCheck}" == *"${newQuery}"* ]]; then
+                    echo -n "${recursionIndent}"
+                    printYellow "    WARNING:"
+                    echo " circular alias or aliased to something of the same name:"
+                    echo -n "${recursionIndent}"
+                    echo "    ${recursionCheck//:/ -> } -> ${newQuery}" # print a -> b -> c -> a
+                    echo ''
+                else
+                    # Append to the list that keeps track of the alias chain
+                    if [[ -z "${recursionCheck}" ]]; then
+                        recursionCheck="${query}:${newQuery}"
+                    else
+                        recursionCheck="${recursionCheck}:${newQuery}"
+                    fi
+                    recursionIndent+='    ' # If this changes, be sure to change the decrement too!
+                    
+                    # Recursively make the check
+                    which "${newQuery/ /}" "${recursionCheck}" "${recursionIndent}" # Remove whitespace from first arg 
+                fi
+                # Reset the variables that keep track of recursion
+                    recursionCheck=''
+                    recursionIndent="${recursionIndent::-4}" # Decrease indentation level
+                ;;
+    
             keyword)
+                echo -n "${recursionIndent}"
                 printBlue "${indent}shell keyword"; echo ""
                 ;;
 
             function)
                 # Display file with function deceleration
-                shopt -s extdebug # turn on
+                shopt -s extdebug # turn on to allow declare to show file name and line number
                 info=$(declare -Ff "${query}")
-                shopt -u extdebug # turn off
+                shopt -u extdebug # turn back off
                 fileName=$(echo "$info" | cut -f3 -d' ')
                 lineNum=$(echo "$info" | cut -f2 -d' ')
+                echo -n "${recursionIndent}"
                 printBlue "${indent}function "
                 echo "${query}() is defined in ${fileName}:${lineNum}"
                 ;;
 
             builtin)
-                printBlue "${indent}shell builtin"; echo ""
+                echo -n "${recursionIndent}"
+                printBlue "${indent}shell builtin"; echo ''
                 ;;
 
             file)
-                # Files are always listed last, so it's ok to list all and return after finding the first one.
-                # This was the best way I could figure to handle printing all possible matches on the path.
-                
-                files=$(type -af "${query}" | grep "/")
-                readarray -t filesArray <<<"$files"
-                for f in "${filesArray[@]}"; do
-                    printBlue "${indent}file "
-                    echo "${f}" | sed 's/.* is \//\//'
-                done
-                return 0
+                # All the files are listed together. Once we find one, print them all.
+                # Any subsequent times through the loop, skip printing any files
+                if [[ $filesAlreadyFound -ne 1 ]]; then
+                    files=$(type -af "${query}" | grep --color=never '/')
+                    readarray -t filesArray <<<"$files"
+                    for f in "${filesArray[@]}"; do
+                        echo -n "${recursionIndent}"
+                        printBlue "${indent}file "
+                        echo "${f/*is /}" # Remove prefix when printing
+                    done
+                    filesAlreadyFound='1'
+                fi
                 ;;
 
-            *) # Default
-                echo "error"
+            *) # Default - should never happen
+                printRed "Error,"
+                echo " unknown type: ${t}"
                 return 1
                 ;;
         esac
 
-    done 
+    done
 }
 
 # Override 'test' to print exit status. No more 'test <expression>; echo $?'
@@ -151,6 +209,25 @@ function path()
         # shellcheck disable=SC2001
         echo "${PATH}" |sed 's/:/\n/g'
     fi
+}
+
+function uniqNoSort()
+{
+    # The default 'uniq' utility only checks adjacent lines and thus is useless with unsorted data.
+    # Automatically reads from stream input
+    # With help from https://unix.stackexchange.com/questions/11939/how-to-get-only-the-unique-results-without-having-to-sort-data
+    awk '!seen[$0]++'
+}
+
+function fixPathBloat()
+{
+    # As of 05/22/2020 the 'reload' command causes the path to be appended to with each reload
+    # This function removes duplicates from the path
+    fixedPath=''
+    for p in $(path | uniqNoSort); do
+        fixedPath+="${p}:"
+    done
+    export PATH="${fixedPath::-1}" # Remove the extra ':' from $fixedPath
 }
 
 function ascii()

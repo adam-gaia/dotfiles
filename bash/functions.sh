@@ -201,10 +201,10 @@ function path()
     # Pass '-s' or 's' to sort
     if [[ "$1" == '-s' || "$1" == 's' ]]; then
         # shellcheck disable=SC2001
-        echo "${PATH}" |sed 's/:/\n/g' | sort
+        echo -e "${PATH//:/\\n}" | sort
     else
         # shellcheck disable=SC2001
-        echo "${PATH}" |sed 's/:/\n/g'
+        echo -e "${PATH//:/\\n}"
     fi
 }
 

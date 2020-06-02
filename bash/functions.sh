@@ -94,9 +94,6 @@ function which()
 
     local filesAlreadyFound='0'
 
-    # Iterate over the array in reverse so that aliases are done last
-    #for (( i = ${#typesFoundArray[@]} - 1 ; i >= 0 ; i-- )) ; do
-        #t="${typesFoundArray[i]}"
     for t in "${typesFoundArray[@]}"; do
 
         case "${t}" in

@@ -302,15 +302,14 @@ alias unzip='uz'
 alias extract='uz'
 
 
-
 # --------------------------------------------------------------------------------
 # Math
 # --------------------------------------------------------------------------------
 # The alias first turns globbing off, then calls the 'math' function. 
 # This way, expressions such as '5 * 5' may be entered without '*' being 
 # expanded. The function turns globbing back on before exiting.
-# Unfortunatly, quotation marks or escapes are needed when using parenthesis
-
+# Unfortunately, quotation marks or escapes are needed when using parenthesis\
+# TODO: before we turn globing off, should we verify it was on? And only turn back on if it was originally on - These functions are all about "can it be done?" instead of "should it be done?" lol
 alias math='set -o noglob; math'
 function math()
 {

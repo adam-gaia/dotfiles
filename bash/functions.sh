@@ -59,7 +59,7 @@ function which()
     # Args 2 and 3 are for recursion. Can't have only two args. Only 1 or 3 args are acceptable
     if [[ "${#}" -eq 2 ]]; then
         # TODO: make a function that prints to stderr. Call that function here and other places for readability
-        echo "Error, no argument provided."  1>&2 # Echo to stderr
+        echo "Error, invalid number of args."  1>&2 # Echo to stderr
         return 1
     else
         recursionCheck="${2}"
@@ -70,7 +70,7 @@ function which()
     if ! typesFound=$(type -at "${query}"); then
         
         # If not found, try to use 'file'
-        if fileOutput=$(file "${query}" 2> /dev/null); then # TODO: 'file' utility on debian seems to always returns 0
+        if fileOutput=$(file -E "${query}" 2> /dev/null); then # TODO: 'file' utility on debian seems to always returns 0
             echo "${fileOutput}"
             return 0
         else
@@ -263,6 +263,35 @@ function unicode()
 #{
 #        /bin/rm $@ || /bin/mdir $@
 #}
+
+function uz()
+{
+    fileName="$1"
+    if [[ ! -f "${fileName}" ]]; then
+        echo "Error, input file '${fileName}' is not a regular file. Cannot extract" # TODO: send to stderr
+        return 1
+    fi
+
+    case $1 in
+        *.tar.bz2)   tar xjf "${fileName}"   ;;
+        *.tar.gz)    tar xzf "${fileName}"   ;;
+        *.bz2)       bunzip2 "${fileName}"   ;;
+        *.rar)       unrar x "${fileName}"   ;;
+        *.gz)        gunzip "${fileName}"    ;;
+        *.tar)       tar xf "${fileName}"    ;;
+        *.tbz2)      tar xjf "${fileName}"   ;;
+        *.tgz)       tar xzf "${fileName}"   ;;
+        *.zip)       unzip "${fileName}"     ;;
+        *.Z)         uncompress "${fileName}";;
+        *.7z)        7z x "${fileName}"      ;;
+        *)
+            echo "Error, '${fileName}' is of unknown type. Cannot extract" # TODO: send to stderr
+            return 1
+            ;;
+    esac
+}
+alias unzip='uz'
+alias extract='uz'
 
 
 # --------------------------------------------------------------------------------

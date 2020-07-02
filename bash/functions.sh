@@ -56,6 +56,8 @@ function tally()
 # Override which to search aliases and functions
 function which()
 {
+    # TODO: look into bash's command hashing
+
     # Must be called with an argument
     if [[ "${#}" -eq 0 ]]; then
         # TODO: make a function that prints to stderr. Call that function here and other places for readability
@@ -301,6 +303,12 @@ function uz()
 alias unzip='uz'
 alias extract='uz'
 
+diff()
+{
+    # Use git's colored diff
+    git diff --no-index --color-words "$@"
+}
+
 
 # --------------------------------------------------------------------------------
 # Math
@@ -343,7 +351,32 @@ cd()
     fi
 
     helper_lsAfterCD
+
+    # Git fetch if we are in the root of a git repo
+    # TODO
+    #if [[ -d ./.git ]]; then
+    #    expectGitFetchHelper
+    #fi
 }
+
+function expectGitFetchHelper()
+{
+    # Send garbage info to 'git fetch' if prompted.
+    /usr/bin/expect <<EOD
+        set timeout 1
+        spawn git fetch
+        expect "Username for 'https://github.com': "
+        send -- "user\r"
+        expect "Password for 'https://user@github.com': "
+        send -- "pass\r"
+        expect eof 
+EOD
+        # My syntax highlight doesn't register EOD with any indentation
+
+}
+
+
+
 
 back() # TODO: look into $OLDPWD
 {

@@ -2,6 +2,7 @@
 # TODO: alphabetize or sort by order of importance
 # TODO: check for duplicates
 # TODO: make mac, linux, and both categories
+# TODO: make a list of software that cant be installed via apt. (git clone, curl, etc)
 tmux
 qt
 navi
@@ -30,6 +31,8 @@ nano
 vim
 gcc
 bear # https://github.com/rizsotto/Bear
+gawk
+
 
 the_silver_searcher # mac
 silversearcher-ag # debian

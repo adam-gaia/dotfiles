@@ -13,6 +13,7 @@ sudo apt-get -f install
 sudo apt-get -y upgrade -y
 sudo apt-get update --fix-missing
 sudo apt-get install -y \
+             build-essential \
              git \
              bash \
              gpatch \
@@ -45,7 +46,13 @@ sudo apt-get install -y \
              imagemagick
 
 
+
+# Install homebrew package manager
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+brew update
+brew analytics off
+
+
 # Deploy dotfiles
 ./deploy.sh
-
 

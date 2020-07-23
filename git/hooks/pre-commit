@@ -12,17 +12,18 @@ if [[ "${changedFiles}" == '' ]]; then
 fi
 
 # Lint files according to their file extensions
+echo '-------------------------'
+echo 'Pre-commit linter'
+
 linter="${HOME}/repo/scripts/lint.sh"
 if [[ -f "${linter}" ]]; then
 
-    echo '-------------------------'
-    echo 'Pre-commit linter'
     # Run the linter
     "${linter}" "${changedFiles}"
-    echo '-------------------------'
-
+    
 else
     echo "Heads up, your pre-commit lit script doesn't exist"
 fi
+echo '-------------------------'
 
 set +x

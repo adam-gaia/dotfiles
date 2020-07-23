@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
 
+# Grab files added to commit
+changedFiles=$(git diff --cached --name-only --diff-filter=ACMR)
+
+# Exit if no files for commit
+if [[ "${changedFiles}" == '' ]]; then
+    echo "No files added to commit"
+fi
+
 # Lint files according to their file extensions
 linter="${HOME}/repo/scripts/lint.sh"
 if [[ -f "${linter}" ]]; then
-
-    # Grab files added to commit
-    changedFiles=$(git diff --cached --name-only --diff-filter=ACMR)
 
     echo '-------------------------'
     echo 'PRE-COMMIT HOOK'

@@ -89,6 +89,9 @@ deploy "${DOTFILEDIR}/tmux/tmux.conf" "${HOME}/.tmux.conf"
 deploy "${DOTFILEDIR}/git/gitconfig" "${HOME}/.gitconfig"
 deploy "${DOTFILEDIR}/git/gitignore_global" "${HOME}/.gitignore_global"
 
+# Tell git to use my global git hooks
+git config --global core.hooksPath "${DOTFILEDIR}/git/githooks_global"
+
 # Sqlite3
 deploy "${DOTFILEDIR}/sqliterc" "${HOME}/.sqliterc"
 

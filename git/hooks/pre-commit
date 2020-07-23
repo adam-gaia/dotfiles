@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
 # Lint files according to their file extensions
-if [[ -f "${HOME}/repo/scripts/lint.sh" ]]; then
-    lint.sh "${FILES}"
+linter="${HOME}/repo/scripts/lint.sh"
+if [[ -f "${linter}" ]]; then
+    "${linter}" "${FILES}"
 else
     echo "Heads up, your pre-commit lit script doesn't exist"
 fi

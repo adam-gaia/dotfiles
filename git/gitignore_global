@@ -31,3 +31,10 @@ compile_commands.json
 # Ignore special extension
 *.nogit
 
+# Ignore databases
+*.db
+
+# Ignore ssh keys TODO: is there a more standard prefix/suffix for keys?
+id_*
+id_rsa*
+

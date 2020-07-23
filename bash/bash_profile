@@ -44,10 +44,19 @@ esac
 
 
 # --------------------------------------------------------------------------------
+# Configure Homebrew
+# --------------------------------------------------------------------------------
+eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+
+
+# --------------------------------------------------------------------------------
 # Path
 # --------------------------------------------------------------------------------
 # Rust Cargo
-export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="${HOME}/.cargo/bin:$PATH"
+# Golang
+export PATH="${PATH}:/usr/local/go/bin"
+export PATH="${PATH}:${HOME}/go/bin"
 # Add current directory to the end of the path
 export PATH="${PATH}:."
 

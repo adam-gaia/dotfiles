@@ -9,6 +9,16 @@
 # TODO: Try to minimize using subshells. They add too much overhead
 # TODO: Use local variables inside functions
 
+
+# --------------------------------------------------------------------------------
+# Git Shortcuts
+# --------------------------------------------------------------------------------
+function gcm()
+{
+    git commit -m "${*}"
+}
+
+
 # --------------------------------------------------------------------------------
 # Misc. Utilities
 # --------------------------------------------------------------------------------
@@ -17,6 +27,7 @@ function reload()
     # TODO: can we first unsource/clear everything? (be careful when clearing env vars. Maybe don't clear them)
     #shellcheck source=./bash/bashrc
     source "${HOME}/.bashrc"
+    fixPathBloat
 }
 
 function reloadInputrc()
@@ -45,6 +56,8 @@ function tally()
 # Override which to search aliases and functions
 function which()
 {
+    # TODO: look into bash's command hashing
+
     # Must be called with an argument
     if [[ "${#}" -eq 0 ]]; then
         # TODO: make a function that prints to stderr. Call that function here and other places for readability
@@ -59,7 +72,7 @@ function which()
     # Args 2 and 3 are for recursion. Can't have only two args. Only 1 or 3 args are acceptable
     if [[ "${#}" -eq 2 ]]; then
         # TODO: make a function that prints to stderr. Call that function here and other places for readability
-        echo "Error, no argument provided."  1>&2 # Echo to stderr
+        echo "Error, invalid number of args."  1>&2 # Echo to stderr
         return 1
     else
         recursionCheck="${2}"
@@ -70,7 +83,7 @@ function which()
     if ! typesFound=$(type -at "${query}"); then
         
         # If not found, try to use 'file'
-        if fileOutput=$(file "${query}" 2> /dev/null); then # TODO: 'file' utility on debian seems to always returns 0
+        if fileOutput=$(file -E "${query}" 2> /dev/null); then # TODO: 'file' utility on debian seems to always returns 0
             echo "${fileOutput}"
             return 0
         else
@@ -94,9 +107,6 @@ function which()
 
     local filesAlreadyFound='0'
 
-    # Iterate over the array in reverse so that aliases are done last
-    #for (( i = ${#typesFoundArray[@]} - 1 ; i >= 0 ; i-- )) ; do
-        #t="${typesFoundArray[i]}"
     for t in "${typesFoundArray[@]}"; do
 
         case "${t}" in
@@ -204,10 +214,10 @@ function path()
     # Pass '-s' or 's' to sort the output
     if [[ "$1" == '-s' || "$1" == 's' ]]; then
         # shellcheck disable=SC2001
-        echo "${PATH}" |sed 's/:/\n/g' | sort
+        echo -e "${PATH//:/\\n}" | sort
     else
         # shellcheck disable=SC2001
-        echo "${PATH}" |sed 's/:/\n/g'
+        echo -e "${PATH//:/\\n}"
     fi
 }
 alias spath='path s'
@@ -265,6 +275,41 @@ function unicode()
 #        /bin/rm $@ || /bin/mdir $@
 #}
 
+function uz()
+{
+    fileName="$1"
+    if [[ ! -f "${fileName}" ]]; then
+        echo "Error, input file '${fileName}' is not a regular file. Cannot extract" # TODO: send to stderr
+        return 1
+    fi
+
+    case $1 in
+        *.tar.bz2)   tar xjf "${fileName}"   ;;
+        *.tar.gz)    tar xzf "${fileName}"   ;;
+        *.bz2)       bunzip2 "${fileName}"   ;;
+        *.rar)       unrar x "${fileName}"   ;;
+        *.gz)        gunzip "${fileName}"    ;;
+        *.tar)       tar xf "${fileName}"    ;;
+        *.tbz2)      tar xjf "${fileName}"   ;;
+        *.tgz)       tar xzf "${fileName}"   ;;
+        *.zip)       unzip "${fileName}"     ;;
+        *.Z)         uncompress "${fileName}";;
+        *.7z)        7z x "${fileName}"      ;;
+        *)
+            echo "Error, '${fileName}' is of unknown type. Cannot extract" # TODO: send to stderr
+            return 1
+            ;;
+    esac
+}
+alias unzip='uz'
+alias extract='uz'
+
+diff()
+{
+    # Use git's colored diff
+    git diff --no-index --color-words "$@"
+}
+
 
 # --------------------------------------------------------------------------------
 # Math
@@ -272,8 +317,8 @@ function unicode()
 # The alias first turns globbing off, then calls the 'math' function. 
 # This way, expressions such as '5 * 5' may be entered without '*' being 
 # expanded. The function turns globbing back on before exiting.
-# Unfortunatly, quotation marks or escapes are needed when using parenthesis
-
+# Unfortunately, quotation marks or escapes are needed when using parenthesis\
+# TODO: before we turn globing off, should we verify it was on? And only turn back on if it was originally on - These functions are all about "can it be done?" instead of "should it be done?" lol
 alias math='set -o noglob; math'
 function math()
 {
@@ -307,7 +352,32 @@ cd()
     fi
 
     helper_lsAfterCD
+
+    # Git fetch if we are in the root of a git repo
+    # TODO
+    #if [[ -d ./.git ]]; then
+    #    expectGitFetchHelper
+    #fi
 }
+
+function expectGitFetchHelper()
+{
+    # Send garbage info to 'git fetch' if prompted.
+    /usr/bin/expect <<EOD
+        set timeout 1
+        spawn git fetch
+        expect "Username for 'https://github.com': "
+        send -- "user\r"
+        expect "Password for 'https://user@github.com': "
+        send -- "pass\r"
+        expect eof 
+EOD
+        # My syntax highlight doesn't register EOD with any indentation
+
+}
+
+
+
 
 back() # TODO: look into $OLDPWD
 {

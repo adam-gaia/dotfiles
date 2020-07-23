@@ -201,7 +201,7 @@ function mkcd()
 
 function path()
 {
-    # Pass '-s' or 's' to sort
+    # Pass '-s' or 's' to sort the output
     if [[ "$1" == '-s' || "$1" == 's' ]]; then
         # shellcheck disable=SC2001
         echo "${PATH}" |sed 's/:/\n/g' | sort
@@ -210,6 +210,7 @@ function path()
         echo "${PATH}" |sed 's/:/\n/g'
     fi
 }
+alias spath='path s'
 
 function uniqNoSort()
 {

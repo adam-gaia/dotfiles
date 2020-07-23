@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -x
-
 # Grab files added to commit
 changedFiles=$(git diff --cached --name-only --diff-filter=ACMR)
 
@@ -21,5 +19,3 @@ else
     echo "Heads up, your pre-commit lit script doesn't exist"
 fi
 echo '-------------------------'
-
-set +x

@@ -17,7 +17,6 @@ if [[ -f "${linter}" ]]; then
         pwd
         echo ''
 
-
         "${linter}" "${changedFiles}"
     fi
     

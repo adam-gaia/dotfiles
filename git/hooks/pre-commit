@@ -5,7 +5,7 @@ changedFiles=$(git diff --cached --name-only --diff-filter=ACMR)
 
 # Lint files according to their file extensions
 echo '-------------------------'
-echo 'Pre-commit linter'
+echo '> Pre-commit linter'
 
 linter="${HOME}/repo/scripts/lint.sh"
 if [[ -f "${linter}" ]]; then
@@ -18,4 +18,5 @@ if [[ -f "${linter}" ]]; then
 else
     echo "Heads up, your pre-commit lit script doesn't exist"
 fi
+echo '< End pre-commit linter'
 echo '-------------------------'

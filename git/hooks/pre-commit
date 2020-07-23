@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
+set -x
+
 # Grab files added to commit
 changedFiles=$(git diff --cached --name-only --diff-filter=ACMR)
 
 # Exit if no files for commit
 if [[ "${changedFiles}" == '' ]]; then
     echo "No files added to commit"
+    exit 1
 fi
 
 # Lint files according to their file extensions
@@ -13,7 +16,7 @@ linter="${HOME}/repo/scripts/lint.sh"
 if [[ -f "${linter}" ]]; then
 
     echo '-------------------------'
-    echo 'PRE-COMMIT HOOK'
+    echo 'Pre-commit linter'
     # Run the linter
     "${linter}" "${changedFiles}"
     echo '-------------------------'
@@ -21,3 +24,5 @@ if [[ -f "${linter}" ]]; then
 else
     echo "Heads up, your pre-commit lit script doesn't exist"
 fi
+
+set +x

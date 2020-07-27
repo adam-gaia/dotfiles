@@ -248,25 +248,18 @@ function ascii()
     ascii | /bin/grep -m1 -A63 --color=never Oct
 }
 
-function yamlcheck()
-{
-    # Validate yaml syntax
-    # Stolen from github.com/nibalizer/bash-tricks
-    python -c 'import sys, yaml as y; y.safe_load(open(sys.argv[1]))'
-}
-
-function jsoncheck()
-{
-    # Validate json syntax
-    # Stolen from github.com/nibalizer/bash-tricks
-    jq '.' > /dev/null
-}
-
 function unicode()
 {
     # Print favorite unicode characters
     # Stolen from github.com/nibalizer/bash-tricks
     echo '✓ ™  ♪ ♫ ☃ ° Ɵ ∫'
+}
+
+function lintJson()
+{
+    # Validate json syntax by piping to jq
+    # Note: this function is used by ~/scripts/lint.sh to validate json files
+    /bin/cat "$1" | jq '.'
 }
 
 # TODO
@@ -304,7 +297,7 @@ function uz()
 alias unzip='uz'
 alias extract='uz'
 
-diff()
+function diff()
 {
     # Use git's colored diff
     git diff --no-index --color-words "$@"

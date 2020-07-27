@@ -5,7 +5,7 @@
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
 # --------------------------------------------------------------------------------
-# Use Gnu utilities - Idea taken from https://github.com/denisidoro/dotfiles
+# Use Gnu utilities - Taken from https://github.com/denisidoro/dotfiles
 # --------------------------------------------------------------------------------
 function dircolors() { gdircolors "$@"; }
 function make()      { gmake "$@"; }
@@ -31,6 +31,8 @@ function readlink()  { greadlink "$@"; }
 function stat()      { gstat "$@"; }
 
 # TODO: should I export these or not?
+# TODO: where did the idea to export these come from?
+#        Do I export other stuff? Why export functions?
 # export -f sed awk find head mktemp date shred cut tr od cp cat sort kill xargs readlink
 
 
@@ -59,5 +61,12 @@ PATH="${PATH}:/Library/TeX/texbin:/usr/local/opt/texinfo/bin"
 PATH="${PATH}:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/share/dotnet"
 
 export PATH
+
+# --------------------------------------------------------------------------------
+# Configure Homebrew
+# --------------------------------------------------------------------------------
+eval $(/usr/local/bin/brew shellenv)
+
+
 
 

@@ -12,7 +12,7 @@ deploy()
     sourceFile="$1"
 
     if [[ ! -r "${sourceFile}" ]]; then
-        echo "Error, '${sourceFile}' does not exist"
+        echo "Error, '${sourceFile}' is not readable"
         return 1
     fi
 

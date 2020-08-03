@@ -154,7 +154,12 @@ printUnderline()
 # Always use color arguments
 # ---------------------------------------------------------------------------------
 alias tree="tree -C"
-cat() { src-hilite-lesspipe.sh "$@"; }
+cat()
+{
+    # Heads up, updating src-highlight can break it.
+    # To fix, run 'source-highlight-settings' and change the config path to use the current version
+    src-hilite-lesspipe.sh "$@";
+}
 
 
 # ---------------------------------------------------------------------------------

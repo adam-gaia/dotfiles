@@ -149,19 +149,6 @@ printUnderline()
     fi
 }
 
-
-# --------------------------------------------------------------------------------
-# Always use color arguments
-# ---------------------------------------------------------------------------------
-alias tree="tree -C"
-cat()
-{
-    # Heads up, updating src-highlight can break it.
-    # To fix, run 'source-highlight-settings' and change the config path to use the current version
-    src-hilite-lesspipe.sh "$@";
-}
-
-
 # ---------------------------------------------------------------------------------
 # Set less colors
 # ---------------------------------------------------------------------------------
@@ -221,5 +208,10 @@ if [[ "$(command -v grc)" ]]; then # TODO add more checks for commands before us
     alias ifconfig='colorify ifconfig'
 fi
 
-
-
+alias tree="tree -C"
+cat()
+{
+    # Heads up, updating src-highlight can break it.
+    # To fix, run 'source-highlight-settings' and change the config path to use the current version
+    src-hilite-lesspipe.sh "$@";
+}

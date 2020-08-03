@@ -15,22 +15,27 @@
 #    fi
 #    __bp_imported="defined"
 #
+#
 # TODO: have some things that take longer run in the background with '&'. Be careful with subshells though! We dont want to set the subshell's environment
 
 # Source order: OS, aliases, functions, python environment, color utilities
+
+# Prompt - TODO
+#SBP_PATH="/usr/local/opt/sbp"
+#source "${SBP_PATH}/sbp.bash"
+
 
 
 # --------------------------------------------------------------------------------
 # OS specific config
 # --------------------------------------------------------------------------------
-unameOut="$(uname -s)"
-case "${unameOut}" in
-    Darwin*) 
+case "${OSTYPE}" in
+    'darwin'*)
         export DOTFILEDIR="/Users/${USER}/repo/dotfiles"
         # shellcheck source=bash/OS/mac.sh
         source "${DOTFILEDIR}/bash/OS/mac.sh"
         ;;
-    Linux*)
+    'linux-gnu'*)
         export DOTFILEDIR="/home/${USER}/repo/dotfiles"
         # shellcheck source=bash/OS/linux.sh
         source "${DOTFILEDIR}/bash/OS/linux.sh"
@@ -40,6 +45,7 @@ case "${unameOut}" in
         export DOTFILEDIR="/home/${USER}/repo/dotfiles"
         # shellcheck source=bash/OS/linux.sh
         source "${DOTFILEDIR}/bash/OS/linux.sh"
+        ;;
 esac
 
 

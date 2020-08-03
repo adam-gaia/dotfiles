@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# TODO: use ~/repo/scripts/removeTrailingWhitespace.sh in pre commit hook
+# TODO: use dos2unix to change newline chars if needed
+
 # Grab files added to commit
 changedFiles=$(git diff --cached --name-only --diff-filter=ACMR)
 

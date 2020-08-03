@@ -80,7 +80,7 @@ function which()
     fi
 
     # Check query using 'type'
-    if ! typesFound=$(type -at "${query}"); then
+    if ! typesFound=$(type -at "${query}"); then # TODO: there is a bug here
         
         # If not found, try to use 'file'
         if fileOutput=$(file -E "${query}" 2> /dev/null); then # TODO: 'file' utility on debian seems to always returns 0
@@ -260,6 +260,20 @@ function lintJson()
     # Validate json syntax by piping to jq
     # Note: this function is used by ~/scripts/lint.sh to validate json files
     /bin/cat "$1" | jq '.'
+}
+
+function findFileOnPath()
+{
+    # TODO: my 'which' function should make this obsolete
+    input="$1"
+    for p in ${PATH//:/ }; do
+        if [[ -f "${p}/${input}" ]]; then
+            echo "${p}/${input}"
+            return 0
+        fi
+    done
+    echo "Couldn't find '${input}' on the \$PATH"
+    return 1
 }
 
 # TODO

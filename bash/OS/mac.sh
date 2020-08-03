@@ -29,6 +29,7 @@ function kill()      { gkill "$@"; }
 function xargs()     { gxargs "$@"; }
 function readlink()  { greadlink "$@"; }
 function stat()      { gstat "$@"; }
+function patch()    { gpatch "$@"; }
 
 # TODO: should I export these or not?
 # TODO: where did the idea to export these come from?

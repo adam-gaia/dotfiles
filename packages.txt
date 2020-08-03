@@ -1,40 +1,86 @@
-# Packages to install
-# TODO: alphabetize or sort by order of importance
-# TODO: check for duplicates
-# TODO: make mac, linux, and both categories
-# TODO: make a list of software that cant be installed via apt. (git clone, curl, etc)
-tmux
-qt
-navi
-tree
-yabai
-w3m
-cowsay
-fortune
-blueutil
-cppman
-jq
-lynx
-neofetch
-pipes-sh
-source-highlight
-watch
-xmlstarlet
-imagemagick
-git
+# Packages for all platforms
+[All]
 bash
-gpatch
+blueutil
+build-essential
+cowsay
+cppman
+fortune
+gcc
+gdb
+git
+imagemagick
+jq
 less
+lynx
 m4
 make
 nano
+navi
+neofetch
+pipes-sh
+qt
+source-highlight
+tmux
+tree
 vim
-gcc
-bear # https://github.com/rizsotto/Bear
+w3m
+watch
+xmlstarlet
+yabai
+fzf
+
+
+# Mac specific packages
+[Mac]
+# GNU replacements of standard Utilities
+coreutils
+binutils
+diffutils
+ed
+findutils
 gawk
+gnuplot
+gnutls
+gnu-getopt
+gnu-indent
+gnu-sed
+gnu-tar
+gnu-which
+gnutls
+grep
+gzip
+gpatch
+screen
+watch
+wdiff
+wget
+gpatch
+# SBP - 
+brujoand/sbp/sbp
 
 
-the_silver_searcher # mac
-silversearcher-ag # debian
+# Brew casks to tap 'brew cask install <package>'
+[Cask]
+# LaTeX
+basictex
+# Sqlite Browser
+db-browser-for-sqlite
+# Nerd fonts for vim nerdtree icons
+font-hack-nerd-font
+font-monokai-nerd-font
+
+
+
+
+# Linux specific packages
+[Linux]
+
+
+# Git clone urls
+[Git]
+https://github.com/adam-gaia/scripts
+https://github.com/adam-gaia/homebrew-brewFormulas
+https://github.com/adam-gaia/Notes
 
 

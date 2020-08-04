@@ -2,6 +2,7 @@
 # TODO: make this sh compatible instead of bash - oh jk maybe not. I like bash's 'set -Eeuo pipefail'
 # TODO: make sure any sed commands are gnu and bsd sed compatible. Check other utilities that may differ
 # TODO: Have input args for full install (graphical software) or small install (headless cli utilities only)
+# TODO: need to output all brew caveats at the end. This could get ugly. See https://stackoverflow.com/questions/13333585/how-do-i-replay-the-caveats-section-from-a-homebrew-recipe
 
 # Safety settings
 set -Eeuxo pipefail

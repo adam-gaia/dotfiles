@@ -104,7 +104,12 @@ deploy "${DOTFILEDIR}/gdbinit" "${HOME}/.gdbinit"
 export -f deploy
 export DOTFILEDIR
 export BACKUPDIR
+# TODO: figure out where to link. I think mac and linux root $HOME are different
+sudo bash -c "mkdir -p /var/root"
+sudo bash -c "mkdir -p /root"
+sudo bash -c "$(declare -f deploy); deploy ${DOTFILEDIR}/gdbinit /var/root/.gdbinit"
 sudo bash -c "$(declare -f deploy); deploy ${DOTFILEDIR}/gdbinit /root/.gdbinit"
+sudo bash -c "$(declare -f deploy); deploy ${DOTFILEDIR}/gdbinit /.gdbinit"
 #sudo -E  # TODO: on linux, might need 'su -c'
 
 

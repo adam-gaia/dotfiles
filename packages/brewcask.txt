@@ -10,7 +10,7 @@ fantastical
 flux 
 appcleaner
 the-unarchiver
-xquarts
+xquartz
 coconutbattery
 micro-snitch
 cryptomator

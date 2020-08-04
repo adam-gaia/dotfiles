@@ -96,7 +96,7 @@ mkdir -p "${TMP}"
 
 
 # Clone my dotfile and setup repo
-if [[ -d "${DOTFILEDIR}" ]]; then
+if [[ ! -d "${DOTFILEDIR}" ]]; then
     cd "${REPO}"
     git clone https://github.com/adam-gaia/dotfiles.git
 fi

@@ -48,7 +48,6 @@ case "${OSTYPE}" in
         ;;
 esac
 
-
 # --------------------------------------------------------------------------------
 # Path
 # --------------------------------------------------------------------------------
@@ -59,6 +58,8 @@ export PATH="${PATH}:/usr/local/go/bin"
 export PATH="${PATH}:${HOME}/go/bin"
 # Add current directory to the end of the path
 export PATH="${PATH}:."
+# Brew
+eval $(brew shellenv)
 
 
 # --------------------------------------------------------------------------------

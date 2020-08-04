@@ -4,7 +4,6 @@
 git
 bash
 python3
-pip3
 blueutil
 cowsay
 cppman

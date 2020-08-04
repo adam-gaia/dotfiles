@@ -26,7 +26,6 @@ vim
 w3m
 watch
 xmlstarlet
-yabai
 fzf
 go 
 rust

@@ -1,5 +1,24 @@
 ## Brew casks to tap 'brew cask install <package>'
 
+# Core utilities
+1password
+brave-browser
+alfred
+little-snitch
+sublime-text
+fantastical 
+flux 
+appcleaner
+the-unarchiver
+xquarts
+coconutbattery
+micro-snitch
+cryptomator
+docker
+spotify
+
+# TODO: objective-see apps
+
 # LaTeX
 basictex
 

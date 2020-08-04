@@ -127,11 +127,9 @@ if [[ "${MAC}" -eq '1' ]]; then
 
     # Install packages and casks
     cd "${DOTFILEDIR}"
-    installPackages 'brew install' "${packageListsDir}/"
-    brew install $(cat ./packages/all.txt | grep -v '#')
-    brew install $(cat ./packages/mac.txt | grep -v '#')
-    brew cask install $(cat ./packages/brewcask.txt | grep -v '#')
-
+    installPackages 'brew install' 'all.txt'
+    installPackages 'brew install' 'mac.txt'
+    installPackages 'brew cask install' 'brewcask.txt'
 
 elif [[ "${LINUX}" -eq '1' ]]; then
     # Linux specific
@@ -147,8 +145,8 @@ elif [[ "${LINUX}" -eq '1' ]]; then
     sudo apt-get -f install
     sudo apt-get -y upgrade -y
     sudo apt-get update --fix-missing
-    sudo apt-get install -y $(cat ./packages/all.txt | grep -v '#')
-    sudo apt-get install -y $(cat ./packages/linux.txt | grep -v '#')
+    installPackages 'sudo apt-get install -y' 'all.txt'
+    installPackages 'sudo apt-get install -y' 'linux.txt'
 
 fi
 

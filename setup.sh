@@ -22,8 +22,9 @@ LINUX=0
 # --------------------------------------------------
 function installPackages()
 {
-    local installCommand="$1"
-    local inputList="$2"
+    local inputList="$1"
+    shift
+    local installCommand="$@"
 
     # Find list of packages to install
     listFile="${DOTFILEDIR}/packages/${inputList}"
@@ -127,9 +128,9 @@ if [[ "${MAC}" -eq '1' ]]; then
 
     # Install packages and casks
     cd "${DOTFILEDIR}"
-    installPackages 'brew install' 'all.txt'
-    installPackages 'brew install' 'mac.txt'
-    installPackages 'brew cask install' 'brewcask.txt'
+    installPackages all.txt brew install
+    installPackages mac.txt brew install
+    installPackages brewcask.txt brew cask install
 
 elif [[ "${LINUX}" -eq '1' ]]; then
     # Linux specific
@@ -145,8 +146,8 @@ elif [[ "${LINUX}" -eq '1' ]]; then
     sudo apt-get -f install
     sudo apt-get -y upgrade -y
     sudo apt-get update --fix-missing
-    installPackages 'sudo apt-get install -y' 'all.txt'
-    installPackages 'sudo apt-get install -y' 'linux.txt'
+    installPackages all.txt sudo apt-get install -y
+    installPackages linux.txt sudo apt-get install -y
 
 fi
 

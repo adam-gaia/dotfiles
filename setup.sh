@@ -1,15 +1,67 @@
 #!/usr/bin/env bash
-# TODO: make this sh compatible instead of bash
+# TODO: make this sh compatible instead of bash - oh jk maybe not. I like bash's 'set -Eeuo pipefail'
 # TODO: make sure any sed commands are gnu and bsd sed compatible. Check other utilities that may differ
 # TODO: Have input args for full install (graphical software) or small install (headless cli utilities only)
+
+# Safety settings
+set -Eeuo pipefail
+
+# --------------------------------------------------
+# Vars
+# --------------------------------------------------
+REPO="${HOME}/repo"
+DOTFILEDIR='${HOME}/repo/dotfiles'
+THIRDPARTYCLONES="${HOME}/thirdPartyClones"
+TMP="${HOME}/tmp"
+MAC=0
+LINUX=0
+
 
 # --------------------------------------------------
 # Functions
 # --------------------------------------------------
-function cdThrowError()
+function cd_orEchoError()
 {
-    inputDir="$1"
+    local inputDir="$1"
     cd "${inputDir}" || { echo "Error cd'ing to '${inputDir}'"; exit 1; }
+}
+
+function installPackages()
+{
+    local installCommand="$1"
+    local inputList="$2"
+
+    # Find list of packages to install
+    listFile="${DOTFILEDIR}/packages/${inputList}"
+    if [[ ! -f "${listFile}" ]]; then
+        echo -e "\nError, package list '${listFile}' does not exist.\n"
+        return 1
+    fi
+
+    # Read the file for a list of packages to install. Feed the list to the install command
+    "${installCommand}" $(cat "${listFile}" | grep -v '#')
+}
+
+function cloneRepos()
+{
+    local parentDir="$1"
+    local inputList="$2"
+
+    # Find list of packages to install
+    listFile="${DOTFILEDIR}/packages/${inputList}"
+    if [[ ! -f "${listFile}" ]]; then
+        echo -e "\nError, git url list '${listFile}' does not exist.\n"
+        return 1
+    fi
+
+    # Move to where we want to clone the repos to
+    mkdir -p "${parentDir}"
+    cd_orEchoError "${parentDir}"
+
+    # Clone each repo read in from the list
+    for url in $(cat "${listFile}" | grep -v '#'); do
+        git clone "${url}"
+    done
 }
 
 
@@ -21,7 +73,7 @@ if [[ "${EUID}" -eq '1' ]]; then
   exit 1
 fi
 
-
+# Determine OS
 unameOut="$(uname -s)"
 case "${unameOut}" in
 
@@ -44,12 +96,20 @@ esac
 
 
 # Set up directory structure
-REPO="${HOME}/repo"
 mkdir -p "${REPO}"
-DOTFILEDIR='${HOME}/repo/dotfiles'
-mkdir -p "${DOTFILEDIR}"
-mkdir -p "${HOME}/tmp"
+mkdir -p "${THIRDPARTYCLONES}"
+mkdir -p "${TMP}"
 
+
+# Clone my dotfile and setup repo
+if [[ -d "${DOTFILEDIR}" ]]; then
+    cd_orEchoError "${REPO}"
+    git clone https://github.com/adam-gaia/dotfiles.git
+fi
+
+# Link my dotfiles
+cd_orEchoError "${DOTFILEDIR}"
+./deploy.sh
 
 # Install brew regardless of OS
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
@@ -65,11 +125,12 @@ if [[ "${MAC}" -eq '1' ]]; then
     # Compare differences in case user wants to keep something they have set
     # TODO: gdb initial setup
 
-    # Brew packages
-    brew install ${packages}
-
-    # Brew cask
-    brew cask install ${packages}
+    # Install packages and casks
+    cd_orEchoError "${DOTFILEDIR}"
+    installPackages 'brew install' "${packageListsDir}/"
+    brew install $(cat ./packages/all.txt | grep -v '#')
+    brew install $(cat ./packages/mac.txt | grep -v '#')
+    brew cask install $(cat ./packages/brewcask.txt | grep -v '#')
 
 
 elif [[ "${LINUX}" -eq '1' ]]; then
@@ -84,17 +145,16 @@ elif [[ "${LINUX}" -eq '1' ]]; then
     sudo apt-get -f install
     sudo apt-get -y upgrade -y
     sudo apt-get update --fix-missing
+    sudo apt-get install -y $(cat ./packages/all.txt | grep -v '#')
+    sudo apt-get install -y $(cat ./packages/linux.txt | grep -v '#')
 
 fi
 
 
+# Clone my other git repos
+cloneRepos "${REPO}" 'myGitRepos.txt'
 
-# Clone my dotfile repo, then link my dot files
-cdThrowError "${REPO}"
-git clone 
-./deploy.sh
-
-
-# Clone my other repos
+# Clone third party git repos
+cloneRepos "${THIRDPARTYCLONES}" 'thirdPartyClones.txt'
 
 

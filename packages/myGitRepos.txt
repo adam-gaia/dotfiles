@@ -1,4 +1,4 @@
-## Git clone urls
+## My git clone urls
 
 https://github.com/adam-gaia/scripts
 https://github.com/adam-gaia/homebrew-brewFormulas

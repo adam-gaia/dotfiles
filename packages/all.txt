@@ -29,6 +29,8 @@ watch
 xmlstarlet
 yabai
 fzf
+go 
+rust
 
 # SBP - bash prompt helper 
 brujoand/sbp/sbp

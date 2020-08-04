@@ -99,6 +99,12 @@ mkdir -p "${TMP}"
 if [[ ! -d "${DOTFILEDIR}" ]]; then
     cd "${REPO}"
     git clone https://github.com/adam-gaia/dotfiles.git
+else
+    cd "${DOTFILEDIR}"
+    git stash
+    git fetch
+    git checkout master
+    git pull
 fi
 
 # Link my dotfiles
@@ -133,6 +139,8 @@ elif [[ "${LINUX}" -eq '1' ]]; then
     # TODO: Permissions will be a problem. Package manager will require
     #           sudo, but scripts in here a generate files for the regular user
     #           Maybe run an extra script in here with sudo privileges
+    #           Or maybe a function is ok. See the second answer here:
+    #           https://serverfault.com/questions/177699/how-can-i-execute-a-bash-function-with-sudo
     # TODO: we are going to have issues on Debian where 'sudo' isn't installed by default
     # TODO: better check linux distro to determine package manager. (Arch uses pacman, fedora uses yum(?))
     sudo apt-get update

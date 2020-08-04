@@ -103,8 +103,7 @@ deploy "${DOTFILEDIR}/gdbinit" "${HOME}/.gdbinit"
 export -f deploy
 export DOTFILEDIR
 export BACKUPDIR
-su "deploy ${DOTFILEDIR}/gdbinit /root/.gdbinit"
-sudo 
+sudo su "deploy ${DOTFILEDIR}/gdbinit /root/.gdbinit"
 
 
 

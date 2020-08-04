@@ -1,13 +1,16 @@
 ## Packages to install on all platforms
+# TODO: order by importance or category
 
+git
 bash
+python3
+pip3
 blueutil
 cowsay
 cppman
 fortune
 gcc
 gdb
-git
 imagemagick
 jq
 less

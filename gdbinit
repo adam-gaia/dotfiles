@@ -74,6 +74,9 @@
 # Aliases
 alias exit = quit
 
+# Mac SIP gdb fix - TODO: only add this when deploying on a mac
+set startup-with-shell off
+
 
 # __________________gdb options_________________
 

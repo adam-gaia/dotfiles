@@ -2,7 +2,6 @@
 
 bash
 blueutil
-build-essential
 cowsay
 cppman
 fortune

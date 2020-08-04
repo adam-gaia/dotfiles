@@ -62,7 +62,7 @@ function cloneRepos()
 # --------------------------------------------------
 # Main
 # --------------------------------------------------
-if [[ "${EUID}" -eq '1' ]]; then
+if [[ "${EUID}" -eq '0' ]]; then
   echo 'Please run this as a user without sudo privileges.'
   exit 1
 fi

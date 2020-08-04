@@ -1,0 +1,34 @@
+## Packages to install on all platforms
+
+bash
+blueutil
+build-essential
+cowsay
+cppman
+fortune
+gcc
+gdb
+git
+imagemagick
+jq
+less
+lynx
+m4
+make
+nano
+navi
+neofetch
+pipes-sh
+qt
+source-highlight
+tmux
+tree
+vim
+w3m
+watch
+xmlstarlet
+yabai
+fzf
+
+# SBP - bash prompt helper 
+brujoand/sbp/sbp

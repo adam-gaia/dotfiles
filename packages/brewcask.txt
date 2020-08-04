@@ -1,0 +1,13 @@
+## Brew casks to tap 'brew cask install <package>'
+
+# LaTeX
+basictex
+
+# Sqlite Browser
+db-browser-for-sqlite
+
+# Nerd fonts for vim nerdtree icons
+font-hack-nerd-font
+font-monokai-nerd-font
+
+

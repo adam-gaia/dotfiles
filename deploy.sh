@@ -98,7 +98,13 @@ deploy "${DOTFILEDIR}/sqliterc" "${HOME}/.sqliterc"
 # GDB
 deploy "${DOTFILEDIR}/gdbinit" "${HOME}/.gdbinit"
 # Also update root's gdbinit - needed so that 'sudo gdb' also sources this file
-sudo deploy "${DOTFILEDIR}/gdbinit" "/root/.gdbinit"
+# Export the deploy function and the dotfile dir so that the su subshell will be able to use it
+# See https://serverfault.com/questions/177699/how-can-i-execute-a-bash-function-with-sudo
+export -f deploy
+export DOTFILEDIR
+export BACKUPDIR
+su -c "deploy "${DOTFILEDIR}/gdbinit /root/.gdbinit"
+sudo 
 
 
 

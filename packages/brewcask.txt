@@ -27,6 +27,6 @@ db-browser-for-sqlite
 
 # Nerd fonts for vim nerdtree icons
 font-hack-nerd-font
-font-mononokai-nerd-font
+font-mononoki-nerd-font
 
 

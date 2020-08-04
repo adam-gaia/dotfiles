@@ -5,9 +5,16 @@ My dotfiles
 ## Initializing a new machine
 ### Curl
 ```
+# "Safe" way
 curl https://raw.githubusercontent.com/adam-gaia/dotfiles/master/setup.sh > setup.sh
 chmod +x setup.sh
 bash ./setup.sh
+
+# For the bold
+curl https://raw.githubusercontent.com/adam-gaia/dotfiles/master/setup.sh | bash
+
+# When debugging, make sure caching is off. Otherwise we can't make a change and immediatly execute
+curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/adam-gaia/dotfiles/master/setup.sh | bash
 ```
 
 ### Git

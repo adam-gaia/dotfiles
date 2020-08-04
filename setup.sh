@@ -4,13 +4,13 @@
 # TODO: Have input args for full install (graphical software) or small install (headless cli utilities only)
 
 # Safety settings
-set -Eeuo pipefail
+set -Eeuxo pipefail
 
 # --------------------------------------------------
 # Vars
 # --------------------------------------------------
 REPO="${HOME}/repo"
-DOTFILEDIR='${HOME}/repo/dotfiles'
+DOTFILEDIR="${HOME}/repo/dotfiles"
 THIRDPARTYCLONES="${HOME}/thirdPartyClones"
 TMP="${HOME}/tmp"
 MAC=0
@@ -20,12 +20,6 @@ LINUX=0
 # --------------------------------------------------
 # Functions
 # --------------------------------------------------
-function cd_orEchoError()
-{
-    local inputDir="$1"
-    cd "${inputDir}" || { echo "Error cd'ing to '${inputDir}'"; exit 1; }
-}
-
 function installPackages()
 {
     local installCommand="$1"
@@ -56,7 +50,7 @@ function cloneRepos()
 
     # Move to where we want to clone the repos to
     mkdir -p "${parentDir}"
-    cd_orEchoError "${parentDir}"
+    cd "${parentDir}"
 
     # Clone each repo read in from the list
     for url in $(cat "${listFile}" | grep -v '#'); do
@@ -103,12 +97,12 @@ mkdir -p "${TMP}"
 
 # Clone my dotfile and setup repo
 if [[ -d "${DOTFILEDIR}" ]]; then
-    cd_orEchoError "${REPO}"
+    cd "${REPO}"
     git clone https://github.com/adam-gaia/dotfiles.git
 fi
 
 # Link my dotfiles
-cd_orEchoError "${DOTFILEDIR}"
+cd "${DOTFILEDIR}"
 ./deploy.sh
 
 # Install brew regardless of OS
@@ -126,7 +120,7 @@ if [[ "${MAC}" -eq '1' ]]; then
     # TODO: gdb initial setup
 
     # Install packages and casks
-    cd_orEchoError "${DOTFILEDIR}"
+    cd "${DOTFILEDIR}"
     installPackages 'brew install' "${packageListsDir}/"
     brew install $(cat ./packages/all.txt | grep -v '#')
     brew install $(cat ./packages/mac.txt | grep -v '#')

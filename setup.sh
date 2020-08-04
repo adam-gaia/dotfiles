@@ -142,13 +142,16 @@ elif [[ "${LINUX}" -eq '1' ]]; then
     #           https://serverfault.com/questions/177699/how-can-i-execute-a-bash-function-with-sudo
     # TODO: we are going to have issues on Debian where 'sudo' isn't installed by default
     # TODO: better check linux distro to determine package manager. (Arch uses pacman, fedora uses yum(?))
-    sudo apt-get update
-    sudo apt-get -f install
-    sudo apt-get -y upgrade -y
-    sudo apt-get update --fix-missing
-    installPackages all.txt sudo apt-get install -y
-    installPackages linux.txt sudo apt-get install -y
-
+    #sudo apt-get update
+    #sudo apt-get -f install
+    #sudo apt-get -y upgrade -y
+    #sudo apt-get update --fix-missing
+    #installPackages all.txt sudo apt-get install -y
+    #installPackages linux.txt sudo apt-get install -y
+    
+    # Fuck it, I can use any package manager I want. TODO: simplify this script to only use brew
+    installPackages all.txt brew install
+    installPackages linux.txt brew install
 fi
 
 

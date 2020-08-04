@@ -117,7 +117,7 @@ cd "${DOTFILEDIR}"
 brew update
 brew analytics off
 #export HOMEBREW_INSTALL_BADGE="☕️ 🐸" # TODO: Pick a good emoji
-
+brew tap homebrew/cask-fonts
 
 if [[ "${MAC}" -eq '1' ]]; then
     # Mac specific

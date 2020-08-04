@@ -2,6 +2,7 @@
 
 # Core utilities
 1password
+iterm2
 brave-browser
 alfred
 little-snitch

@@ -34,7 +34,7 @@ function installPackages()
     fi
 
     # Read the file for a list of packages to install. Feed the list to the install command
-    "${installCommand}" $(cat "${listFile}" | grep -v '#')
+    ${installCommand} $(cat "${listFile}" | grep -v '#')
 }
 
 function cloneRepos()

@@ -1,5 +1,8 @@
 ## Mac specific packages
 
+# Window manager
+koekeishiya/formulae/yabai
+
 # GNU replacements of standard Utilities
 coreutils
 binutils

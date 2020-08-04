@@ -9,6 +9,7 @@ set -Eeuo pipefail
 # --------------------------------------------------
 deploy()
 {
+    set -x
     sourceFile="$1"
 
     if [[ ! -r "${sourceFile}" ]]; then

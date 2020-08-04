@@ -159,6 +159,6 @@ fi
 cloneRepos "${REPO}" 'myGitRepos.txt'
 
 # Clone third party git repos
-cloneRepos "${THIRDPARTYCLONES}" 'thirdPartyClones.txt'
+cloneRepos "${THIRDPARTYCLONES}" 'thirdPartyGitRepos.txt'
 
 

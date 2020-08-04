@@ -56,7 +56,10 @@ function cloneRepos()
 
     # Clone each repo read in from the list
     for url in $(cat "${listFile}" | grep -v '#'); do
-        git clone "${url}"
+        cloneDirName="${url##*/}" # extract basename from url
+        if [[ ! -d "./${cloneDirName}" ]]; then
+            git clone "${url}"
+        fi
     done
 }
 

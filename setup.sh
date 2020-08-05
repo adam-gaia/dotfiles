@@ -165,4 +165,7 @@ cloneRepos "${REPO}" 'myGitRepos.txt'
 # Clone third party git repos
 cloneRepos "${THIRDPARTYCLONES}" 'thirdPartyGitRepos.txt'
 
+# Change default shell to homebrew installed bash
+chsh -s /usr/local/bin/bash # TODO: make sure linux homebrew installs to the same place
+
 

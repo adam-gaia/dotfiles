@@ -2,6 +2,7 @@
 # TODO: determine scope. Where does the initial setup script end and this begin?
 set -Eeuo pipefail
 
+# TODO: only use OSX keychain cred helper on mac. Figure out how to use something else on linux
 # TODO: Turn this into a makefile?
 
 # --------------------------------------------------

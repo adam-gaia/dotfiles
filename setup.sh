@@ -171,4 +171,6 @@ cloneRepos "${THIRDPARTYCLONES}" 'thirdPartyGitRepos.txt'
 sudo echo "/usr/local/bin/bash" | sudo tee -a /etc/shells
 chsh -s /usr/local/bin/bash # TODO: make sure linux homebrew installs to the same place
 
+# Patch pywal by running my script - temporary until the pip pywal package is updated
+"${REPO}/scripts/fix_pywal_cursor.sh"
 

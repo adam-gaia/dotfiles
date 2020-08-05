@@ -1,0 +1,33 @@
+## Brew casks to tap 'brew cask install <package>'
+
+# Core utilities
+1password
+iterm2
+brave-browser
+alfred
+little-snitch
+sublime-text
+fantastical 
+flux 
+appcleaner
+the-unarchiver
+xquartz
+coconutbattery
+micro-snitch
+cryptomator
+docker
+spotify
+
+# TODO: objective-see apps
+
+# LaTeX
+basictex
+
+# Sqlite Browser
+db-browser-for-sqlite
+
+# Nerd fonts for vim nerdtree icons
+font-hack-nerd-font
+font-mononoki-nerd-font
+
+

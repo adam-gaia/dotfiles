@@ -1,0 +1,36 @@
+## Packages to install on all platforms
+# TODO: order by importance or category
+
+git
+bash
+python3
+blueutil
+cowsay
+cppman
+fortune
+gcc
+gdb
+imagemagick
+jq
+less
+lynx
+m4
+make
+nano
+navi
+neofetch
+pipes-sh
+qt
+source-highlight
+tmux
+tree
+vim
+w3m
+watch
+xmlstarlet
+fzf
+go 
+#rust # TODO: fix parsing function to only install packages if not already instaled. Idk why but 'brew install rust' will fail if rust is already installed, however brew just skips every other package if it has already been installed, like it should.
+
+# SBP - bash prompt helper 
+brujoand/sbp/sbp

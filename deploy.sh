@@ -9,10 +9,11 @@ set -Eeuo pipefail
 # --------------------------------------------------
 deploy()
 {
+    set -x
     sourceFile="$1"
 
     if [[ ! -r "${sourceFile}" ]]; then
-        echo "Error, '${sourceFile}' does not exist"
+        echo "Error, '${sourceFile}' is not readable"
         return 1
     fi
 
@@ -89,13 +90,23 @@ deploy "${DOTFILEDIR}/tmux/tmux.conf" "${HOME}/.tmux.conf"
 deploy "${DOTFILEDIR}/git/gitconfig" "${HOME}/.gitconfig"
 deploy "${DOTFILEDIR}/git/gitignore_global" "${HOME}/.gitignore_global"
 
+# Tell git to use my global git hooks
+git config --global core.hooksPath "${DOTFILEDIR}/git/githooks_global"
+
 # Sqlite3
 deploy "${DOTFILEDIR}/sqliterc" "${HOME}/.sqliterc"
 
 # GDB
 deploy "${DOTFILEDIR}/gdbinit" "${HOME}/.gdbinit"
 # Also update root's gdbinit - needed so that 'sudo gdb' also sources this file
-sudo deploy "${DOTFILEDIR}/gdbinit" "/root/.gdbinit"
+# Export the deploy function and the dotfile dir so that the su subshell will be able to use it
+# See https://serverfault.com/questions/177699/how-can-i-execute-a-bash-function-with-sudo
+export -f deploy
+export DOTFILEDIR
+export BACKUPDIR
+# TODO: link based on mac or linux
+sudo bash -c "mkdir -p /var/root"
+sudo bash -c "$(declare -f deploy); deploy ${DOTFILEDIR}/gdbinit /var/root/.gdbinit"
 
 
 

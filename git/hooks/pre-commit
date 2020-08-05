@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+# TODO: use ~/repo/scripts/removeTrailingWhitespace.sh in pre commit hook
+# TODO: use dos2unix to change newline chars if needed
+
+# Grab files added to commit
+changedFiles=$(git diff --cached --name-only --diff-filter=ACMR)
+
+# Lint files according to their file extensions
+echo '-------------------------'
+echo '> Pre-commit linter'
+
+linter="${HOME}/repo/scripts/lint.sh"
+if [[ -f "${linter}" ]]; then
+
+    # Run the linter if there are changed files
+    if [[ "${changedFiles}" != '' ]]; then
+        "${linter}" "${changedFiles}"
+    fi
+    
+else
+    echo "Heads up, your pre-commit lit script doesn't exist"
+fi
+
+echo '< End pre-commit linter'
+echo '-------------------------'

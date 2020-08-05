@@ -53,6 +53,10 @@ alias top='htop'
 
 
 # Catch common misspellings and mistypings
-alias sl="ls"
-alias Grep="grep"
+alias sl='ls'
+alias Grep='grep'
+
+# Always use pip from the latest python
+alias pip='python3 -m pip'
+
 

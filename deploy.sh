@@ -99,3 +99,5 @@ sudo deploy "${DOTFILEDIR}/gdbinit" "/root/.gdbinit"
 
 
 
+# TODO: Back up ~/.config/1Password/settings/settings.json for Linux 1Password client
+#           See https://support.1password.com/cs/getting-started-linux/

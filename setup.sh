@@ -158,6 +158,8 @@ elif [[ "${LINUX}" -eq '1' ]]; then
     installPackages linux.txt brew install
 fi
 
+# Install pywal - TODO: make python pip packages install via text list + parsing function like the other packages
+python3 -m pip install pywal
 
 # Clone my other git repos
 cloneRepos "${REPO}" 'myGitRepos.txt'

@@ -13,8 +13,10 @@ bash ./setup.sh
 # For the bold
 curl https://raw.githubusercontent.com/adam-gaia/dotfiles/master/setup.sh | bash
 
-# When debugging, make sure caching is off. Otherwise we can't make a change and immediatly execute
-curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/adam-gaia/dotfiles/master/setup.sh | bash
+# When debugging, make sure caching is off. Otherwise we can't make a change and immediatly execute.
+# We can bypass the cached version by throwing a unique paramater at the end of the URL - the timestamp.
+# Note that if using zsh, that '?' must be escaped. (Zsh is now the default shell with mac)
+curl https://raw.githubusercontent.com/adam-gaia/dotfiles/master/setup.sh?$(date +%s) | bash
 ```
 
 ### Git

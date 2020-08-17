@@ -2,6 +2,7 @@
 # TODO: determine scope. Where does the initial setup script end and this begin?
 set -Eeuo pipefail
 
+# TODO: only use OSX keychain cred helper on mac. Figure out how to use something else on linux
 # TODO: Turn this into a makefile?
 
 # --------------------------------------------------
@@ -110,3 +111,5 @@ sudo bash -c "$(declare -f deploy); deploy ${DOTFILEDIR}/gdbinit /var/root/.gdbi
 
 
 
+# TODO: Back up ~/.config/1Password/settings/settings.json for Linux 1Password client
+#           See https://support.1password.com/cs/getting-started-linux/

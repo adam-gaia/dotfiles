@@ -17,3 +17,6 @@ TODO: rclone with google drive
 
 
 
+TODO: backup /etc/hosts and/or ~/.ssh/config
+    be careful of ssh keys
+

@@ -1,3 +1,6 @@
 TODO: `ip` command (as in `ip a`) not installable via `brew install ip`
 	its probably under a net tools package. Find it
 
+TODO: backup /etc/hosts and/or ~/.ssh/config
+    be careful of ssh keys
+

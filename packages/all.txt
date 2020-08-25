@@ -31,6 +31,13 @@ xmlstarlet
 fzf
 go 
 #rust # TODO: fix parsing function to only install packages if not already instaled. Idk why but 'brew install rust' will fail if rust is already installed, however brew just skips every other package if it has already been installed, like it should.
+htop
+rsync
+rclone
+octave
+
+# Status monitor
+gkrellm
 
 # SBP - bash prompt helper 
 brujoand/sbp/sbp

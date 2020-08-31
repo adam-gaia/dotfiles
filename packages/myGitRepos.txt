@@ -3,3 +3,4 @@
 https://github.com/adam-gaia/scripts
 https://github.com/adam-gaia/homebrew-brewFormulas
 https://github.com/adam-gaia/Notes
+https://github.com/adam-gaia/Alfred.git

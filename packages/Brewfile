@@ -1,4 +1,5 @@
 
+tap "homebrew/cask-fonts"
 
 cask "1password"
 cask "iterm2"
@@ -37,7 +38,6 @@ mas "Microsoft Excel", id: 462058435
 mas "Microsoft Powerpoint", id: 462062816
 mas "Microsoft Word", id: 462054704
 mas "unclutter"
-mas "xcode"
 mas "1password"
 
 

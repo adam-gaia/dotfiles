@@ -1,0 +1,55 @@
+
+
+cask "1password"
+cask "iterm2"
+cask "brave-browser"
+cask "alfred"
+cask "little-snitch"
+cask "sublime-text"
+cask "fantastical" 
+cask "flux" 
+cask "appcleaner"
+cask "the-unarchiver"
+cask "xquartz"
+cask "coconutbattery"
+cask "micro-snitch"
+cask "cryptomator"
+cask "docker"
+cask "spotify"
+cask "the-unarchiver"
+cask "microsoft-teams"
+cask "transmission"
+cask "appcleaner"
+cask "bitwarden"
+
+
+
+cask "cheatsheet"
+cask "discord"
+cask "docker"
+cask "google-chrome"
+cask "imageoptim"
+
+mas "Save to Pocket", id: 1477385213
+mas "Magnet", id: 441258766
+mas "Spark", id: 1176895641
+mas "Microsoft Excel", id: 462058435
+mas "Microsoft Powerpoint", id: 462062816
+mas "Microsoft Word", id: 462054704
+mas "unclutter"
+mas "xcode"
+mas "1password"
+
+
+
+# TODO: objective-see apps
+
+# LaTeX
+cask "basictex"
+
+# Sqlite Browser
+cask "db-browser-for-sqlite"
+
+# Nerd fonts for vim nerdtree icons
+cask "font-hack-nerd-font"
+cask "font-mononoki-nerd-font"

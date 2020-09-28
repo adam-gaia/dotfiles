@@ -1,0 +1,22 @@
+TODO: `ip` command (as in `ip a`) not installable via `brew install ip`
+	its probably under a net tools package. Check github `iproute2mac`
+
+TODO: rclone with google drive
+	1. Copy (or create) rclone config file
+	2. Clone google drive contents 'rsync gDrive: ~/Documents --progress'
+	3. Two way sync  - be careful and use --backup-dir
+	4. Sync cron job? or rclone mount?
+
+	Use other cloud services? Box, 1drive, dropbox, icloud, etc	
+		rclone union?
+
+
+	DO NOT BACKUP RCLONE CONFIG. IT CONTAINS PRIVATE KEYS
+
+# TODO: set up browser extensions. Tab session manager - set the settings to backup to google drive
+
+
+
+TODO: backup /etc/hosts and/or ~/.ssh/config
+    be careful of ssh keys
+

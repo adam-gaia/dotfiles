@@ -3,9 +3,12 @@
 # TODO: make sure any sed commands are gnu and bsd sed compatible. Check other utilities that may differ
 # TODO: Have input args for full install (graphical software) or small install (headless cli utilities only)
 # TODO: need to output all brew caveats at the end. This could get ugly. See https://stackoverflow.com/questions/13333585/how-do-i-replay-the-caveats-section-from-a-homebrew-recipe
+# TODO: credit https://github.com/MarioCatuogno/Clean-macOS/blob/master/bin/install.sh
+
 
 # Safety settings
 set -Eeuxo pipefail
+
 
 # --------------------------------------------------
 # Vars
@@ -67,9 +70,21 @@ function cloneRepos()
 # --------------------------------------------------
 # Main
 # --------------------------------------------------
-if [[ "${EUID}" -eq '0' ]]; then
-  echo 'Please run this as a user without sudo privileges.'
-  exit 1
+# Keep sudo privileges alive while this script runs
+printf "Enter root password...\n"
+sudo -v
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+# Parse args
+if [[ "$#" -eq '0' ]]; then
+    # No arg provided, ask user for the new host name
+    echo 'Please enter desired host name'
+    read -t 100 newHostName
+elif [[ "$#" -eq '1' ]]
+    newHostName="$1"
+else
+    echo 'Error parsing args'
+    exit 1
 fi
 
 # Determine OS
@@ -116,12 +131,21 @@ fi
 cd "${DOTFILEDIR}"
 ./deploy.sh
 
+
+
+# If mac, install xcode first
+if [[ "${MAC}" -eq '1' ]]; then
+    xcode-select --install
+fi
+
+
 # Install brew regardless of OS
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-brew update
 brew analytics off
+brew -v
+sudo chown -R $USER /usr/local/Cellar
+brew doctor && brew update && brew upgrade
 #export HOMEBREW_INSTALL_BADGE="☕️ 🐸" # TODO: Pick a good emoji
-brew tap homebrew/cask-fonts
 
 if [[ "${MAC}" -eq '1' ]]; then
     # Mac specific
@@ -132,9 +156,13 @@ if [[ "${MAC}" -eq '1' ]]; then
 
     # Install packages and casks
     cd "${DOTFILEDIR}"
+    brew install mas
+    brew bundle --file="${DOTFILEDIR}/packages/Brewfile"
     installPackages all.txt brew install
-    installPackages mac.txt brew install
-    installPackages brewcask.txt brew cask install
+    
+    mas upgrade
+    
+
 
 elif [[ "${LINUX}" -eq '1' ]]; then
     # Linux specific
@@ -156,7 +184,11 @@ elif [[ "${LINUX}" -eq '1' ]]; then
     # Fuck it, I can use any package manager I want. TODO: simplify this script to only use brew
     installPackages all.txt brew install
     installPackages linux.txt brew install
+
 fi
+
+# Brew house keeping
+brew -v update && brew -v upgrade && brew cask upgrade && brew -v cleanup --prune=5 && brew doctor
 
 # Install pywal - TODO: make python pip packages install via text list + parsing function like the other packages
 python3 -m pip install pywal
@@ -174,3 +206,5 @@ chsh -s /usr/local/bin/bash # TODO: make sure linux homebrew installs to the sam
 # Patch pywal by running my script - temporary until the pip pywal package is updated
 "${REPO}/scripts/fix_pywal_cursor.sh"
 
+# Install alfred prefrenecs # TODO: edit my git clone function to name a git clone dir
+git clone https://github.com/adam-gaia/Alfred.git Alfred.alfredpreferences

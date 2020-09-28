@@ -432,7 +432,7 @@
 	<key>NSWindow Frame NSNavPanelAutosaveName</key>
 	<string>496 505 799 448 0 0 1792 1097 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>58 75 1734 1022 0 0 1792 1097 </string>
+	<string>743 489 717 363 0 0 1792 1097 </string>
 	<key>NeverWarnAboutShortLivedSessions_C2C85547-9192-413C-AE63-DCA02956DE10</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_C2C85547-9192-413C-AE63-DCA02956DE10_selection</key>
@@ -1071,7 +1071,7 @@
 			<key>Visual Bell</key>
 			<true/>
 			<key>Window Type</key>
-			<integer>7</integer>
+			<integer>0</integer>
 			<key>Working Directory</key>
 			<string>/Users/adamgaia</string>
 		</dict>
@@ -1085,12 +1085,12 @@
 		<key>screenFrame</key>
 		<string>{{0, 0}, {1792, 1120}}</string>
 		<key>topLeft</key>
-		<string>{574, 894}</string>
+		<string>{309, 854}</string>
 	</dict>
 	<key>NoSyncInstallationId</key>
 	<string>054AD835-A053-47D9-B112-2B5900BD8A33</string>
 	<key>NoSyncLaunchExperienceControllerRunCount</key>
-	<integer>4</integer>
+	<integer>6</integer>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
@@ -1853,7 +1853,7 @@
 	<key>SplitPaneDimmingAmount</key>
 	<real>0.10000000000000001</real>
 	<key>TabStyleWithAutomaticOption</key>
-	<integer>4</integer>
+	<integer>6</integer>
 	<key>TabViewType</key>
 	<integer>0</integer>
 	<key>ThreeFingerEmulates</key>

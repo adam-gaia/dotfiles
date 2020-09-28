@@ -90,9 +90,11 @@ deploy "${DOTFILEDIR}/tmux/tmux.conf" "${HOME}/.tmux.conf"
 # Git
 deploy "${DOTFILEDIR}/git/gitconfig" "${HOME}/.gitconfig"
 deploy "${DOTFILEDIR}/git/gitignore_global" "${HOME}/.gitignore_global"
-
 # Tell git to use my global git hooks
 git config --global core.hooksPath "${DOTFILEDIR}/git/githooks_global"
+
+# Pylint
+deploy "${DOTFILEDIR}/pylintrc" "${HOME}/.pylintrc"
 
 # Sqlite3
 deploy "${DOTFILEDIR}/sqliterc" "${HOME}/.sqliterc"

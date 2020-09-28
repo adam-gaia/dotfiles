@@ -276,6 +276,12 @@ function findFileOnPath()
     return 1
 }
 
+function hist()
+{
+    # Search history
+    history | grep "$1" | grep -vi "hist\|history" | awk '{ $1=""; $2=""; $3=""; print $0 }'
+}
+
 # TODO
 #rm()
 #{

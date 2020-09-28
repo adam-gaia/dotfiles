@@ -1,7 +1,7 @@
 [user]
 	name = Adam Gaia
-	username = adam-gaia
-	email = 36975781+adam-gaia@users.noreply.github.com
+	username = a.gaia
+	email = a.gaia@sarcos.com
 [core]
 	editor = vim
 	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol

@@ -61,6 +61,9 @@ export PATH="${PATH}:."
 # Brew
 eval $(brew shellenv)
 
+# Man path
+export MANPATH="${MANPATH}:${HOME}/manuals"
+
 
 # --------------------------------------------------------------------------------
 # Source external files

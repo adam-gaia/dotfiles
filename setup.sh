@@ -15,6 +15,7 @@ set -Eeuxo pipefail
 # --------------------------------------------------
 REPO="${HOME}/repo"
 DOTFILEDIR="${HOME}/repo/dotfiles"
+MANUALS="${HOME}/manuals"
 THIRDPARTYCLONES="${HOME}/thirdPartyClones"
 TMP="${HOME}/tmp"
 MAC=0
@@ -113,6 +114,7 @@ esac
 mkdir -p "${REPO}"
 mkdir -p "${THIRDPARTYCLONES}"
 mkdir -p "${TMP}"
+mkdir -p "${MANUALS}"
 
 
 # Clone my dotfile and setup repo
@@ -208,3 +210,6 @@ chsh -s /usr/local/bin/bash # TODO: make sure linux homebrew installs to the sam
 
 # Install alfred prefrenecs # TODO: edit my git clone function to name a git clone dir
 git clone https://github.com/adam-gaia/Alfred.git Alfred.alfredpreferences
+
+
+# Create a manual for each builtin

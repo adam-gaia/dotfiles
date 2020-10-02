@@ -10,7 +10,6 @@ set -Eeuo pipefail
 # --------------------------------------------------
 deploy()
 {
-    set -x
     sourceFile="$1"
 
     if [[ ! -r "${sourceFile}" ]]; then
@@ -98,6 +97,11 @@ deploy "${DOTFILEDIR}/pylintrc" "${HOME}/.pylintrc"
 
 # Sqlite3
 deploy "${DOTFILEDIR}/sqliterc" "${HOME}/.sqliterc"
+
+# Sublime Text 3 - TODO: if mac, use mac settings path
+sublimeDir='/home/sarcos/.config/sublime-text-3/Packages/User'
+mkdir -p "${sublimeDir}"
+deploy "${DOTFILEDIR}/sublime-text-3" "${sublimeDir}/Preferences.sublime-settings"
 
 # GDB
 deploy "${DOTFILEDIR}/gdbinit" "${HOME}/.gdbinit"

@@ -12,6 +12,7 @@ gcc
 gdb
 imagemagick
 jq
+yq
 less
 lynx
 m4

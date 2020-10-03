@@ -1,0 +1,17 @@
+{
+    "dictionary": "Packages/Language - English/en_US.dic",
+    "font_size": 19,
+    "spell_check": true,
+    
+    // Integer. The number of spaces a tab is considered equal to
+    "tab_size": 4,
+
+    // Boolean, if true, spaces will be inserted up to the next tab stop when tab is pressed, rather than inserting a tab character
+    "translate_tabs_to_spaces": true,
+
+    // Boolean, if true (the default), tab_size and translate_tabs_to_spaces will be calculated automatically when loading a file
+    "detect_indentation": true,
+
+    // Boolean, If translate_tabs_to_spaces is true, use_tab_stops will make tab and backspace insert/delete up to the next tab stop
+    "use_tab_stops": true
+}

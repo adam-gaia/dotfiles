@@ -10,7 +10,6 @@ set -Eeuo pipefail
 # --------------------------------------------------
 deploy()
 {
-    set -x
     sourceFile="$1"
 
     if [[ ! -r "${sourceFile}" ]]; then
@@ -90,12 +89,19 @@ deploy "${DOTFILEDIR}/tmux/tmux.conf" "${HOME}/.tmux.conf"
 # Git
 deploy "${DOTFILEDIR}/git/gitconfig" "${HOME}/.gitconfig"
 deploy "${DOTFILEDIR}/git/gitignore_global" "${HOME}/.gitignore_global"
-
 # Tell git to use my global git hooks
 git config --global core.hooksPath "${DOTFILEDIR}/git/githooks_global"
 
+# Pylint
+deploy "${DOTFILEDIR}/pylintrc" "${HOME}/.pylintrc"
+
 # Sqlite3
 deploy "${DOTFILEDIR}/sqliterc" "${HOME}/.sqliterc"
+
+# Sublime Text 3 - TODO: if mac, use mac settings path
+sublimeDir='/home/sarcos/.config/sublime-text-3/Packages/User'
+mkdir -p "${sublimeDir}"
+deploy "${DOTFILEDIR}/sublime-text-3" "${sublimeDir}/Preferences.sublime-settings"
 
 # GDB
 deploy "${DOTFILEDIR}/gdbinit" "${HOME}/.gdbinit"

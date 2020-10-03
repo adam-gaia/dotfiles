@@ -1,12 +1,12 @@
 [user]
 	name = Adam Gaia
-	username = adam-gaia
-	email = 36975781+adam-gaia@users.noreply.github.com
+	username = a.gaia
+	email = a.gaia@sarcos.com
 [core]
 	editor = vim
 	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
 	excludesfile = /Users/adamgaia/.gitignore_global
-	hooksPath = /Users/agaia/repo/dotfiles/git/githooks_global
+	hooksPath = /home/sarcos/repo/dotfiles/git/githooks_global
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
@@ -17,3 +17,5 @@
 
 [credential]
 	helper = osxkeychain
+[pull]
+	ff = only

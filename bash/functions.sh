@@ -433,10 +433,10 @@ helper_lsAfterCD()
             /bin/ls -G # TODO: set flags for mac ls
             ;;
         Linux*)
-            ind ls --color=always --group-directories-first -Cq
+            ind ls --color=always --group-directories-first -Cqa
             ;;
         *)
-            ind ls --color=always --group-directories-first -Cq
+            ind ls --color=always --group-directories-first -Cqa
     esac
           # TODO: like with the ls alias, if ~file found, print filename(~)
     

@@ -69,5 +69,7 @@ export PATH
 eval $(/usr/local/bin/brew shellenv)
 
 
-
-
+# Git auto-complete
+if [ -f /usr/local/share/bash-completion/bash_completion ]; then
+    source /usr/local/share/bash-completion/bash_completion
+fi

@@ -111,12 +111,12 @@ export EDITOR='vim' # Default editor
 export HISTSIZE=5000
 
 # Store 5000 commands in history FILE 
-export HISTFILESIZE=5000      
+export HISTFILESIZE=5000
 
 # Avoid duplicates in history when the same command is ran multiple times in a row
 # Do not save commands prefaced by whitespace
 # See man bash(1)
-export HISTIGNORE='ignoreboth'
+export HISTCONTROL='ignoreboth'
 
 # Time stamp history
 export HISTTIMEFORMAT="%d/%m/%Y %T " # [histNumber] [dd/mm/yyyy hh:mm:ss] [command]

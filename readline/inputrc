@@ -18,8 +18,8 @@ set mark-symlinked-directories on
 "\e[B": history-search-forward
 "\e[A": history-search-backward
 
-# Do not autocomplete hidden files unless the pattern explicitly begins with a dot
-set match-hidden-files off
+# Autocomplete hidden files even if the pattern does not begin with a dot
+set match-hidden-files on
 
 # Show all autocomplete results at once
 set page-completions off
@@ -37,14 +37,15 @@ set visible-stats on
 # Readline used by Bash 4.)
 set skip-completed-text on
 
+# Keep pressing tab to cycle through matches
+TAB: menu-complete
 
 # Allow UTF-8 input and output, instead of showing stuff like $'\0123\0456'
 set input-meta on
 set output-meta on
 set convert-meta off
 
-
-# Color files by types
+# Color files by types - TODO: get a better highlight color
 # Note that this may cause completion text blink in some terminals (e.g. xterm).
 set colored-stats On
 # Color the common prefix

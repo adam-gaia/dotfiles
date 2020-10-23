@@ -20,7 +20,7 @@ alias emacs="vim" # lol
 # git
 alias ga="git add"
 alias gc="git commit"
-alias gcm="git commit -m"
+#alias gcm="git commit -m" # made into a function
 alias gpl="git pull"
 alias gps="git push"
 alias gf="git fetch"

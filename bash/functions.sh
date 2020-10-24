@@ -279,7 +279,7 @@ function findFileOnPath()
 function hist()
 {
     # Search history
-    history | grep "$1" | /bin/grep -vi "hist\|history" | awk '{ $2=""; $3=""; print $0 }'
+    history | grep "$1" | /bin/grep -vi "hist\|history" | awk '{printf"%4d  ",$1;for(i=4;i<NF;i++)printf"%s",$i OFS;if(NF)printf"%s",$NF;printf ORS}'
 }
 
 # TODO

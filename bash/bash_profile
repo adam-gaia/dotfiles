@@ -20,9 +20,8 @@
 
 # Source order: OS, aliases, functions, python environment, color utilities
 
-# Prompt - TODO
 #SBP_PATH="/usr/local/opt/sbp"
-#source "${SBP_PATH}/sbp.bash"
+#source "${SBP_PATH}/sbp.bash" # TODO: wtf is 'sbp'?
 
 
 
@@ -75,6 +74,14 @@ source "${DOTFILEDIR}/bash/aliases.sh"
 source "${DOTFILEDIR}/bash/functions.sh"
 # shellcheck source=bash/python.sh
 source "${DOTFILEDIR}/bash/python.sh" # Python paths
+
+
+# --------------------------------------------------------------------------------
+# Bash Line Editor (https://github.com/akinomyoga/ble.sh)
+#    Note: I installed this with my own homebrew formula
+# --------------------------------------------------------------------------------
+bashLineEditor="${HOMEBREW_PREFIX}/opt/bashLineEditor/bin/out/ble.sh"
+[[ "${-}" == *i* && -f "${bashLineEditor}" ]] && source "${bashLineEditor}" --noattach
 
 
 # --------------------------------------------------------------------------------
@@ -204,3 +211,9 @@ analyticsFile="/Users/adamgaia/repo/shellAnalytics_cpp/shellAnalytics.sh"
 if [[ -e "$analyticsFile" ]]; then 
     source ${analyticsFile}
 fi
+
+
+# --------------------------------------------------------------------------------
+# Attach Bash Line Editor (https://github.com/akinomyoga/ble.sh)
+# --------------------------------------------------------------------------------
+[[ -f "${bashLineEditor}" ]] && ((_ble_bash)) && ble-attach

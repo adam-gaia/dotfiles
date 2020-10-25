@@ -159,7 +159,6 @@ if [[ "${MAC}" -eq '1' ]]; then
     # Install packages and casks
     cd "${DOTFILEDIR}"
     brew install mas
-    brew bundle --file="${DOTFILEDIR}/packages/Brewfile"
     installPackages all.txt brew install
     
     mas upgrade
@@ -194,6 +193,9 @@ brew -v update && brew -v upgrade && brew cask upgrade && brew -v cleanup --prun
 
 # Install pywal - TODO: make python pip packages install via text list + parsing function like the other packages
 python3 -m pip install pywal
+
+# Install via brewfile - TODO: pull out all the mas and cask packages
+brew bundle --file="${DOTFILEDIR}/packages/Brewfile"
 
 # Clone my other git repos
 cloneRepos "${REPO}" 'myGitRepos.txt'

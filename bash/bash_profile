@@ -78,9 +78,9 @@ source "${DOTFILEDIR}/bash/python.sh" # Python paths
 
 # --------------------------------------------------------------------------------
 # Bash Line Editor (https://github.com/akinomyoga/ble.sh)
-#    Note: I installed this with my own homebrew formula
+#    Note: I installed this with my own homebrew formula with brew bundle. Brew bundle forces lower-case formula names
 # --------------------------------------------------------------------------------
-bashLineEditor="${HOMEBREW_PREFIX}/opt/bashLineEditor/bin/out/ble.sh"
+bashLineEditor="${HOMEBREW_PREFIX}/opt/bashlineeditor/bin/out/ble.sh"
 [[ "${-}" == *i* && -f "${bashLineEditor}" ]] && source "${bashLineEditor}" --noattach
 
 

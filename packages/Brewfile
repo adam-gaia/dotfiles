@@ -1,8 +1,12 @@
 brew "bash-completion@2"
 
-
-
 tap "homebrew/cask-fonts"
+tap "adam-gaia/brewFormulas"
+
+brew "adam-gaia/brewFormulas/bashlineeditor"
+brew "adam-gaia/brewFormulas/gitdiffn"
+brew "adam-gaia/brewFormulas/itermimgcat"
+
 
 cask "1password"
 cask "iterm2"

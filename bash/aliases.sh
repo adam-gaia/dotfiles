@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Bash aliases
 
+alias vpn='sudo -E openfortigui --vpn-name=SarcoVPN --start-vpn'
+
 
 # grep alias - use gnu grep + color
 alias grep='ind grep --color=always' # loses color with ind

@@ -18,10 +18,20 @@ function gcm()
     git commit -m "${*}"
 }
 
+function giturl()
+{
+    git remote get-url origin
+}
+
 
 # --------------------------------------------------------------------------------
 # Misc. Utilities
 # --------------------------------------------------------------------------------
+echoerr()
+{
+    printf "%s\n" "$*" >&2
+}
+
 function reload()
 {
     # TODO: can we first unsource/clear everything? (be careful when clearing env vars. Maybe don't clear them)
@@ -205,22 +215,81 @@ function test()
 # Create a directory and cd to it
 function mkcd()
 {
-    mkdir "${1}" || exit 1
-    cd "${1}" || { echo "${1} created, but cd failed"; exit 1; }
+    mkdir "${1}" || return 1
+    cd "${1}" || { echo "${1} created, but cd failed"; return 1; }
 }
 
 function path()
 {
-    # Pass '-s' or 's' to sort the output
-    if [[ "$1" == '-s' || "$1" == 's' ]]; then
+    local SORT='0'
+    local TREE='0'
+
+    # Loop over args
+    while (( "$#" ));
+    do
+        arg="$1"
+        case "$arg" in
+        's'|'-s'|'sort'|'--sort')
+            SORT=1
+            ;;
+
+        't'|'-t'|'tree'|'--tree')
+            TREE=1
+            ;;
+
+        '+'*)
+            # Add to path
+            inputDir="${arg/+}"
+            if [[ -d "${inputDir}" ]]; then
+                export PATH="${PATH}:${inputDir}"
+            else
+                echoerr "Error, '${inputDir}' is not a directory."
+                return 1
+            fi
+            ;;
+
+        '-'*)
+            # Remove from path
+            inputDir="${arg/-}"
+            if [[ "${PATH}" -eq *"${inputDir}"* ]]; then
+                local tmp="${PATH/${inputDir}}"
+                export PATH="${tmp/::/:}" # Remove possible double colon
+            else
+                echoerr "Error, '${inputDir}' was not on the path."
+                return 1
+            fi
+            ;;
+
+        *) # Default case; unknown argument
+            echoerr "Error, unknown argument '${arg}'."
+            return 1
+            ;;
+
+        esac
+        shift # move on to next arg
+    done
+
+    if [[ "${SORT}" -eq 1 && "${TREE}" -eq 1 ]]; then
+        echoerr "Error, 'sort' and 'tree' options are mutually exclusive."
+        return 1
+    fi
+
+    if [[ "${SORT}" -eq '1' ]]; then
         # shellcheck disable=SC2001
         echo -e "${PATH//:/\\n}" | sort
     else
-        # shellcheck disable=SC2001
-        echo -e "${PATH//:/\\n}"
+        if [[ "${TREE}" -eq 1 ]]; then
+            # shellcheck disable=SC2001
+            # Echo new line separated paths | replace '.' representation of pwd with actual pwd | display with tree reading from stdin | remove the '.' on first line, replace with '/'
+            echo -e "${PATH//:/\\n}" | sed "s|^\.$|$PWD|" | tree -C -F --fromfile . | sed '1s/\./\//'
+        else
+            # shellcheck disable=SC2001
+            echo -e "${PATH//:/\\n}"
+        fi
     fi
 }
-alias spath='path s'
+alias spath='path --sort'
+alias tpath='path --tree'
 
 function uniqNoSort()
 {

@@ -7,6 +7,7 @@ brew "adam-gaia/brewFormulas/bashlineeditor"
 brew "adam-gaia/brewFormulas/gitdiffn"
 brew "adam-gaia/brewFormulas/itermimgcat"
 
+brew "xxh"
 
 cask "1password"
 cask "iterm2"

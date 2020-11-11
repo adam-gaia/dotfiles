@@ -36,6 +36,11 @@ htop
 rsync
 rclone
 octave
+#xclip # Mac equivalent is `pbcopy` or something
+
+# Bash line editor
+ble.sh
+
 
 # Status monitor
 gkrellm

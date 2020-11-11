@@ -81,7 +81,7 @@ source "${DOTFILEDIR}/bash/python.sh" # Python paths
 #    Note: I installed this with my own homebrew formula with brew bundle. Brew bundle forces lower-case formula names
 # --------------------------------------------------------------------------------
 bashLineEditor="${HOMEBREW_PREFIX}/opt/bashlineeditor/bin/out/ble.sh"
-[[ "${-}" == *i* && -f "${bashLineEditor}" ]] && source "${bashLineEditor}" --noattach
+#[[ "${-}" == *i* && -f "${bashLineEditor}" ]] && source "${bashLineEditor}" --noattach
 
 
 # --------------------------------------------------------------------------------
@@ -216,4 +216,4 @@ fi
 # --------------------------------------------------------------------------------
 # Attach Bash Line Editor (https://github.com/akinomyoga/ble.sh)
 # --------------------------------------------------------------------------------
-[[ -f "${bashLineEditor}" ]] && ((_ble_bash)) && ble-attach
+#[[ -f "${bashLineEditor}" ]] && ((_ble_bash)) && ble-attach

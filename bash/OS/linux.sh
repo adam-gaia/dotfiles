@@ -11,4 +11,3 @@ export PATH="/usr/share/source-highlight:${PATH}"
 # --------------------------------------------------------------------------------
 eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 
-

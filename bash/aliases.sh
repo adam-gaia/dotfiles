@@ -62,4 +62,5 @@ alias Grep='grep'
 # Always use pip from the latest python
 alias pip='python3 -m pip'
 
-
+# Make make a little safer
+alias make='make --warn-undefined-variables'

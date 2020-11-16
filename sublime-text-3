@@ -5,7 +5,7 @@
 	],
 	"detect_indentation": true,
 	"dictionary": "Packages/Language - English/en_US.dic",
-	"font_size": 15,
+	"font_size": 16,
 	"ignored_packages":
 	[
 		"Vintage"

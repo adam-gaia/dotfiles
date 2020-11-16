@@ -21,7 +21,7 @@
 # Source order: OS, aliases, functions, python environment, color utilities
 
 #SBP_PATH="/usr/local/opt/sbp"
-#source "${SBP_PATH}/sbp.bash" # TODO: wtf is 'sbp'?
+#source "${SBP_PATH}/sbp.bash" # TODO: wtf is 'sbp'? # Edit ohhhh its that nice bash prompt library
 
 
 
@@ -154,7 +154,8 @@ shopt -s checkwinsize \
          login_shell \
          progcomp \
          promptvars \
-         sourcepath
+         sourcepath \
+         extglob
 
 # Default off
 set +abefknptuvxC # TODO: according to set's doc, "$-" shows all currently set options. Why then does it eval to 'himBHs'? The 'i' is interactive shell. Where do the 's' come from? 
@@ -175,7 +176,6 @@ shopt -u assoc_expand_once \
          dotglob \
          execfail \
          extdebug \
-         extglob \
          failglob \
          globstar \
          gnu_errfmt \

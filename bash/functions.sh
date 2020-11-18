@@ -11,6 +11,49 @@
 
 
 # --------------------------------------------------------------------------------
+# DOCSTRING notes and helper functions
+# --------------------------------------------------------------------------------
+function docstring_example()
+{
+    local DOCSTRING=("This is an example function to demonstrative docstring functionality."
+                     "Simply add the contents of this function to your functions."
+                     "The 'which' function will read these docstrings and print them."
+                     "I recommend adding a usage section like this:"
+                     ""
+                     "Usage:"
+                     "    docstring_example <arg1> <arg2> ..."
+                     ""
+                     "Now try running 'which docstring_example' or 'which which'")
+
+    if [[ "$#" -eq 0 ]]; then
+        errprint "${DOCSTRING[@]}" # Note: errprint is another function in this file
+        return 0
+    fi
+}
+
+function errprint()
+{
+     local DOCSTRING=("Print to stderr."
+                      ""
+                      "Usage:"
+                      "    errprint <message1> <message2> ..."
+                      ""
+                      "Note: each argument is printed on a new line."
+                      "Please encapsulate the entire message in quotes to print it all on a single line."
+                      "Additionally, be careful with 'errprint \${array[@]}' and 'errprint \${array[*]}'")
+
+    if [[ "$#" -eq 0 ]]; then
+        errprint "${DOCSTRING[@]}"
+        return 0
+    fi
+    # Note: The choice of '$@' instead of '$*' was intentional here.
+    # Calling 'errprint ${arrayVar[@]}' will print each index of 'arrayVar' on a new line.
+    # Our DOCSTRING functionality depends on this.
+    printf "%s\n" "$@" >&2
+}
+
+
+# --------------------------------------------------------------------------------
 # Git Shortcuts
 # --------------------------------------------------------------------------------
 function gcm()
@@ -18,25 +61,34 @@ function gcm()
     git commit -m "${*}"
 }
 
-function giturl()
-{
-    git remote get-url origin
-}
-
 
 # --------------------------------------------------------------------------------
 # Misc. Utilities
 # --------------------------------------------------------------------------------
-echoerr()
-{
-    printf "%s\n" "$*" >&2
-}
+
 
 function reload()
 {
+    local rcFile="${HOME}/.bashrc"
+
+    # Sometimes I accidentally write 'exit' instead of 'return' in bash functions.
+    # When that function is called, it kills my bash session.
+    # As a safety check, we need to lint all files sourced so that no functions can exit.
+    # TODO: lint all sourced files. For now we only lint this file. I don't declare any functions elsewhere anyways.
+    # TODO: we could make a standalone bash linter out of this part. Not to replace a general linter like 'shellcheck', but to look for user specific things, like this exit problem
+    #               grep for 'source', whole words only             | remove leading spaces       |remove commented lines| remove trailing comments      | remove leading 'source' and whitespace
+    sourcedFiles="$( /bin/grep --color=never -w 'source' "${rcFile}" |  sed -e 's/^[[:space:]]*//' | /bin/grep -vE '^#' | sed -e 's/[[:space:]]\?#.*//' | sed -e 's/source[[:space:]]\?//' )"
+    # Oh fk we need to evaluate variables in sourced file paths (which implies we need to find the variable definition)
+
+    # Loop over sourced files
+    # readarray -t filesArray <<<"${sourcedFiles}"
+    # while [[ "${filesArray[#]}" -ne '0' ]]; do
+    #     # TODO: finish
+    # done
+
     # TODO: can we first unsource/clear everything? (be careful when clearing env vars. Maybe don't clear them)
     #shellcheck source=./bash/bashrc
-    source "${HOME}/.bashrc"
+    source "${rcFile}"
     fixPathBloat
 }
 
@@ -63,16 +115,19 @@ function tally()
     #   -n<int> start on some number
 }
 
-# Override which to search aliases and functions
+# 
 function which()
 {
+    # TODO: take a look at appros and whereis
+    # TODO: the is a bug in recursive alias lookup
     # TODO: look into bash's command hashing
+    local DOCSTRING=("This function overrides 'which' and 'type' to search aliases, builtins, executables, and functions on the \$PATH"
+                     "Usage:"
+                     "    which <query>")
 
-    # Must be called with an argument
     if [[ "${#}" -eq 0 ]]; then
-        # TODO: make a function that prints to stderr. Call that function here and other places for readability
-        echo "Error, no argument provided."  1>&2 # Echo to stderr
-        return 1
+        errprint "${DOCSTRING[@]}"
+        return 0
     fi
 
     local query="${1}"
@@ -81,8 +136,7 @@ function which()
 
     # Args 2 and 3 are for recursion. Can't have only two args. Only 1 or 3 args are acceptable
     if [[ "${#}" -eq 2 ]]; then
-        # TODO: make a function that prints to stderr. Call that function here and other places for readability
-        echo "Error, invalid number of args."  1>&2 # Echo to stderr
+        errprint "Error, invalid number of args."
         return 1
     else
         recursionCheck="${2}"
@@ -165,15 +219,39 @@ function which()
                 ;;
 
             function)
-                # Display file with function deceleration
-                shopt -s extdebug # turn on to allow declare to show file name and line number
-                info=$(declare -Ff "${query}")
-                shopt -u extdebug # turn back off
-                fileName=$(echo "$info" | cut -f3 -d' ')
-                lineNum=$(echo "$info" | cut -f2 -d' ')
+                # Not going to lie, this is going to get wacky. Ready? Here goes:
+                # Each function's documentation is defined by a variable (local to the function) called 'DOCSTRING'.
+                # We read the function's definition (declare -f $query), and search for the line that declares the DOCSTRING.
+                # Note: 'declare' automatically merges multiline lines into one line. This saves us the work of having to determine where the DOCSTRING ends.
+                # The line we grep for contains the entire definition 'local DOCSTRING="foo bar...";'
+                # If we find a DOCSTRING, we can pull it into our local scope by 'eval'-ing the output of our grep filter.
+                # As soon as we leave the scope containing the 'eval', we blow away the DOCSTRING thanks to the 'local' keyword.
+
+                # First, the initial type print out
                 echo -n "${recursionIndent}"
                 printBlue "${indent}function "
-                echo "${query}() is defined in ${fileName}:${lineNum}"
+                echo -n "${query}()"
+
+                # Make the check, and assign the output
+                if docstringDeclerationLine="$(declare -f "${query}" | /bin/grep -m1 'local DOCSTRING')"; then
+                    # Add the DOCSTRING to the local scope by 'eval'-ing as is.
+                    eval "${docstringDeclerationLine}"
+                    # And print. We need printf and 'DOCSTRING[@]' (as opposed to 'DOCSTRING[*]') to print multiline
+                    echo ''
+                    echo -n "${recursionIndent}${indent}"
+                    echo '{' # This brace was almost invisible in the line above, so I've put it on its own line
+                    printf "${recursionIndent}${indent}${indent}%s\n" "${DOCSTRING[@]}"
+                    echo -n "${recursionIndent}${indent}"
+                    echo '}' # This brace was almost invisible in the line above, so I've put it on its own line
+                else
+                    # No DOCSTRING found. Just display the name of the file that contains the function deceleration
+                    shopt -s extdebug # turn on to allow declare to show file name and line number
+                    info=$(declare -Ff "${query}")
+                    shopt -u extdebug # turn back off # TODO: we should check the state of this shopt setting first. Then only turn off if it was off to begin with
+                    fileName=$(echo "$info" | cut -f3 -d' ')
+                    lineNum=$(echo "$info" | cut -f2 -d' ')
+                    echo " is defined in ${fileName}:${lineNum}"
+                fi
                 ;;
 
             builtin)
@@ -243,7 +321,7 @@ function path()
             if [[ -d "${inputDir}" ]]; then
                 export PATH="${PATH}:${inputDir}"
             else
-                echoerr "Error, '${inputDir}' is not a directory."
+                errprint "Error, '${inputDir}' is not a directory."
                 return 1
             fi
             ;;
@@ -255,13 +333,13 @@ function path()
                 local tmp="${PATH/${inputDir}}"
                 export PATH="${tmp/::/:}" # Remove possible double colon
             else
-                echoerr "Error, '${inputDir}' was not on the path."
+                errprint "Error, '${inputDir}' was not on the path."
                 return 1
             fi
             ;;
 
         *) # Default case; unknown argument
-            echoerr "Error, unknown argument '${arg}'."
+            errprint "Error, unknown argument '${arg}'."
             return 1
             ;;
 
@@ -270,7 +348,7 @@ function path()
     done
 
     if [[ "${SORT}" -eq 1 && "${TREE}" -eq 1 ]]; then
-        echoerr "Error, 'sort' and 'tree' options are mutually exclusive."
+        errprint "Error, 'sort' and 'tree' options are mutually exclusive."
         return 1
     fi
 
@@ -388,8 +466,41 @@ alias extract='uz'
 
 function diff()
 {
-    # Use git's colored diff
+    local DOCSTRING="Use git's colored diff"
+    if [[ "$#" -eq 0 ]]; then
+        errprint "${DOCSTRING[@]}"
+        return 0
+    fi
     git diff --no-index --color-words "$@"
+}
+
+function symlink()
+{
+    # TODO: add a docstring to each function. The 'which' function should print these when a function is found.
+    # TODO: and we should save a database of all docstrings. Then the which function can just read the database.
+    #    The 'reload' function could update the database
+    local DOCSTRING=("This is a wrapper for 'ln -s' that automatically fills in absolute paths."
+                     "Usage:"
+                     "    simlink  <take this>  <make link here>")
+
+    # Parse inputs
+    if [[ "$#" -eq 0 ]]; then
+        errprint "${DOCSTRING[@]}"
+        return 0
+    fi
+    sourcePath="$(realpath "$1")"
+    targetPath=$(realpath "$2")
+
+    # Verify source file exists
+    builtin test -e "${sourcePath}" || { errprint "Error, '${sourcePath}' DNE"; return -1; }
+
+    # # Verify target's parent dir exists
+    # targetDir="$(realpath "$(dirname "${targetPath}")")"
+    # builtin test -e "$targetDirr" || errprint ""; return -2; }
+    
+    # # Link
+    # ln -s "${sourcePath}" "${targetPath}"
+    # return "$?"
 }
 
 
@@ -404,6 +515,16 @@ function diff()
 alias math='set -o noglob; math'
 function math()
 {
+
+    local DOCSTRING=("This is a wrapper for 'ln -s' that automatically fills in absolute paths."
+                     "Usage:"
+                     "    simlink  <take this>  <make link here>")
+
+    if [[ "$#" -eq 0 ]]; then
+        errprint "${DOCSTRING[@]}"
+        return 0
+    fi
+
     # Evaluate expressions using the 'bc' utility
     echo "${@}" | bc
     
@@ -469,10 +590,10 @@ back() # TODO: look into $OLDPWD
 }
 
 # Show directory command "back" will take us to 
-back?()
-{
-    ind echo "Last visited dir: $PREVIOUS_DIR  (use cmd 'back' to jump here)"
-}
+# back?()
+# {
+#     ind echo "Last visited dir: $PREVIOUS_DIR  (use cmd 'back' to jump here)"
+# }
 
 # "Drop a pin" to remember this dir for later # TODO: come up with a way to save/get to multiple locations
 # TODO: look into pushd, popd, and dirs. These probably already do what I'm looking for
@@ -483,10 +604,10 @@ dropPin()
         ind echo "${SAVE_THIS_DIR} saved"
 }
 
-pin?() # Show pinned locations # TODO: add support for multiple pins
-{
-        ind echo "Pinned dirs: ${SAVE_THIS_DIR}"
-}
+# pin?() # Show pinned locations # TODO: add support for multiple pins
+# {
+#         ind echo "Pinned dirs: ${SAVE_THIS_DIR}"
+# }
 
 goToPin()
 {
@@ -511,14 +632,14 @@ helper_lsAfterCD()
     
 }
 
-?() # TODO: come up with a better name for this function. Use '?' as the name of a new function that displays a quick snapshot of intresting stuff
-#               such as host name, network name, storage stuff, cpu usage and stuff like that
-{
-    # Display current directory, last used directory, and any pinned directories
-    ind echo "Current dir: $(pwd)"
-    'back?' # back ticks to allow a question mark in a command name
-    'pin?'
-}
+# ?() # TODO: come up with a better name for this function. Use '?' as the name of a new function that displays a quick snapshot of intresting stuff
+# #               such as host name, network name, storage stuff, cpu usage and stuff like that
+# {
+#     # Display current directory, last used directory, and any pinned directories
+#     ind echo "Current dir: $(pwd)"
+#     'back?' # back ticks to allow a question mark in a command name
+#     'pin?'
+# }
 
 
 # --------------------------------------------------------------------------------
@@ -852,4 +973,3 @@ gitPromptInfo()
 
     fi
 }
-

@@ -70,6 +70,12 @@ function gcm()
 function reload()
 {
     local rcFile="${HOME}/.bashrc"
+    local DOCSTRING=("Re-source user's bashrc file. Useful when making changes to it or any files sourced by it")
+
+    if [[ "$#" -ne 0 ]]; then
+        errprint "${DOCSTRING[@]}"
+        return 0
+    fi
 
     # Sometimes I accidentally write 'exit' instead of 'return' in bash functions.
     # When that function is called, it kills my bash session.
@@ -151,7 +157,7 @@ function which()
             return 0
         else
             # Otherwise query doesn't exist
-            echo "'${query}' is not an alias, builtin, executable, keyword or function on the path."
+            echo "${recursionIndent}'${query}' is not an alias, builtin, executable, keyword or function on the path."
             return 1
         fi
     fi
@@ -183,8 +189,7 @@ function which()
                 echo "${query}=${target}"
 
                 # Recursively check what the target is aliased to
-                newQueryNotFixed="${target:1:${#target}-2}" # ${target} is encased in single quotes that we must remove
-                newQuery="${newQueryNotFixed/*;/}" # HACK: Remove any chars before ';'. Partial bulletproofing for multi-word aliases
+                newQuery="${target:1:${#target}-2}" # ${target} is encased in single quotes that we must remove
 
                 # Check for a loop where a -> b -> c -> a. This should never happen in real life
                 # TODO: This check will fail if $newquery is a substring of any command in $recursionCheck
@@ -204,12 +209,18 @@ function which()
                     fi
                     recursionIndent+='    ' # If you ever change this be sure to change the decrement level as well!
                     
-                    # Replace any '|' with spaces. This way, '|' becomes a part separator and isn't parsed itself
+                    # Replace any '|' or ';' with spaces. This way, these chars become a part separator and aren't
+                    newQuery="${newQuery//;/' '}"
                     newQuery="${newQuery//\|/' '}"
 
                     # Recursively check each part
                     readarray -t newQueryArray <<<"${newQuery// /$'\n'}"
                     for q in "${newQueryArray[@]}"; do
+
+                        # Skip any empty strings
+                        if [[ -z "${q}" || "${q}" == ' ' ]]; then
+                            continue
+                        fi
 
                         # Skip any parts starting with a dash. 'type' tries to read these as flags
                         if [[ "${q:0:1}" == '-' ]]; then
@@ -244,9 +255,10 @@ function which()
                 echo -n "${query}()"
 
                 # Next, grab some basic info about the query
+                extdebugInitialState="$(shopt -p extdebug)" # Save the initial state of shopt setting
                 shopt -s extdebug # turn on to allow declare to show file name and line number
                 info=$(declare -Ff "${query}")
-                shopt -u extdebug # turn back off # TODO: we should check the state of this shopt setting first. Then only turn off if it was off to begin with
+                eval "${extdebugInitialState}" # Revert shopt setting back to initial state
                 fileName=$(echo "$info" | cut -f3 -d' ')
                 lineNum=$(echo "$info" | cut -f2 -d' ')
 
@@ -538,9 +550,15 @@ alias math='set -o noglob; math'
 function math()
 {
 
-    local DOCSTRING=("This is a wrapper for 'ln -s' that automatically fills in absolute paths."
+    local DOCSTRING=("Evaluate mathematical operations"
+                     ""
                      "Usage:"
-                     "    simlink  <take this>  <make link here>")
+                     "    math <expression>"
+                     ""
+                     "Caveats:"
+                     "    Parenthesis need to be escaped or quoted."
+                     "    math \(1+1\)*2"
+                     "    math '(1+1)*2'")
 
     if [[ "$#" -eq 0 ]]; then
         errprint "${DOCSTRING[@]}"

@@ -115,11 +115,10 @@ function tally()
     #   -n<int> start on some number
 }
 
-# 
 function which()
 {
+    # TODO: save this as a standalone script. Have some fun and call it 'witch'
     # TODO: take a look at appros and whereis
-    # TODO: the is a bug in recursive alias lookup
     # TODO: look into bash's command hashing
     local DOCSTRING=("This function overrides 'which' and 'type' to search aliases, builtins, executables, and functions on the \$PATH"
                      "Usage:"
@@ -185,8 +184,7 @@ function which()
 
                 # Recursively check what the target is aliased to
                 newQueryNotFixed="${target:1:${#target}-2}" # ${target} is encased in single quotes that we must remove
-                newQueryWithPossibleSpace="${newQueryNotFixed/*;/}" # HACK: Remove any chars before ';'. Partial bulletproofing for multi-word aliases
-                newQuery="${newQueryWithPossibleSpace/ /}" # Remove space
+                newQuery="${newQueryNotFixed/*;/}" # HACK: Remove any chars before ';'. Partial bulletproofing for multi-word aliases
 
                 # Check for a loop where a -> b -> c -> a. This should never happen in real life
                 # TODO: This check will fail if $newquery is a substring of any command in $recursionCheck
@@ -195,7 +193,7 @@ function which()
                     printYellow "    WARNING:"
                     echo " circular alias or aliased to something of the same name:"
                     echo -n "${recursionIndent}"
-                    echo "    ${recursionCheck//:/ -> } -> ${newQuery}" # print a -> b -> c -> a
+                    echo "    '${recursionCheck//:/\' -> \'}' -> '${newQuery}'" # print 'a' -> 'b' -> 'c' -> 'a'
                     echo ''
                 else
                     # Append to the list that keeps track of the alias chain
@@ -204,10 +202,30 @@ function which()
                     else
                         recursionCheck="${recursionCheck}:${newQuery}"
                     fi
-                    recursionIndent+='    ' # If this changes, be sure to change the decrement too!
+                    recursionIndent+='    ' # If you ever change this be sure to change the decrement level as well!
                     
-                    # Recursively make the check
-                    which "${newQuery/ /}" "${recursionCheck}" "${recursionIndent}" # Remove whitespace from first arg 
+                    # Replace any '|' with spaces. This way, '|' becomes a part separator and isn't parsed itself
+                    newQuery="${newQuery//\|/' '}"
+
+                    # Recursively check each part
+                    readarray -t newQueryArray <<<"${newQuery// /$'\n'}"
+                    for q in "${newQueryArray[@]}"; do
+
+                        # Skip any parts starting with a dash. 'type' tries to read these as flags
+                        if [[ "${q:0:1}" == '-' ]]; then
+                            continue
+                        fi
+
+                        # Stop a false positive circular dependency check that occurred when
+                        #    alias a="x --flag a" and we parse the 'a' at the end
+                        if [[ "${q}" == "${query}" ]]; then
+                            continue
+                        fi
+
+                        which "${q}" "${recursionCheck}" "${recursionIndent}" # Remove whitespace from first arg 
+                    done
+
+                   
                 fi
                 # Reset the variables that keep track of recursion
                     recursionCheck=''
@@ -286,6 +304,7 @@ function which()
 
     done
 }
+alias witch='which'
 
 # Override 'test' to print exit status. No more 'test <expression>; echo $?'
 function test()

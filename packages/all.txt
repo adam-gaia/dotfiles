@@ -38,6 +38,8 @@ rclone
 octave
 #xclip # Mac equivalent is `pbcopy` or something
 
+grc # colorizer
+
 # Bash line editor
 ble.sh
 

@@ -167,7 +167,7 @@ export LESS_TERMCAP_ue=$'\e[0m'
 # Colorify commands - I think this was taken from Brew's color aliases
 # TODO: color functions should have a newline flag
 # ---------------------------------------------------------------------------------
-if [[ "$(command -v grc)" ]]; then # TODO add more checks for commands before using them
+if [[ "$(command -v grc)" ]]; then # TODO add more checks for commands before using them. And add 'grc' to packges to install
     alias colorify="grc -es --colour=auto"
     alias blkid='colorify blkid'
     alias configure='colorify ./configure'

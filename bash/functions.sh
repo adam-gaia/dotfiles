@@ -176,6 +176,7 @@ function which()
         case "${t}" in
 
             alias)
+                # TODO: can we find where aliases are defined? - like how we show where functions are defined
                 # Grab and display what $query is aliased to
                 target=$(alias "${query}" | sed "s/alias ${query}=//g") # wont work with back ticks
                 echo -n "${recursionIndent}"
@@ -219,37 +220,39 @@ function which()
                 ;;
 
             function)
-                # Not going to lie, this is going to get wacky. Ready? Here goes:
-                # Each function's documentation is defined by a variable (local to the function) called 'DOCSTRING'.
-                # We read the function's definition (declare -f $query), and search for the line that declares the DOCSTRING.
-                # Note: 'declare' automatically merges multiline lines into one line. This saves us the work of having to determine where the DOCSTRING ends.
-                # The line we grep for contains the entire definition 'local DOCSTRING="foo bar...";'
-                # If we find a DOCSTRING, we can pull it into our local scope by 'eval'-ing the output of our grep filter.
-                # As soon as we leave the scope containing the 'eval', we blow away the DOCSTRING thanks to the 'local' keyword.
-
                 # First, the initial type print out
                 echo -n "${recursionIndent}"
                 printBlue "${indent}function "
                 echo -n "${query}()"
 
-                # Make the check, and assign the output
+                # Next, grab some basic info about the query
+                shopt -s extdebug # turn on to allow declare to show file name and line number
+                info=$(declare -Ff "${query}")
+                shopt -u extdebug # turn back off # TODO: we should check the state of this shopt setting first. Then only turn off if it was off to begin with
+                fileName=$(echo "$info" | cut -f3 -d' ')
+                lineNum=$(echo "$info" | cut -f2 -d' ')
+
+                # Not going to lie, this is about to get wacky. Ready? Here goes:
+                # Each function's documentation is defined by a variable (local to the function) called 'DOCSTRING'.
+                # We read the function's definition (declare -f $query), and search for the line that declares the DOCSTRING.
+                # Note: 'declare' automatically merges multiline lines into one line. This saves us the work of having to determine where the DOCSTRING ends.
+                # The line we grep for contains the entire definition 'local DOCSTRING="foo bar...";'
+                # If we find a DOCSTRING, we can pull it into our local scope by 'eval'-ing the output of our grep filter.
+                # As soon as we leave the scope containing the 'eval', we blow away the DOCSTRING thanks to the 'local' keyword.        
                 if docstringDeclerationLine="$(declare -f "${query}" | /bin/grep -m1 'local DOCSTRING')"; then
+                    # Print the file name + line num
+                    echo ":${fileName}:${lineNum}"
                     # Add the DOCSTRING to the local scope by 'eval'-ing as is.
                     eval "${docstringDeclerationLine}"
                     # And print. We need printf and 'DOCSTRING[@]' (as opposed to 'DOCSTRING[*]') to print multiline
-                    echo ''
                     echo -n "${recursionIndent}${indent}"
                     echo '{' # This brace was almost invisible in the line above, so I've put it on its own line
                     printf "${recursionIndent}${indent}${indent}%s\n" "${DOCSTRING[@]}"
                     echo -n "${recursionIndent}${indent}"
                     echo '}' # This brace was almost invisible in the line above, so I've put it on its own line
                 else
-                    # No DOCSTRING found. Just display the name of the file that contains the function deceleration
-                    shopt -s extdebug # turn on to allow declare to show file name and line number
-                    info=$(declare -Ff "${query}")
-                    shopt -u extdebug # turn back off # TODO: we should check the state of this shopt setting first. Then only turn off if it was off to begin with
-                    fileName=$(echo "$info" | cut -f3 -d' ')
-                    lineNum=$(echo "$info" | cut -f2 -d' ')
+                    # This function does not have a DOCSTRING
+                    # Display only the name of the file that contains the function deceleration
                     echo " is defined in ${fileName}:${lineNum}"
                 fi
                 ;;

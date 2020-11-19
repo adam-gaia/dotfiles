@@ -92,6 +92,9 @@ deploy "${DOTFILEDIR}/git/gitignore_global" "${HOME}/.gitignore_global"
 # Tell git to use my global git hooks
 git config --global core.hooksPath "${DOTFILEDIR}/git/githooks_global"
 
+# Python
+deploy "${DOTFILEDIR}/pythonrc" "${HOME}/.pythonrc"
+
 # Pylint
 deploy "${DOTFILEDIR}/pylintrc" "${HOME}/.pylintrc"
 

@@ -2,6 +2,10 @@
 
 # TODO: get conda + python sorted out
 
+# Python start up file
+export PYTHONSTARTUP="${HOME}/.pythonrc"
+
+
 # Easy access to Anaconda python
 alias myAnacondaDont="/Users/adamgaia/anaconda3/bin/python"
 

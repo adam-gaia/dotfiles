@@ -96,6 +96,7 @@ function reload()
     #shellcheck source=./bash/bashrc
     source "${rcFile}"
     fixPathBloat
+    clear
 }
 
 function reloadInputrc()

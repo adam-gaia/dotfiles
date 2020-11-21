@@ -3,7 +3,7 @@
 # TODO: get conda + python sorted out
 
 # Python start up file
-export PYTHONSTARTUP="${HOME}/.pythonrc"
+export PYTHONSTARTUP="${HOME}/.pythonrc.py"
 
 
 # Easy access to Anaconda python

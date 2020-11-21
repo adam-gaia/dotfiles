@@ -93,7 +93,7 @@ deploy "${DOTFILEDIR}/git/gitignore_global" "${HOME}/.gitignore_global"
 git config --global core.hooksPath "${DOTFILEDIR}/git/githooks_global"
 
 # Python
-deploy "${DOTFILEDIR}/pythonrc" "${HOME}/.pythonrc"
+deploy "${DOTFILEDIR}/pythonrc.py" "${HOME}/.pythonrc.py"
 
 # Pylint
 deploy "${DOTFILEDIR}/pylintrc" "${HOME}/.pylintrc"
@@ -102,7 +102,7 @@ deploy "${DOTFILEDIR}/pylintrc" "${HOME}/.pylintrc"
 deploy "${DOTFILEDIR}/sqliterc" "${HOME}/.sqliterc"
 
 # Sublime Text 3 - TODO: if mac, use mac settings path
-sublimeDir='/home/sarcos/.config/sublime-text-3/Packages/User'
+sublimeDir='${HOME}/.config/sublime-text-3/Packages/User'
 mkdir -p "${sublimeDir}"
 deploy "${DOTFILEDIR}/sublime-text-3" "${sublimeDir}/Preferences.sublime-settings"
 

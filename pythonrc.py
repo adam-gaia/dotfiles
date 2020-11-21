@@ -20,12 +20,17 @@ class Colors:
 class Prompt:
     def __str__(self):
         import os
+        import subprocess
         userWithoutColor = os.getenv("USER")
         user = "{}{}{}".format(Colors.GREEN, userWithoutColor, Colors.ENDC)
         pwd = "{}{}{}".format(Colors.BLUE, os.getcwd().replace("/home/{}".format(userWithoutColor), '~'), Colors.ENDC)
         machine = "{}{}{}".format(Colors.GREEN, os.getenv("HOSTNAME"), Colors.ENDC)
         symbol = "{}>>>{} ".format(Colors.YELLOW, Colors.ENDC)
-        return "{}@{}:{}\n{}".format(user, machine, pwd, symbol)
+        
+        output = 'asdf' #subprocess.run("/bin/bash -c gitPromptInfo", shell=True).stdout
+        git = "{}{}{}".format(Colors.YELLOW, output, Colors.ENDC)
+
+        return "{}@{}:{}{}\n{}".format(user, machine, pwd, git, symbol)
 sys.ps1 = Prompt()
 
 # Exit with 'exit' or 'quit' instead of 'exit()'
@@ -48,7 +53,7 @@ clear = clear()
 readline.parse_and_bind('tab: complete')
 
 # History file
-histfile = os.path.join(os.environ['HOME'], '.pythonhistory')
+histfile = os.path.join(os.environ['HOME'], '.python_history')
 try:
     readline.read_history_file(histfile)
 except IOError:

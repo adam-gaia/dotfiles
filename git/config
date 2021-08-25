@@ -1,0 +1,56 @@
+[user]
+	name = Adam Gaia
+	username = a.gaia
+	email = a.gaia@sarcos.com
+
+[core]
+	editor = vim
+	pager = less
+	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+[credential]
+	helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
+
+[pull]
+	ff = only
+
+[init]
+	defaultBranch = main
+	templateDir = /home/sarcos/repo/dotfiles/git/git-template-dir
+
+[advice]
+	detachedHead = false
+
+[alias]
+	url = remote get-url origin
+
+[merge]
+	conflictstyle = diff3
+
+[color]
+	ui = auto
+
+[color "grep"]
+	linenumber = green
+    filename = "magenta" 
+
+[color "diff"]
+  meta = white
+  frag = magenta
+  new = green
+
+[color "status"]
+  added = green
+  changed = yellow
+  untracked = red
+
+[diff "bin"]
+    # Use `hexdump` to diff binary files.
+	# From https://github.com/alrra/dotfiles/blob/main/src/git/gitconfig
+    textconv = hexdump --canonical --no-squeezing

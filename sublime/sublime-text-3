@@ -1,0 +1,28 @@
+{
+	"added_words":
+	[
+		"implimnet",
+		"Gaia",
+		"Debian",
+		"Sarcos",
+		"enviroment"
+	],
+	"detect_indentation": true,
+	"dictionary": "Packages/Language - English/en_US.dic",
+	"font_size": 17,
+	"ignored_packages":
+	[
+		"Vintage"
+	],
+	"ignored_words":
+	[
+		"gaia",
+		"hostname",
+		"sarcos"
+	],
+	"save_on_focus_lost": true,
+	"spell_check": true,
+	"tab_size": 4,
+	"translate_tabs_to_spaces": true,
+	"use_tab_stops": true
+}

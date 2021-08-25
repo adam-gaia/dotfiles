@@ -1,0 +1,108 @@
+---
+bash:
+  - src: bashrc
+    links:
+      - ${HOME}/.bashrc
+  - src: bash_profile
+    links: 
+      - ${HOME}/.bash_profile
+
+  # readline line editor
+  - src: inputrc
+    links: 
+      - ${HOME}/.inputrc
+
+bat:
+  - src: bat.conf
+    links:
+      - ${CONFIG_DIR}/bat/bat.conf
+
+zsh:
+  - src: zshrc
+    links: 
+      - ${HOME}/.zshrc
+  - src: zenv
+    links:
+      - ${CONFIG_DIR}/zsh/zenv
+  - src: aliases.zsh
+    links: 
+      - ${CONFIG_DIR}/zsh/aliases.zsh
+      - ${CONFIG_DIR}/bash/aliases.sh
+  - src: functions.zsh
+    links: 
+      - ${CONFIG_DIR}/zsh/functions.zsh
+      - ${CONFIG_DIR}/bash/functions.sh
+
+starship:
+  - src: starship.toml
+    links: 
+      - ${CONFIG_DIR}/starship.toml
+
+alacritty:
+  - src: alacritty.yml
+    links: 
+      - ${HOME}/.alacritty.yml
+
+ssh:
+  - src: config
+    links: 
+      - ${HOME}/.ssh/config
+
+neovim:
+  - src: init.vim
+    links: 
+      - ${HOME}/.vimrc
+      - ${CONFIG_DIR}/nvim/init.vim
+
+tmux:
+  - src: tmux.conf
+    links: 
+      - ${HOME}/.tmux.conf
+
+git:
+  - src: config
+    links: 
+      - ${CONFIG_DIR}/git/config
+  - src: ignore
+    links: 
+      - ${CONFIG_DIR}/git/ignore
+
+python:
+  - src: pythonrc.py
+    links: 
+      - ${HOME}/.pythonrc.py
+
+pylint:
+  - src: pylintrc
+    links: 
+      - ${HOME}/.pylintrc
+
+pywal:
+  - src: modified_monokai.json
+    links:
+      - ${CONFIG_DIR}/pywal/modified_monokai.json
+
+flake8:
+  - src: flake8
+    links:
+    - ${HOME}/.flake8
+
+sqlite:
+  - src: sqliterc
+    links: 
+      - ${HOME}/.sqliterc
+
+sublime: # TODO: if mac use mac settings path
+  - src: sublime-text-3
+    links: 
+      - ${CONFIG_DIR}/sublime-text-3/Packages/User/Preferences.sublime-settings
+
+vs-code:
+  - src: settings.json
+    links: 
+      - ${CONFIG_DIR}/Code/User/settings.json
+
+gdb:
+  - src: gdbinit
+    links: 
+      - ${HOME}/.gdbinit

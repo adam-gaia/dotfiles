@@ -1,0 +1,132 @@
+# zsh config file
+
+
+# --------------------------------------------------
+# Directory setup
+# --------------------------------------------------
+CONFIG_DIR="${HOME}/.config"
+CACHE_DIR="${HOME}/.cache"
+
+
+# --------------------------------------------------
+# History
+# --------------------------------------------------
+HISTFILE="${CACHE_DIR}/zsh/history"
+HISTSIZE=100000
+SAVEHIST=100000
+
+
+# --------------------------------------------------
+# Shell & term options
+# --------------------------------------------------
+# Disable ctrl-s freezes terminal
+stty stop undef
+
+setopt autocd nomatch
+unsetopt beep notify
+
+# Vim
+bindkey -v
+
+
+
+
+# --------------------------------------------------
+# Colors
+# --------------------------------------------------
+
+# Heads up: Colors are mapped to the Pywal Monokai scheme
+# TODO: checkout color heading from https://github.com/dylanaraps/pure-sh-bible#get-the-directory-name-of-a-file-path
+export RED='\033[31m'
+export GREEN='\033[32m'
+export YELLOW='\033[33m'
+export BLUE='\033[34m'
+export BLACK='\033[90m'
+export PURPLE='\033[35m'
+export CYAN='\033[35m'
+export NO_COLOR='\033[m'
+export UNDERLINE_ON='\033[4m'
+export UNDERLINE_OFF='\033[24m'
+export BOLD_ON='\033[1m'
+export BOLD_OFF='\033[21m'
+
+# Set less colors
+export LESS_TERMCAP_mb=$'\e[1;32m'
+export LESS_TERMCAP_md=$'\e[1;34m'
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[01;33m'
+export LESS_TERMCAP_us=$'\e[1;4;31m'
+export LESS_TERMCAP_ue=$'\e[0m'
+# Bug: exporting 'LESS_TERMCAP_us' last with 'set -x' makes all set -x output print red
+
+
+# Set monokai theme. Run in background because it can hang - TODO
+# Pywal cursor color may not show. Fix here: https://github.com/dylanaraps/pywal/issues/382 # TODO Automate the fix with sed or something # Note, we now use pywal in a docker container $DOTFILEDIR/pywal. Make the change in there
+timeout 2 wal -q --theme ${CONFIG_DIR}/pywal/modified_monokai.json &
+# reset_to_monokai_color_theme
+# # Associate .dircolors_Monokai file with the dircolors utility
+# eval "$(dircolors "${DOTFILEDIR}/bash/colors/dircolors_Monokai")"
+
+
+# --------------------------------------------------
+# Source extenal files
+# --------------------------------------------------
+source ${CONFIG_DIR}/zsh/functions.zsh
+source ${CONFIG_DIR}/zsh/aliases.zsh
+
+
+source ${HOME}/.cargo/env
+
+
+# --------------------------------------------------
+# Pager & Editor
+# --------------------------------------------------
+export PAGER="less" # Set less as the default pager (like when reading man pages)
+# Tmux 'set -g mouse on' broke scrolling in less (see https://github.com/tmux/tmux/issues/1320#issuecomment-570769984)
+# '-R' interprets terminal color escape codes, '-F' quits if content is less than 1 page
+export LESS='-RF --mouse --wheel-lines=5'
+export EDITOR='vim' # Default editor
+
+
+
+# TODO: sort and comment the rest
+
+zstyle :compinstall filename "${HOME}/.zshrc"
+
+autoload -Uz compinit
+compinit
+
+
+# Install antibody (plugin manager)
+# curl -sfL git.io/antibody | sh -s - -b /usr/local/bin
+# Source antibody plugins
+source <(antibody init)
+antibody bundle zsh-users/zsh-autosuggestions
+antibody bundle zsh-users/zsh-syntax-highlighting
+antibody bundle zsh-users/zsh-completions
+
+
+# Suggestion strategies
+export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+
+
+# History search with up and down arrows
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+
+
+
+
+# --------------------------------------------------------------------------------
+# Misc
+# --------------------------------------------------------------------------------
+fortune | cowsay
+export RIPGREP_CONFIG_PATH="${CONFIG_DIR}/ripgrep/config"
+export PYTHONSTARTUP="${CONFIG_DIR}/python/pythonrc.py"
+export BAT_CONFIG_PATH="${CONFIG_DIR}/bat/bat.conf"
+
+
+# Starship prompt
+eval "$(starship init zsh)"

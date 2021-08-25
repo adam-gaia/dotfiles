@@ -24,7 +24,6 @@
 #source "${SBP_PATH}/sbp.bash" # TODO: wtf is 'sbp'? # Edit ohhhh its that nice bash prompt library
 
 
-
 # --------------------------------------------------------------------------------
 # OS specific config
 # --------------------------------------------------------------------------------
@@ -37,28 +36,41 @@ case "${OSTYPE}" in
     'linux-gnu'*)
         export DOTFILEDIR="/home/${USER}/repo/dotfiles"
         # shellcheck source=bash/OS/linux.sh
-        source "${DOTFILEDIR}/bash/OS/linux.sh"
         ;;
     *)
         echo "Unknown OS type, defaulting to Linux setup"
         export DOTFILEDIR="/home/${USER}/repo/dotfiles"
         # shellcheck source=bash/OS/linux.sh
-        source "${DOTFILEDIR}/bash/OS/linux.sh"
         ;;
 esac
+
+
+# --------------------------------------------------------------------------------
+# Back up file settings
+# --------------------------------------------------------------------------------
+export TRASHCAN="${HOME}/.trash"
+# See `man mv` for VERSION_CONTROL and SIMPLE_BACKUP_SUFFIX
+export VERSION_CONTROL='existing'
+export SIMPLE_BACKUP_SUFFIX='.backup'
+export CACHE_DIR="${HOME}/.cache"
+export CONFIG_DIR="${HOME}/.config"
+
 
 # --------------------------------------------------------------------------------
 # Path
 # --------------------------------------------------------------------------------
+# My scripts
+export PATH="${HOME}/repo/scripts:${PATH}"
+# System bins
+export PATH="${PATH}:/sbin:/usr/sbin"
 # Rust Cargo
 export PATH="${HOME}/.cargo/bin:$PATH"
 # Golang
-export PATH="${PATH}:/usr/local/go/bin"
-export PATH="${PATH}:${HOME}/go/bin"
+export PATH="${PATH}:/usr/local/go/bin:${HOME}/go/bin"
 # Add current directory to the end of the path
 export PATH="${PATH}:."
 # Brew
-eval $(brew shellenv)
+eval "$(brew shellenv)"
 
 # Man path
 export MANPATH="${MANPATH}:${HOME}/manuals"
@@ -67,6 +79,16 @@ export MANPATH="${MANPATH}:${HOME}/manuals"
 # --------------------------------------------------------------------------------
 # Source external files
 # --------------------------------------------------------------------------------
+
+# Bash completion in interactive shells
+if ! shopt -oq posix; then
+   if [ -f /usr/share/bash-completion/bash_completion ]; then
+       source /usr/share/bash-completion/bash_completion
+   elif [ -f /etc/bash_completion ]; then
+       source /etc/bash_completion
+   fi
+fi
+
 #TODO: always source aliases first or remove anything that is an alias from bash_functions
 # shellcheck source=bash/aliases.sh
 source "${DOTFILEDIR}/bash/aliases.sh"
@@ -74,14 +96,8 @@ source "${DOTFILEDIR}/bash/aliases.sh"
 source "${DOTFILEDIR}/bash/functions.sh"
 # shellcheck source=bash/python.sh
 source "${DOTFILEDIR}/bash/python.sh" # Python paths
-
-
-# --------------------------------------------------------------------------------
-# Bash Line Editor (https://github.com/akinomyoga/ble.sh)
-#    Note: I installed this with my own homebrew formula with brew bundle. Brew bundle forces lower-case formula names
-# --------------------------------------------------------------------------------
-bashLineEditor="${HOMEBREW_PREFIX}/opt/bashlineeditor/bin/out/ble.sh"
-#[[ "${-}" == *i* && -f "${bashLineEditor}" ]] && source "${bashLineEditor}" --noattach
+# shellcheck source=/dev/null
+source "$HOME/.cargo/env" # Rust cargo
 
 
 # --------------------------------------------------------------------------------
@@ -108,22 +124,26 @@ fi
 # Pager & Editor
 # --------------------------------------------------
 export PAGER="less" # Set less as the default pager (like when reading man pages)
+# Tmux 'set -g mouse on' broke scrolling in less (see https://github.com/tmux/tmux/issues/1320#issuecomment-570769984)
+# '-R' interprets terminal color escape codes, '-F' quits if content is less than 1 page
+export LESS='-RF --mouse --wheel-lines=5'
 export EDITOR='vim' # Default editor
 
 
 # --------------------------------------------------
 # History
 # --------------------------------------------------
-# Store 5000 commands in history buffer
-export HISTSIZE=5000
+# Store 10000 commands in history buffer
+export HISTSIZE=10000
 
-# Store 5000 commands in history FILE 
-export HISTFILESIZE=5000
+# Store 50000 commands in history *file* (~/.bash_history) 
+export HISTFILESIZE=50000
 
 # Avoid duplicates in history when the same command is ran multiple times in a row
 # Do not save commands prefaced by whitespace
+# Erase any duplicates in history
 # See man bash(1)
-export HISTCONTROL='ignoreboth'
+export HISTCONTROL='ignoreboth:erasedups'
 
 # Time stamp history
 export HISTTIMEFORMAT="%d/%m/%Y %T " # [histNumber] [dd/mm/yyyy hh:mm:ss] [command]
@@ -199,9 +219,10 @@ shopt -u assoc_expand_once \
 
 
 # --------------------------------------------------------------------------------
-# Very important terminal initialization stuff
+# Misc
 # --------------------------------------------------------------------------------
 fortune | cowsay
+export RIPGREP_CONFIG_PATH="${HOME}/.config/ripgrep/config"
 
 
 # --------------------------------------------------------------------------------
@@ -214,6 +235,6 @@ fi
 
 
 # --------------------------------------------------------------------------------
-# Attach Bash Line Editor (https://github.com/akinomyoga/ble.sh)
+# Starship Prompt (https://starship.rs) - THIS MUST BE LAST
 # --------------------------------------------------------------------------------
-#[[ -f "${bashLineEditor}" ]] && ((_ble_bash)) && ble-attach
+eval "$(starship init bash)"

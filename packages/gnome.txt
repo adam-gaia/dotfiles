@@ -1,2 +1,0 @@
-git://github.com/spin83/multi-monitors-add-on.git
-https://extensions.gnome.org/extension/1465/desktop-icons/

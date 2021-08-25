@@ -1,0 +1,874 @@
+#!/usr/bin/env bash
+# Bash functions
+
+# TODO: break up long lines into multi-line with '\'
+# TODO: Move comments explaining commands from above the command declaration into the command { }
+#       This way, type -a will display the comments
+# TODO: Is defining functions with 'function' better?
+# TODO: no hard paths to grep and other utilities aliased to color versions. Instead, make helper functions
+# TODO: Try to minimize using subshells. They add too much overhead
+# TODO: Use local variables inside functions
+
+
+# --------------------------------------------------------------------------------
+# DOCSTRING notes and helper functions
+# --------------------------------------------------------------------------------
+function docstring_example()
+{
+    # TODO: we should break the docstring into two: 1. a simple summary (displayed by 'which' function)
+    #            and 2. The more advanced info (not displayed by 'which' function)
+    # TODO: we could autogen some man pages from this info. Overkill for sure :D
+    # TODO: 'which' function should parse shell scripts for this info too
+    local DOCSTRING=("This is an example function to demonstrative docstring functionality."
+                     "Simply add the contents of this function to your functions."
+                     "The 'which' function will read these docstrings and print them."
+                     "I recommend adding a usage section like this:"
+                     ""
+                     "Usage:"
+                     "    docstring_example <arg1> <arg2> ..."
+                     ""
+                     "Now try running 'which docstring_example' or 'which which'."
+                     ""
+                     "Note: The docstring MUST be an array!"
+                     "If it isn't, the 'which' function will print out the last lines of its own docstring.")
+
+    if [[ "$#" -eq 0 ]]; then
+        errprint "${DOCSTRING[@]}" # Note: errprint is another function in this file
+        return 0
+    fi
+}
+
+function errprint()
+{
+     local DOCSTRING=("Print to stderr."
+                      ""
+                      "Usage:"
+                      "    errprint <message1> <message2> ..."
+                      ""
+                      "Note: each argument is printed on a new line."
+                      "Please encapsulate the entire message in quotes to print it all on a single line."
+                      "Additionally, be careful with 'errprint \${array[@]}' and 'errprint \${array[*]}'")
+
+    if [[ "$#" -eq 0 ]]; then
+        errprint "${DOCSTRING[@]}"
+        return 0
+    fi
+    # Note: The choice of '$@' instead of '$*' was intentional here.
+    # Calling 'errprint ${arrayVar[@]}' will print each index of 'arrayVar' on a new line.
+    # Our DOCSTRING functionality depends on this.
+    printf "%s\n" "$@" >&2
+}
+
+
+# --------------------------------------------------------------------------------
+# Git Shortcuts
+# --------------------------------------------------------------------------------
+function gcm()
+{
+    /usr/bin/git commit -m "${*}"
+}
+
+# --------------------------------------------------------------------------------
+# Hooks
+# --------------------------------------------------------------------------------
+function command_not_found_handle()
+{
+    if  [[ -x /usr/lib/command-not-found ]]; then
+        /usr/lib/command-not-found -- "$1" 
+        return "$?"
+    else
+        return 127
+    fi        
+}
+
+
+# --------------------------------------------------------------------------------
+# Safety Settings
+# --------------------------------------------------------------------------------
+function rm()
+{
+    local DOCSTRING=("Back up before rm'ing"
+                      ""
+                      "Usage:"
+                      "    rm <file1> <file2> ..."
+                      ""
+                      "Files are backed up to the env's \$TRASHCAN var or ~/.trash if it doesn't exist"
+                      "Use the real rm (/bin/rm) for anything more advanced"
+    )
+    if [[ "$#" -eq 0 ]]; then
+        errprint "${DOCSTRING[@]}"
+        return 0
+    fi
+
+    if [[ -z "${TRASHCAN}" ]]; then
+        export TRASHCAN="${HOME}/.trash"
+    fi
+
+    
+    if [[ ! -d "${TRASHCAN}" ]]; then
+        mkdir -p "${TRASHCAN}"
+    fi
+
+    # Parse args
+    while (( "$#" )); do
+        arg="$1"
+        case $arg in
+            -*)
+                # Ignore flags
+                ;;
+            *)
+                # mv files
+                timestamp="$(date +%d-%m-%Y_%H-%M-%S)"
+                original="${arg}"
+                new="${TRASHCAN}/$(basename "${original}")_${timestamp}"
+                echo "Moving trash can..."
+                /bin/mv --no-clobber "${original}" "${new}"
+                ;;
+        esac
+        shift
+    done
+
+}
+
+# function cp()
+# {
+#     local DOCSTRING=("cp but throws error if target exists"
+#                         ""
+#                         "Usage:"
+#                         "    cp <source> <target>"
+#                         "Use the real cp (/bin/cp) for anything more advanced"
+#     )
+#     if [[ "$#" -eq 0 ]]; then
+#         errprint "${DOCSTRING[@]}"
+#         return 0
+#     fi
+
+#     if [[ "${#}" -ne "2" ]]; then
+#         echo "Arg error"
+#         echo "${DOCSTRING}"
+#     fi
+
+#     source="${1}"
+#     target="${2}"
+
+#     realtargetpath="$(realpath "${target}")"
+#     if [[ -e "${realtargetpath}" ]]; then
+#         echo "Error, target (${realtargetpath}) exists"
+#         return 1
+#     fi
+
+#     eval "/bin/cp --no-clobber ${source} ${target}"
+# }
+
+# function mv()
+# {
+#     if [[ "${#}" -ne "2" ]]; then
+#         echo "Arg error"
+#         echo "Usage:"
+#         echo "    mv <source> <target>"
+#         "Use the real mv (/bin/mv) for anything more advanced"
+#     fi
+#     source="${1}"
+#     target="${2}"
+
+#     realtargetpath="$(realpath "${target}")"
+#     if [[ -e "${realtargetpath}" ]]; then
+#         echo "Error, target (${realtargetpath}) exists"
+#         return 1
+#     fi
+
+#     /bin/mv --no-clobber "${source}" "${target}"
+# }
+
+
+# --------------------------------------------------------------------------------
+# Color Utilities
+# --------------------------------------------------------------------------------
+function reset_to_monokai_color_theme()
+{
+    docker-compose -f "${DOTFILEDIR}/pywal/docker-compose.yaml" \
+        run pywal -q --theme "/themes/pywal_modified_monokai.json" --vte
+}
+alias monokai='reset_to_monokai_color_theme'
+
+function random_color_theme()
+{
+    docker-compose -f "${DOTFILEDIR}/pywal/docker-compose.yaml" run pywal
+}
+alias random='random_color_theme'
+
+
+# --------------------------------------------------------------------------------
+# Misc. Utilities
+# --------------------------------------------------------------------------------
+function lint()
+{
+    pre-commit run --config "${HOME}/repo/dotfiles/git/pre-commit-config.yaml" --all-files
+}
+
+# function ssh()
+# {
+#     # ssh's 'LocalCommand' allows us to run a command on the local host upon a successful ssh connection
+#     # I use it to set a pywal theme. Once the connection exits, reset the colors
+#     /usr/bin/ssh "$@" # ssh as usual
+#     echo '----------------------------------------' # TODO: make this line's length match the ssh exit message length
+#     reset_to_monokai_color_theme
+# }
+
+function cht()
+{
+    curl "cht.sh/${1}" 2> /dev/null | less --RAW-CONTROL-CHARS
+}
+
+function vpn()
+{
+    # Start vpn
+    sudo -E openfortigui --vpn-name=SarcoVPN --start-vpn
+    # Open Bob's wiki
+    #~/repo/scripts/addBobWiki.sh
+    #brave-browser-beta xo/wiki &
+}
+
+function history_share()
+{
+    local DOCSTRING=("Sync history changes of this session to with the history file")
+    if [[ "$#" -ne 0 ]]; then
+        errprint "${DOCSTRING[@]}"
+        return 1
+    fi
+    # Append history lines from this session to the history file
+    history -a
+    # Read all history lines not already read from the history file and append them to the history list
+    history -n
+}
+
+function jurl()
+{
+    local DOCSTRING=("curl <args> | jq")
+
+    if [[ "$#" -eq 0 ]]; then
+        errprint "${DOCSTRING[@]}"
+        return 0
+    fi
+    curl "$@" |jq
+}
+alias jcurl='jurl'
+
+
+function reload()
+{
+    local rcFile="${HOME}/.bashrc"
+    local DOCSTRING=("Re-source user's bashrc file. Useful when making changes to it or any files sourced by it")
+
+    if [[ "$#" -ne 0 ]]; then
+        errprint "${DOCSTRING[@]}"
+        return 0
+    fi
+
+    # Sometimes I accidentally write 'exit' instead of 'return' in bash functions.
+    # When that function is called, it kills my bash session.
+    # As a safety check, we need to lint all files sourced so that no functions can exit.
+    # TODO: lint all sourced files. For now we only lint this file. I don't declare any functions elsewhere anyways.
+    # TODO: we could make a standalone bash linter out of this part. Not to replace a general linter like 'shellcheck', but to look for user specific things, like this exit problem
+    #               grep for 'source', whole words only             | remove leading spaces       |remove commented lines| remove trailing comments      | remove leading 'source' and whitespace
+    sourcedFiles="$( /bin/grep --color=never -w 'source' "${rcFile}" |  sed -e 's/^[[:space:]]*//' | /bin/grep -vE '^#' | sed -e 's/[[:space:]]\?#.*//' | sed -e 's/source[[:space:]]\?//' )"
+    # Oh fk we need to evaluate variables in sourced file paths (which implies we need to find the variable definition)
+
+    # Loop over sourced files
+    # readarray -t filesArray <<<"${sourcedFiles}"
+    # while [[ "${filesArray[#]}" -ne '0' ]]; do
+    #     # TODO: finish
+    # done
+
+    # Sync history changes to with the history file
+    history_share
+
+    # TODO: can we first unsource/clear everything? (be careful when clearing env vars. Maybe don't clear them)
+    #shellcheck source=./bash/bashrc
+    source "${rcFile}"
+    fixPathBloat
+}
+
+function capsoff()
+{
+    setxkbmap -option ctrl:nocaps
+    # DO NOT RUN THIS: 'xdotool key Caps_Lock'
+    # There is an article suggesting that re-enables the caps lock key
+    # It turned caps lock on and couldnt be turned off. TODO: find a different way to re-enable
+}
+
+function reloadInputrc()
+{
+    # Reload readline's inputrc
+    bind -f ~/.inputrc
+}
+
+function todo()
+{
+    ind /usr/bin/git -c color.grep.linenumber="green" -c color.grep.filename="magenta" grep -inI --color "TODO\|FIXME\|HACK\|WIP" || echo "No matches" # TODO only use ggrep on mac. use grep when gnu grep is default
+}
+
+function tally()
+{
+    echo "not yet implemented"
+    # Counts keystrokes entered while running.
+    # Used to keep a tally for the user
+    # TODO: have a while read loop running.
+    #   Increment a var each iteration. Print tally when done
+    # input args:
+    #   help for help message
+    #   -n<int> start on some number
+}
+
+
+
+function spell()
+{
+    local DOCSTRING=("Spellcheck - wrapper to simplify 'aspell' and accept words as arguments"
+                     "Usage:"
+                     "    spell word1 word2 ..."
+                     ""
+                     "The return code is the number of misspelled words (or -1 for usage error)")
+
+    local NUM_SUGGESTIONS='5'
+
+    if [[ "${#}" -eq 0 ]]; then
+        errprint "${DOCSTRING[@]}"
+        return 0
+    fi
+
+    local numMispelledWords=0
+    for word in "${@}"; do
+        if [[ "${word}" == *':'* || "${word}" == *','* ]]; then
+            errprint "Error, query '${word}' contains ':' or ','"
+            return -1
+        fi
+        result="$(echo "${word}" | aspell -a | tail -n +2)"
+
+        echo -n "> "
+
+        if [[ "${result}" == "*" ]]; then
+            
+            printBlue "${word}"
+            echo -n ':'
+            simple_dict "${word}"
+            continue
+        fi
+
+        printRed "${word}"; echo ''
+
+        # Loop over suggested words
+        suggestions="$(echo "${result}" | sed 's/.*: //' | cut -d',' -f-"${NUM_SUGGESTIONS}")"
+        readarray -t suggestionsArray <<<"${suggestions//,}"
+        for s in ${suggestionsArray[@]}; do
+            printBlue "    ${s}"
+            echo -n ': '
+            simple_dict "${s}"
+        done
+        
+        
+        
+        
+    done
+}
+alias define='dict -d gcide'
+alias synonym='dict -d moby-thesaurus'
+alias thesarus='synonym'
+alias acronym='dict -D vera'
+
+
+function simple_dict()
+{
+    local DOCSTRING=("Wrapper for 'dict'. Returns a short definition of input word")
+
+    if [[ "$#" -ne 1 ]]; then
+        errprint "${DOCSTRING[@]}"
+        return 0
+    fi
+
+    local MAX_LENGTH=70
+
+    # Save the first sentence of the output that starts with an indent and a number.
+    output="$(dict -d gcide "${1}" | sed -nE '/     [0-9]\./,/\./p')"
+    if [[ -z "${output}" ]]; then
+        # There is only one definition. It starts on the line after the line that ends with a '['. Also remove the last line
+        output="$(dict -d gcide "${1}" | sed -nE '/]$/,/\./p' | tail -n +2 | head -n -1)"
+    fi
+
+    # Remove all newlines. Replace all whitespace with a single space char. Remove leading space
+    output="$(echo "${output}" | tr '\n' ' ' | sed 's/\s\s*/ /g' | sed 's/^ //')"
+
+    # If output exceeds the max length, truncate and print '...'
+    if [[ "$(expr length "${output}")" -gt "${MAX_LENGTH}" ]]; then
+        echo "${output:0:${MAX_LENGTH}}..."
+    else
+        echo "${output}"
+    fi
+}
+
+function check()
+{
+    # No more 'test <expression>; echo $?'
+    # This function used to be named 'test' to overwrite the 'test' built in.
+    # This was a terrible idea because the git-bash-tab-complete file would call test and spam the terminal
+    builtin test "$@" && echo 'true' || echo 'false'
+}
+
+
+
+function uniqNoSort()
+{
+    # The default 'uniq' utility only checks adjacent lines and thus is useless with unsorted data.
+    # Automatically reads from stream input
+    # With help from https://unix.stackexchange.com/questions/11939/how-to-get-only-the-unique-results-without-having-to-sort-data
+    awk '!seen[$0]++'
+}
+
+function fixPathBloat()
+{
+    # As of 05/22/2020 the 'reload' command causes the path to be appended to with each reload
+    # This function removes duplicates from the path
+    fixedPath=''
+    for p in $(path | uniqNoSort); do
+        fixedPath+="${p}:"
+    done
+    export PATH="${fixedPath::-1}" # Remove the extra ':' from $fixedPath
+}
+
+function ascii()
+{
+    # Print the ascii table
+    # Stolen from github.com/nibalizer/bash-tricks
+    ascii | /bin/grep -m1 -A63 --color=never Oct
+}
+
+function unicode()
+{
+    # Print favorite unicode characters
+    # Stolen from github.com/nibalizer/bash-tricks
+    echo '✓ ™  ♪ ♫ ☃ ° Ɵ ∫'
+}
+
+function lintJson()
+{
+    # Validate json syntax by piping to jq
+    # Note: this function is used by ~/scripts/lint.sh to validate json files
+    /bin/cat "$1" | jq '.'
+}
+
+function findFileOnPath()
+{
+    # TODO: my 'which' function should make this obsolete
+    input="$1"
+    for p in ${PATH//:/ }; do
+        if [[ -f "${p}/${input}" ]]; then
+            echo "${p}/${input}"
+            return 0
+        fi
+    done
+    echo "Couldn't find '${input}' on the \$PATH"
+    return 1
+}
+
+function hist()
+{
+    # Search history
+    # Ignore 'hist/history' key words
+    # Awk to format with the history number (right justified) then the command
+    # 'sort | uniq' sorts and removes duplicates, but ignores the history number
+    history | grep "$*" | /bin/grep -v " hist\| history" | awk '{printf"%4d  ",$1;for(i=4;i<NF;i++)printf"%s",$i OFS;if(NF)printf"%s",$NF;printf ORS}' |sort -k2 |uniq --skip-fields=1
+}
+
+# TODO
+#rm()
+#{
+#        /bin/rm $@ || /bin/mdir $@
+#}
+
+
+
+function diff()
+{
+    local DOCSTRING="Use git's colored diff"
+    if [[ "$#" -eq 0 ]]; then
+        errprint "${DOCSTRING[@]}"
+        return 0
+    fi
+    /usr/bin/git diff --no-index --color-words "$@"
+}
+
+function symlink()
+{
+    # TODO: add a docstring to each function. The 'which' function should print these when a function is found.
+    # TODO: and we should save a database of all docstrings. Then the which function can just read the database.
+    #    The 'reload' function could update the database
+    local DOCSTRING=("This is a wrapper for 'ln -s' that automatically fills in absolute paths."
+                     "Usage:"
+                     "    simlink  <take this>  <make link here>")
+
+    # Parse inputs
+    if [[ "$#" -eq 0 ]]; then
+        errprint "${DOCSTRING[@]}"
+        return 0
+    fi
+    sourcePath="$(realpath "$1")"
+    targetPath=$(realpath "$2")
+
+    # Verify source file exists
+    builtin test -e "${sourcePath}" || { errprint "Error, '${sourcePath}' DNE"; return -1; }
+
+    # # Verify target's parent dir exists
+    # targetDir="$(realpath "$(dirname "${targetPath}")")"
+    # builtin test -e "$targetDirr" || errprint ""; return -2; }
+    
+    # # Link
+    # ln -s "${sourcePath}" "${targetPath}"
+    # return "$?"
+}
+
+
+# --------------------------------------------------------------------------------
+# Math
+# --------------------------------------------------------------------------------
+# The alias first turns globbing off, then calls the 'math' function. 
+# This way, expressions such as '5 * 5' may be entered without '*' being 
+# expanded. The function turns globbing back on before exiting.
+# Unfortunately, quotation marks or escapes are needed when using parenthesis\
+# TODO: before we turn globing off, should we verify it was on? And only turn back on if it was originally on - These functions are all about "can it be done?" instead of "should it be done?" lol
+alias math='set -o noglob; math'
+function math()
+{
+
+    local DOCSTRING=("Evaluate mathematical operations"
+                     ""
+                     "Usage:"
+                     "    math <expression>"
+                     ""
+                     "Caveats:"
+                     "    Parenthesis need to be escaped or quoted."
+                     "    math \(1+1\)*2"
+                     "    math '(1+1)*2'")
+
+    if [[ "$#" -eq 0 ]]; then
+        errprint "${DOCSTRING[@]}"
+        return 0
+    fi
+
+    # Evaluate expressions using the 'bc' utility
+    echo "${@}" | bc
+    
+    # Turn globbing back on 
+    set +o noglob
+}
+alias calculator='math'
+alias calc='math'
+
+
+# --------------------------------------------------------------------------------
+# Navigation utilities - I really should look into pushd and popd
+# --------------------------------------------------------------------------------
+cd()
+{
+    # With shopt autocd set, we have to make this check
+    if [[ $# -eq 2 && "$1" == '--' ]]; then
+        input="$2"
+    else
+        input="$1"
+    fi
+
+    PREVIOUS_DIR="$(pwd)"
+    if [[ -z "$input" ]] ; then
+        builtin cd || return 1
+    else
+        builtin cd "$input" || return 1
+    fi
+
+    helper_lsAfterCD
+
+    # Git fetch if we are in the root of a git repo
+    # TODO
+    #if [[ -d ./.git ]]; then
+    #    expectGitFetchHelper
+    #fi
+}
+
+function expectGitFetchHelper()
+{
+    # Send garbage info to 'git fetch' if prompted.
+    /usr/bin/expect <<EOD
+        set timeout 1
+        spawn /usr/bin/git fetch
+        expect "Username for 'https://github.com': "
+        send -- "user\r"
+        expect "Password for 'https://user@github.com': "
+        send -- "pass\r"
+        expect eof 
+EOD
+        # My syntax highlight doesn't register EOD with any indentation
+
+}
+
+
+
+
+back() # TODO: look into $OLDPWD
+{
+    prev_tmp="$(pwd)"
+    builtin cd "$PREVIOUS_DIR" && PREVIOUS_DIR="$prev_tmp"
+    helper_lsAfterCD
+}
+
+# Show directory command "back" will take us to 
+# back?()
+# {
+#     ind echo "Last visited dir: $PREVIOUS_DIR  (use cmd 'back' to jump here)"
+# }
+
+# "Drop a pin" to remember this dir for later # TODO: come up with a way to save/get to multiple locations
+# TODO: look into pushd, popd, and dirs. These probably already do what I'm looking for
+dropPin()
+{
+        SAVE_THIS_DIR="$(pwd)"
+        export SAVE_THIS_DIR
+        ind echo "${SAVE_THIS_DIR} saved"
+}
+
+# pin?() # Show pinned locations # TODO: add support for multiple pins
+# {
+#         ind echo "Pinned dirs: ${SAVE_THIS_DIR}"
+# }
+
+goToPin()
+{
+        cd "$SAVE_THIS_DIR" || return 1
+}
+
+# Used to print directory contents after cd-ing to a dir
+helper_lsAfterCD()
+{
+    unameOut="$(uname -s)"
+    case "${unameOut}" in
+        Darwin*) 
+            /bin/ls -G # TODO: set flags for mac ls
+            ;;
+        Linux*)
+            ind ls --color=always --group-directories-first -Cqa
+            ;;
+        *)
+            ind ls --color=always --group-directories-first -Cqa
+    esac
+          # TODO: like with the ls alias, if ~file found, print filename(~)
+    
+}
+
+# ?() # TODO: come up with a better name for this function. Use '?' as the name of a new function that displays a quick snapshot of intresting stuff
+# #               such as host name, network name, storage stuff, cpu usage and stuff like that
+# {
+#     # Display current directory, last used directory, and any pinned directories
+#     ind echo "Current dir: $(pwd)"
+#     'back?' # back ticks to allow a question mark in a command name
+#     'pin?'
+# }
+
+
+# --------------------------------------------------------------------------------
+# Indent Output
+# --------------------------------------------------------------------------------
+# TODO: How can we call this before every command automatically?
+ind()
+{
+    # Stream input
+    if [[ $# -eq 0 ]]; then
+        while IFS= read -r line; do
+            echo "    ${line}"
+        done
+        return
+    fi
+
+    # Parameter input
+    "${@}" 2>&1 | awk  '{ print "    " $0 }'
+	return "$?"
+}
+
+# Start a shell with bash |indPipe to have all output indented. 
+#   TODO: figure out how to make everything play nice
+#   clear is broken
+#   ls is broken sometimes -- haven't figured out the condition yet
+#   vim is broken
+#   more and less are broken
+#   pipes.sh is broken
+# TODO: merge both inds into one function
+indPipe()
+{
+    while read -r line
+    do
+      echo "    $line"
+    done
+}
+
+
+# --------------------------------------------------------------------------------
+# Undo/Redo Functionality # TODO: add support for arguments like mv -v and cp -R
+# TODO: come up with better variable names
+# --------------------------------------------------------------------------------
+cp_undoable()
+{
+	# Check arguments
+	if [[ $# != 2 ]] ; then 
+		echo "Error, must input two file paths"  1>&2
+		return 1
+	fi
+
+	source="$1"
+	destination="$2"
+
+	# Save variables for undoing
+	UNDOABLE_FUNCTIONS_LAST_USED_SOURCE_PATH="$(realPath "$source")"
+	UNDOABLE_FUNCTIONS_LAST_USED_DESTINATION_PATH="$(realPath "$destination")"
+    UNDOABLE_FUNCTIONS_LAST_USED_OPERATION="cp"
+    UNDOABLE="true"
+    export UNDOABLE_FUNCTIONS_LAST_USED_SOURCE_PATH
+    export UNDOABLE_FUNCTIONS_LAST_USED_DESTINATION_PATH
+    export UNDOABLE_FUNCTIONS_LAST_USED_OPERATION
+    export UNDOABLE
+
+	# Perform action
+	/bin/cp "$source" "$destination"
+
+	return 0
+}
+
+mv_undoable()
+{
+	# Check arguments
+	if [[ $# != 2 ]] ; then 
+		echo "Error, must input two file paths"  1>&2
+		return 1
+	fi
+
+	source="$1"
+	destination="$2"
+
+	# Save variables for undoing
+	UNDOABLE_FUNCTIONS_LAST_USED_SOURCE_PATH="$(realPath "$source")"
+	UNDOABLE_FUNCTIONS_LAST_USED_DESTINATION_PATH="$(realPath "$destination")"
+	UNDOABLE_FUNCTIONS_LAST_USED_OPERATION="mv"
+	UNDOABLE="true"
+    export UNDOABLE_FUNCTIONS_LAST_USED_SOURCE_PATH
+    export UNDOABLE_FUNCTIONS_LAST_USED_DESTINATION_PATH
+    export UNDOABLE_FUNCTIONS_LAST_USED_OPERATION
+    export UNDOABLE
+
+	# Perform action
+	/bin/mv "$source" "$destination"
+
+	return 0
+}
+
+rm_undoable()
+{
+    # TODO: This function may break if user is removing multiple files
+
+	# Check bash version number
+	bashVersionFirstNum=$(echo "$BASH_VERSION" | head -c 1)
+	if (( "$bashVersionFirstNum" < 5 )) ; then
+		echo "Error: The remap rm to mv ~/.Trash function requires bash v4+ to work"  1>&2
+		return 1
+	fi
+
+	# Check that realpath utility is installed (and)
+	realPathUtill="$(command -v realpath)"
+	if [[ ! -e "$realPathUtill" ]]; then
+		echo "Error: realpath utility is not installed (or not on the path)"  1>&2
+		return 1
+	fi
+
+	# Parse args # TODO: do this better
+	if [[ $1 == "-rf" || $1 == "-r" || $1 == "-f" ]]; then
+		flags="$1"
+		fileToRemove="$2"
+    else
+    	fileToRemove="$1"
+        # shellcheck disable=SC2034
+    	flags="$2" # unused var ignored for now.
+    fi
+
+    # Remove possible trailing slash from path
+    if [[ "${fileToRemove: -1}" == "/" ]] ; then
+    	fileToRemove="${fileToRemove::-1}" # only works with bash v4+
+	fi
+
+	# Save time to append to trashed file name - TODO unused var ignored for now
+    # shellcheck disable=SC2034
+	timestamp="$(date +%d.%m.%Y_%H:%M:%S)"
+
+	# Set destination path
+	trashPath="${HOME}/.Trash/${fileToRemove}" #_${timestamp}"
+
+	# Save variables for undoing
+	UNDOABLE_FUNCTIONS_LAST_USED_SOURCE_PATH="$(realPath "${fileToRemove}")"
+    UNDOABLE_FUNCTIONS_LAST_USED_DESTINATION_PATH="$trashPath"
+	UNDOABLE_FUNCTIONS_LAST_USED_OPERATION="rm"
+	UNDOABLE="true"
+    export UNDOABLE_FUNCTIONS_LAST_USED_SOURCE_PATH
+    export UNDOABLE_FUNCTIONS_LAST_USED_DESTINATION_PATH
+    export UNDOABLE_FUNCTIONS_LAST_USED_OPERATION
+    export UNDOABLE
+
+	# Perform action
+    /bin/mv "$fileToRemove" "$trashPath"
+
+    return 0
+}
+
+rmdir_undoable()
+{
+	echo "not implemented yet"
+	return 0
+}
+
+undo() # TODO: Get really clever and use a stack to keep track of undo able actions - maybe even write these functions in c
+{
+	if [[ "$UNDOABLE" == "false" ]] ; then
+		echo "Error, nothing to undo"  1>&2
+		return 1
+	fi
+
+	if [[ "$UNDOABLE_FUNCTIONS_LAST_USED_OPERATION" == "cp" ]] ; then
+		# Remove copy of destination file
+		/bin/rm "$UNDOABLE_FUNCTIONS_LAST_USED_DESTINATION_PATH"
+		export REDOABLE_FUNCTION="cp"
+		export REDO_SOURCE_PATH="$UNDOABLE_FUNCTIONS_LAST_USED_SOURCE_PATH"
+		export REDO_DESTINATION_PATH="$UNDOABLE_FUNCTIONS_LAST_USED_DESTINATION_PATH"
+	else # if [[ $UNDOABLE_FUNCTIONS_LAST_USED_OPERATION == "mv" ]] or [[ $UNDOABLE_FUNCTIONS_LAST_USED_OPERATION == "rm" ]; then
+		# Move destination back to source
+		/bin/mv "$UNDOABLE_FUNCTIONS_LAST_USED_DESTINATION_PATH" "$UNDOABLE_FUNCTIONS_LAST_USED_SOURCE_PATH"
+		export REDOABLE_FUNCTION="mv"
+		export REDO_SOURCE_PATH="$UNDOABLE_FUNCTIONS_LAST_USED_SOURCE_PATH"
+		export REDO_DESTINATION_PATH="$UNDOABLE_FUNCTIONS_LAST_USED_DESTINATION_PATH"
+	fi
+
+	export UNDOABLE="false"
+	export REDOABLE="true"
+
+	return 0
+}
+
+redo()
+{
+	if [[ "$REDOABLE" == "false" ]] ; then
+		echo "Error, nothing to redo"  1>&2
+		return 1
+	fi
+
+	if [[ "$REDOABLE_FUNCTION" == "cp" ]] ; then
+		/bin/cp "$REDO_SOURCE_PATH" "$REDO_DESTINATION_PATH"
+	else # [[ REDOABLE_FUNCTION == "mv" ]] or [[ REDOABLE_FUNCTION == "rm" ]] ; then
+		/bin/mv "$REDO_SOURCE_PATH" "$REDO_DESTINATION_PATH"
+	fi
+
+	#export UNDOABLE="true" # TODO: add functionality to undo and redo back and forth
+	export REDOABLE="false"
+
+	return 0
+}

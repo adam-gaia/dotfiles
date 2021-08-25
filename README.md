@@ -1,6 +1,6 @@
 # Dotfiles
 
-* Run the deploy script to symlink the dotfiles to locations specified in `manifest.yaml`
+* Run the provided script to symlink files specified in `manifest.yaml`
 
 ```bash
 ./deploy.sh

@@ -29,6 +29,9 @@
 
 [alias]
 	url = remote get-url origin
+	visual = !gitk
+	# Use commitizen to commit
+	cz = !cz commit
 
 [merge]
 	conflictstyle = diff3

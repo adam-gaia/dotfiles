@@ -1,106 +1,148 @@
 ---
+alacritty:
+  - src: alacritty.yml
+    links: 
+      - ${XDG_CONFIG_HOME}/alacritty/alacritty.yml
+
+
+asdf:
+  - src: tool-versions
+    links:
+      - ${HOME}/.tool-versions
+  - src: asdfrc
+    links:
+      - ${XDG_CONFIG_HOME}/asdf/asdfrc
+
+
 bash:
   - src: bashrc
     links:
       - ${HOME}/.bashrc
+
   - src: bash_profile
     links: 
       - ${HOME}/.bash_profile
 
-  # readline line editor
+
+readline:
   - src: inputrc
     links: 
       - ${HOME}/.inputrc
 
+
 bat:
   - src: bat.conf
     links:
-      - ${CONFIG_DIR}/bat/bat.conf
+      - ${XDG_CONFIG_HOME}/bat/bat.conf
+
 
 zsh:
+  - src: zshenv
+    links:
+      - ${HOME}/.zshenv
+
+  - src: zprofile
+    links: 
+      - ${XDG_CONFIG_HOME}/zsh/.zprofile
+
   - src: zshrc
     links: 
-      - ${HOME}/.zshrc
-  - src: zenv
-    links:
-      - ${CONFIG_DIR}/zsh/zenv
+      - ${XDG_CONFIG_HOME}/zsh/.zshrc
+
+  - src: zlogin
+    links: 
+      - ${XDG_CONFIG_HOME}/zsh/.zlogin
+
+  - src: zlogout
+    links: 
+      - ${XDG_CONFIG_HOME}/zsh/.zlogout
+
   - src: aliases.zsh
     links: 
-      - ${CONFIG_DIR}/zsh/aliases.zsh
-      - ${CONFIG_DIR}/bash/aliases.sh
+      - ${XDG_CONFIG_HOME}/zsh/aliases.zsh
+      - ${XDG_CONFIG_HOME}/bash/aliases.sh
   - src: functions.zsh
     links: 
-      - ${CONFIG_DIR}/zsh/functions.zsh
-      - ${CONFIG_DIR}/bash/functions.sh
+      - ${XDG_CONFIG_HOME}/zsh/functions.zsh
+      - ${XDG_CONFIG_HOME}/bash/functions.sh
+
 
 starship:
   - src: starship.toml
     links: 
-      - ${CONFIG_DIR}/starship.toml
+      - ${XDG_CONFIG_HOME}/starship.toml
 
-alacritty:
-  - src: alacritty.yml
-    links: 
-      - ${HOME}/.alacritty.yml
 
 ssh:
   - src: config
     links: 
       - ${HOME}/.ssh/config
 
+
 neovim:
   - src: init.vim
     links: 
       - ${HOME}/.vimrc
-      - ${CONFIG_DIR}/nvim/init.vim
+      - ${XDG_CONFIG_HOME}/nvim/init.vim
+
 
 tmux:
   - src: tmux.conf
-    links: 
-      - ${HOME}/.tmux.conf
+    links:
+      - ${XDG_CONFIG_HOME}/tmux/tmux.conf
+
 
 git:
   - src: config
     links: 
-      - ${CONFIG_DIR}/git/config
+      - ${XDG_CONFIG_HOME}/git/config
+
   - src: ignore
     links: 
-      - ${CONFIG_DIR}/git/ignore
+      - ${XDG_CONFIG_HOME}/git/ignore
+
 
 python:
   - src: pythonrc.py
     links: 
       - ${HOME}/.pythonrc.py
 
+
 pylint:
   - src: pylintrc
     links: 
       - ${HOME}/.pylintrc
 
+
 pywal:
   - src: modified_monokai.json
     links:
-      - ${CONFIG_DIR}/pywal/modified_monokai.json
+      - ${XDG_CONFIG_HOME}/pywal/modified_monokai.json
+
 
 flake8:
   - src: flake8
     links:
-    - ${HOME}/.flake8
+      - ${HOME}/.flake8
+
 
 sqlite:
   - src: sqliterc
     links: 
       - ${HOME}/.sqliterc
 
-sublime: # TODO: if mac use mac settings path
+
+sublime:  # TODO: if mac use mac settings path
   - src: sublime-text-3
     links: 
-      - ${CONFIG_DIR}/sublime-text-3/Packages/User/Preferences.sublime-settings
+      - ${XDG_CONFIG_HOME}/sublime-text-3/Packages/User/Preferences.sublime-settings
+
 
 vs-code:
   - src: settings.json
     links: 
-      - ${CONFIG_DIR}/Code/User/settings.json
+      - ${XDG_CONFIG_HOME}/Code/User/settings.json
+
 
 gdb:
   - src: gdbinit

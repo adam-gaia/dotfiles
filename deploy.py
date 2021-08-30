@@ -10,11 +10,12 @@ import logging
 
 # -------------- Global vars --------------
 HOME = Path(os.environ["HOME"])
-DOTFILE_DIR = Path('.').resolve()
-MANIFEST = DOTFILE_DIR/"manifest.yaml"
-CONFIG_DIR = HOME/".config"
-CONFIG_DIR.mkdir(exist_ok=True, parents=True)
-BACKUP_DIR = HOME/".dotfile-backup"
+CWD = Path.cwd()
+DOTFILE_DIR = CWD/'dotfiles'
+MANIFEST = CWD/'manifest.yaml'
+XDG_CONFIG_HOME = HOME/".config"
+XDG_CONFIG_HOME.mkdir(exist_ok=True, parents=True)
+BACKUP_DIR = HOME/"Backups"/"dotfiles"
 BACKUP_DIR.mkdir(exist_ok=True, parents=True)
 
 
@@ -85,7 +86,7 @@ def main():
 
         # Loop over sub directories and their contents defined in the manifest
         for group_name, links_to_make in contents.items():
-            directory = MANIFEST.parent / group_name
+            directory = DOTFILE_DIR / group_name
             if not directory.is_dir():
                 logger.error(f"Dotfile sub directory '{directory}' does not exist")
                 continue
@@ -98,10 +99,10 @@ def main():
                     raise Exception(f"Invalid manifest syntax at {group_name}:{source}")
                 for target in targets:
                     # TODO: create a function to process paths with variable replace
-                    var_replaced_source = source.replace("${HOME}", HOME.as_posix()).replace("${CONFIG_DIR}", CONFIG_DIR.as_posix())
+                    var_replaced_source = source.replace("${HOME}", HOME.as_posix()).replace("${XDG_CONFIG_HOME}", XDG_CONFIG_HOME.as_posix())
                     source_path: Path = DOTFILE_DIR / group_name / var_replaced_source
 
-                    var_replaced_target = target.replace("${HOME}", HOME.as_posix()).replace("${CONFIG_DIR}", CONFIG_DIR.as_posix())
+                    var_replaced_target = target.replace("${HOME}", HOME.as_posix()).replace("${XDG_CONFIG_HOME}", XDG_CONFIG_HOME.as_posix())
                     target_path: Path = Path(var_replaced_target)
 
                     link(source_path, target_path)

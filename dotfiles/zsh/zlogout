@@ -1,0 +1,5 @@
+# /etc/zsh/zlogout: user .zlogout file for zsh(1).
+
+if [ "$SHLVL" = 1 ]; then
+    [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q || clear
+fi

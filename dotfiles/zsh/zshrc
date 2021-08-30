@@ -1,0 +1,82 @@
+# /etc/zsh/zshrc: user .zshrc file for zsh(1).
+#
+# This file is sourced only for interactive shells. It
+# should contain commands to set up aliases, functions,
+# options, key bindings, etc.
+#
+# Startup Order: zshenv, zprofile, zshrc, zlogin
+
+# --------------------------------------------------
+# Shell & term options
+# --------------------------------------------------
+# Disable ctrl-s freezes terminal
+stty stop undef
+
+unsetopt beep notify
+
+# Vim
+bindkey -v
+
+
+# Set monokai theme. Run in background because it can hang - TODO
+# Pywal cursor color may not show. Fix here: https://github.com/dylanaraps/pywal/issues/382 # TODO Automate the fix with sed or something # Note, we now use pywal in a docker container $DOTFILEDIR/pywal. Make the change in there
+timeout 2 wal -q --theme ${XDG_CONFIG_HOME}/pywal/modified_monokai.json &
+# # Associate .dircolors_Monokai file with the dircolors utility
+# eval "$(dircolors "${DOTFILEDIR}/bash/colors/dircolors_Monokai")"
+
+
+# --------------------------------------------------
+# Source extenal files
+# --------------------------------------------------
+source ${XDG_CONFIG_HOME}/zsh/functions.zsh
+source ${XDG_CONFIG_HOME}/zsh/aliases.zsh
+
+# asdf language runtime manager
+source "${ASDF_DIR}/asdf.sh"
+# Remove asdf shims from the path. I symlink them to ~/.local/bin/
+export PATH="${PATH/${ASDF_USER_SHIMS}:/}"
+
+
+
+# TODO: sort and comment the rest
+
+
+# Install antibody (plugin manager)
+# curl -sfL git.io/antibody | sh -s - -b /usr/local/bin
+# Source antibody plugins
+source <(antibody init)
+antibody bundle zsh-users/zsh-autosuggestions
+antibody bundle zsh-users/zsh-syntax-highlighting
+antibody bundle zsh-users/zsh-completions
+
+
+# Suggestion strategies
+export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+
+
+# History search with up and down arrows
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+
+
+
+
+
+
+
+# --------------------------------------------------------------------------------
+# Starship prompt
+# --------------------------------------------------------------------------------
+eval "$(starship init zsh)"
+
+
+
+# --------------------------------------------------------------------------------
+# Auto completion
+# --------------------------------------------------------------------------------
+zstyle :compinstall filename "${ZDOTDIR}/.zshrc"
+fpath=(${ASDF_DIR}/completions $fpath)
+
+autoload -Uz compinit
+compinit

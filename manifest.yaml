@@ -111,7 +111,7 @@ python:
 pylint:
   - src: pylintrc
     links: 
-      - ${HOME}/.pylintrc
+      - ${XDG_CONFIG_HOME}/pylintrc
 
 
 pywal:
@@ -123,7 +123,7 @@ pywal:
 flake8:
   - src: flake8
     links:
-      - ${HOME}/.flake8
+      - ${XDG_CONFIG_HOME}/flake8
 
 
 sqlite:

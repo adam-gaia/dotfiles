@@ -457,10 +457,16 @@ function todo()
 
 function cat()
 {
-    # From Debian 'bat' package
-    #     executable and its manpage have been renamed from ‘bat’ to
-    #     ‘batcat’ because of a file name clash with another Debian package.
-    batcat "$@";
+    case "$#" in
+        0|1)
+            batcat "${@}"
+            ;;
+
+        *)
+        # Fall back to default cat if more than 1 arg passed
+        # TODO: this function should take '--help and expline how it works'
+        /bin/cat $@
+    esac
 }
 
 
@@ -480,6 +486,17 @@ function ascii()
     ascii | /bin/grep -m1 -A63 --color=never Oct
 }
 
+# Overide cd
+function cd ()
+{
+    # Use zoxide an auto-jump style cd replacement
+    # https://github.com/ajeetdsouza/zoxide
+    __zoxide_z "$@"
+
+    # Show directory contents after cd'ing with ls replacment: lsd
+    # https://github.com/Peltoche/lsd
+    lsd
+}
 
 # Create a directory and cd to it
 function mkcd()
@@ -589,5 +606,3 @@ function uz()
     esac
 }
 alias extract='uz'
-
-

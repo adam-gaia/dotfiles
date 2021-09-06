@@ -87,3 +87,4 @@ export PYTHONSTARTUP="${XDG_CONFIG_HOME}/python/pythonrc.py"
 # Path
 # --------------------------------------------------
 export PATH="${HOME}/.local/bin:${PATH}"
+export PATH="${HOME}/repo/scripts:${PATH}"

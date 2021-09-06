@@ -25,13 +25,13 @@
         "!plaintext"
     ],
     "cmake.configureOnOpen": false,
-    "python.defaultInterpreterPath": "/usr/bin/python3",
+    "python.defaultInterpreterPath": "/usr/local/bin/python3",
     "security.workspace.trust.untrustedFiles": "open",
     "python.analysis.extraPaths": [
         "/home/sarcos/.cache/asdf/shims"
     ],
     "[python]": {
-    
+
         "gitlens.codeLens.symbolScopes": [
             "!Module"
         ],

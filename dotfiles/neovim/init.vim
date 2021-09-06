@@ -1,5 +1,6 @@
 " Vim Configuration
 " Shoutout to Doug Black for his notes here: https://dougblack.io/words/a-good-vimrc.html
+" and to https://coffeeandcontemplation.dev/2021/01/14/autocomplete-in-neovim/
 
 
 " Significantly speed vim up by changing the regex engine
@@ -11,20 +12,24 @@ set re=1
 " --------------------------------------------------
 " General
 " --------------------------------------------------
+set updatetime=100 " Quick updating
+
 " Set the vim tab title = the file name
 let &titlestring = @%
 set title
+
+set clipboard+=unnamedplus " Copy to the system clipboard
 
 set noerrorbells    " No noise/notification on error
 set showmatch       " Highlight matching [{()}]
 set number          " show line numbers
 set mouse=a         " Allow cursor placement with the mouse
-set cursorline      " Add a line under the cursor
+"set cursorline      " Add a line under the cursor
 set showcmd         " Show command in bottom bar
 set lazyredraw      " Only redraw the screen when needed
 set wildmenu        " Visual autocomplete for command menu
 
-set whichwrap+=<,>,[,]            " Make left and right arrow keys wrap around
+set whichwrap+=<,>,[,],h,l        " Make h, l, left/right arrow keys wrap around
 set backspace=indent,eol,start    " Back space behaves as expected
 packadd termdebug                 " gdb integration with ':Termdebug'
 set spell spelllang=en_us         " Spell check
@@ -34,100 +39,175 @@ set splitbelow    " Split horizontal windows below to the current windows
 set autowrite     " Automatically save before :next, :make etc.
 set autoread      " Automatically reread changed files without prompting
 
+set scrolloff=8   " Leave 8 lines below the cursor when scrolling
 
 
+" --------------------------------------------------
+" Plugins
+" --------------------------------------------------
+call plug#begin('~/.vim/plugged')    " Begin Plug plugins
+
+" Nerd font icons
+" Lots of other plugings require this one
+Plug 'kyazdani42/nvim-web-devicons' 
+
+" Official nvim Language Server Protocol (LSP)
+Plug 'neovim/nvim-lspconfig'
+
+" Autocompletion from LSP
+Plug 'nvim-lua/completion-nvim'
+
+" Add missing highlight groups for LSP
+Plug 'folke/lsp-colors.nvim'
+
+" Trouble - makes LSP issues look nice
+Plug 'folke/trouble.nvim'
+
+" Status bar
+Plug 'hoob3rt/lualine.nvim'
+
+" Illuminate - highlight current word under cursor
+Plug 'RRethy/vim-illuminate'
+let g:Illuminate_delay = 100
+let g:Illuminate_ftblacklist = ['NvimTree', 'nerdtree']
 
 
+" Vim/tmux seamless navigation with ctl-h/j/k/l
+Plug 'christoomey/vim-tmux-navigator'
 
-" " --------------------------------------------------
-" " Plugins
-" " --------------------------------------------------
-" call plug#begin('~/.vim/plugged')    " Begin Plug plugins
+let g:tmux_navigator_no_mappings = 1
+let g:tmux_navigator_save_on_switch = 2 " autosave when leaving vim buffer
+nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
+nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
 
 
-" " ----------
-" " You Complete Me - auto complete
-" " ----------
-" "Plug 'ycm-core/YouCompleteMe'
-" " Note: this one requires extra setup. See https://github.com/ycm-core/YouCompleteMe
+" Debugging with gdb/pdb/bashdb
+" Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
 
-" " ----------
-" " Monokai
-" " ----------
-" " Monokai theme - https://github.com/patstockwell/vim-monokai-tasty
-" Plug 'patstockwell/vim-monokai-tasty'
 
-" " ----------
-" " Airline Bar
-" " ----------
-" " Display info bar at the bottom - https://github.com/vim-airline/vim-airline
-" Plug 'vim-airline/vim-airline'
-" let g:airline_theme='monokai_tasty'
+" Theme with Pywal
+Plug 'dylanaraps/wal.vim'
 
-" " ----------
-" " Syntax Linter
-" " ----------
-" " Syntax checking with ALE - https://github.com/w0rp/ale
-" "Plug 'w0rp/ale'
+" File tree
+Plug 'kyazdani42/nvim-tree.lua'
+let g:nvim_tree_auto_open = 1 "0 by default, opens the tree when typing `vim $DIR` or `vim`
+let g:nvim_tree_auto_close = 1 "0 by default, closes the tree when it's the last window
+let g:nvim_tree_auto_ignore_ft = [ 'startify', 'dashboard' ] "empty by default, don't auto open tree on specific filetypes.
+let g:nvim_tree_follow = 1 "0 by default, this option allows the cursor to be updated when entering a buffer
+let g:nvim_tree_follow_update_path = 1 "0 by default, will update the path of the current dir if the file is not inside the tree. Default is 0
+let g:nvim_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open
+let g:nvim_tree_git_hl = 1 "0 by default, will enable file highlight for git attributes (can be used without the icons).
+let g:nvim_tree_highlight_opened_files = 1 "0 by default, will enable folder and file icon highlight for opened files/directories.
+let g:nvim_tree_root_folder_modifier = ':~' "This is the default. See :help filename-modifiers for more options
+let g:nvim_tree_special_files = { 'README.md': 1, 'Makefile': 1, 'MAKEFILE': 1 } " List of filenames that gets highlighted with NvimTreeSpecialFile
 
-" " ----------
-" " IndentLine
-" " ----------
-" " Add vertical lines to show indentation - https://github.com/Yggdroot/indentLine
-" Plug 'Yggdroot/indentLine'
+" Git diff markers
+Plug 'airblade/vim-gitgutter'
 
-" let g:indentLine_enabled=1 " Enable by default
-" let g:indentLine_char='¦'
-" let g:indentLine_conceallevel=1
-" let g:indentLine_showFirstIndentLevel=1
 
-" " ----------
-" " Search
-" " ----------
-" " ack Search - https://github.com/mileszs/ack.vim
-" Plug 'mileszs/ack.vim'
+call plug#end()    " Initialize plugin system
 
-" " Silver Searcher - relies on ack.vim - https://github.com/ggreer/the_silver_searcher
-" if executable('ag')
-"     let g:ackprg = 'ag --vimgrep'
-" endif
 
-" " ----------
-" " NerdTree
-" " ----------
-" " Directory tree with NERDTree - https://github.com/scrooloose/nerdtree
-" "Plug 'scrooloose/nerdtree'
+" --------------------------------------------------
+" Configure plugins. Must be after plug#end
+" --------------------------------------------------
+lua << EOF
 
-" " Start NERDTree when nvim opens file
-" autocmd vimenter * NERDTree
+  -- Trouble
+  require("trouble").setup {
+  }
 
-" " Start NERDTree when nvim opens directory
-" autocmd StdinReadPre * let s:std_in=1
-" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+  -- Status bar
+  require('lualine').setup {
+    options = {
+      theme = 'molokai'
+    }
+  }
 
-" " Close vim if nerdtree is the only open window
-" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-" let g:NERDTreeDirArrowExpandable = '▸' " TODO: change to directory icon
-" let g:NERDTreeDirArrowCollapsible = '▾'
+  --------- LSP ---------
+  lspconfig = require('lspconfig')
+  completion_callback = require'completion'.on_attach
 
-" "let NERDTreeDirArrowExpandable = "\u00a0" " make arrows invisible
-" "let NERDTreeDirArrowCollapsible = "\u00a0" " make arrows invisible
+  -- python
+  lspconfig.pyright.setup{
+    enabled = true;
+    pythonpath = "/usr/local/bin/python";
+    on_attach=completion_callback
+  }
 
-" " Allow customization of NerdTree colors - https://github.com/tiagofumo/vim-nerdtree-syntax-highlight
-" "Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+  -- bash
+  --lspconfig.pyright.bashls{
+  --  on_attach=completion_callback
+  --}
 
-" " ----------
-" " Dev Icons - Load this last!
-" " ----------
-" " Allow use of icons in Vim plugins - https://github.com/ryanoasis/vim-devicons
-" "Plug 'ryanoasis/vim-devicons'
+  -- rust
+  lspconfig.rust_analyzer.setup{
+    on_attach=completion_callback
+  }
 
-" " Set encoding for use with Nerd Icons
-" set encoding=UTF-8
+  -- cmake
+  lspconfig.cmake.setup{
+    on_attach=completion_callback
+  }
 
-" call plug#end()    " Initialize plugin system
+  -- ansible
+  lspconfig.ansiblels.setup{
+    on_attach=completion_callback
+  }
 
+  -- c/c++
+  lspconfig.clangd.setup{
+    on_attach=completion_callback
+  }
+
+  -- cmake
+  lspconfig.cmake.setup{
+    on_attach=completion_callback
+  }
+
+  -- docker
+  lspconfig.dockerls.setup{
+    on_attach=completion_callback
+  }
+
+  -- go
+  lspconfig.gopls.setup{
+    on_attach=completion_callback
+  }
+
+  -- html
+  lspconfig.html.setup{
+    on_attach=completion_callback
+  }
+
+  -- json
+  lspconfig.jsonls.setup{
+    on_attach=completion_callback
+  }
+
+  -- yaml
+  lspconfig.yamlls.setup{
+    on_attach=completion_callback
+  }
+
+EOF
+
+
+" Use <Tab> and <S-Tab> to navigate through completion popup menu
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
+" Avoid showing message extra message when using completion
+set shortmess+=c
+
+let g:completion_enable_auto_popup = 0
+imap <tab> <Plug>(completion_smart_tab)
+imap <s-tab> <Plug>(completion_smart_s_tab)
 
 
 " --------------------------------------------------
@@ -166,12 +246,8 @@ filetype indent on   " Load filetype-specific indent files # TODO create/find a 
 " Colors
 " --------------------------------------------------
 syntax on       " Syntax highlighting
-"colorscheme peachpuff " TODO: find a perfect monokai scheme
+colorscheme wal
 
-" Set monokai color scheme
-" let g:vim_monokai_tasty_italic = 1
-" colorscheme vim-monokai-tasty
-" let g:airline_theme='monokai_tasty'
 
 " ---------- Monokai Color Shortcuts ----------
 let s:monokaiBrown = "905532"
@@ -181,12 +257,6 @@ let s:monokaiGreen  = "A4E400"
 let s:monokaiLightBlue = "62D8F1"
 let s:monokaiMagenta = "FC1A70"
 let s:monokaiOrange = "FF9700"
-
-" ---------- Customize NerdTree Colors ----------
-" let g:NERDTreeExtensionHighlightColor = {} " this line is needed to avoid error
-" let g:NERDTreeExtensionHighlightColor['dir'] = s:monokaiLightBlue " sets the color of directories to blue
-
-" TODO: Get directory icons. Change directory color to blue
 
 
 " --------------------------------------------------
@@ -201,7 +271,7 @@ set foldnestmax=10       " 10 nested fold max
 " --------------------------------------------------
 " Keybinds
 " --------------------------------------------------
-nnoremap <space> za    " space open/closes folds
+" nnoremap <space> za    " space open/closes folds
 " TODO: map ':nohlsearch<CR>' to something to toggle search highlights off
 
 " Move vertically through wrapped lines
@@ -233,12 +303,3 @@ set undodir=~/tmp/vim-backup/undo//,.        " Undo file location
 
 set backupskip=/tmp/*,/private/tmp/*,~/tmp/*,~/private/*    " Don't backup these
 set writebackup     " Make a backup before overwriting a file
-
-
-
-
-
-
-
-
-

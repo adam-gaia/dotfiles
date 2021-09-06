@@ -37,3 +37,7 @@ compile_commands.json
 # Ignore ssh keys TODO: is there a more standard regex for keys?
 id_*
 id_rsa*
+
+
+# Ignore pypirc. It contains api keys
+*pypirc*

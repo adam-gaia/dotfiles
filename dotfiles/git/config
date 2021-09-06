@@ -32,6 +32,7 @@
 	visual = !gitk
 	# Use commitizen to commit
 	cz = !cz commit
+	batch = !gitbatch
 
 [merge]
 	conflictstyle = diff3

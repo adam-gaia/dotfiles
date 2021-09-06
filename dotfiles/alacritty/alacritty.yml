@@ -1,6 +1,7 @@
 env:
   # Default TERM setting 'alacritty' not found on hosts without alacritty installed.
   # This makes ssh unusable because one of the default /etc/bash.bashrc file evaluates $TERM in the $PROMPT_COMMAND
+  # Tmux will override this with 'screen-256color'
   TERM: xterm-256color
 
 dynamic_title: true

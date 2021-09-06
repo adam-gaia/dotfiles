@@ -6,6 +6,7 @@
 #
 # Startup Order: zshenv, zprofile, zshrc, zlogin
 
+
 # --------------------------------------------------
 # Shell & term options
 # --------------------------------------------------
@@ -44,6 +45,7 @@ export PATH="${PATH/${ASDF_USER_SHIMS}:/}"
 # Install antibody (plugin manager)
 # curl -sfL git.io/antibody | sh -s - -b /usr/local/bin
 # Source antibody plugins
+# TODO: drop antibody and manage plugins manually
 source <(antibody init)
 antibody bundle zsh-users/zsh-autosuggestions
 antibody bundle zsh-users/zsh-syntax-highlighting
@@ -51,7 +53,7 @@ antibody bundle zsh-users/zsh-completions
 
 
 # Suggestion strategies
-export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+export ZSH_AUTOSUGGEST_STRATEGY=(completion history)
 
 
 # History search with up and down arrows
@@ -60,16 +62,20 @@ bindkey '^[[B' history-substring-search-down
 
 
 
-
-
-
+# --------------------------------------------------------------------------------
+# zoxide zmarter cd
+# Make sure to set env vars before calling 'zoxide init'
+# --------------------------------------------------------------------------------
+export _ZO_ECHO=1
+export _ZO_RESOLVE_SYMLINKS=1
+# Init zoxide without creating 'z' and 'zi' aliases
+eval "$(zoxide init --no-aliases zsh)"
 
 
 # --------------------------------------------------------------------------------
 # Starship prompt
 # --------------------------------------------------------------------------------
 eval "$(starship init zsh)"
-
 
 
 # --------------------------------------------------------------------------------

@@ -22,7 +22,7 @@
 
 [init]
 	defaultBranch = main
-	templateDir = /home/sarcos/repo/dotfiles/git/git-template-dir
+	#TODO templateDir = /home/sarcos/repo/dotfiles/git/git-template-dir
 
 [advice]
 	detachedHead = false

@@ -1,26 +1,25 @@
+
 host * !git*
     Compression yes
     ForwardX11 yes
     ServerAliveInterval 5
     ServerAliveCountMax 2
 
-Host cade
-    HostName lab1-26.eng.utah.edu
-    User gaia
-    IdentityFile ~/.ssh/id_rsa
 
-# Host *.eng.utah.edu
-#     User gaia
-#     #IdentityFile ~/.ssh/id_rsa
-
-
-
-Host gitlab-sarcos.net
-    HostName gitlab-sarcos.net
+Host gitlab.sarcos gitlab.sarcos.net
+    HostName gitlab.sarcos.net
     User git
     IdentityFile ~/.ssh/id_work_rsa
 
-Host github.com
+
+Host github github.com
     HostName github.com
     User git
     IdentityFile ~/.ssh/id_adam_rsa
+
+
+Host cade
+    HostName lab1-30.eng.utah.edu
+    User gaia
+    ForwardX11Trusted yes
+    IdentityFile ~/.ssh/id_rsa_cade

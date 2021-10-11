@@ -7,7 +7,6 @@
     "python.linting.flake8Enabled": true,
     "python.linting.enabled": true,
     "python.pythonPath": "/usr/bin/python3",
-    "window.zoomLevel": 2,
     "workbench.colorTheme": "Monokai",
     "workbench.preferredDarkColorTheme": "Monokai",
     "workbench.preferredLightColorTheme": "Monokai",
@@ -25,7 +24,7 @@
         "!plaintext"
     ],
     "cmake.configureOnOpen": false,
-    "python.defaultInterpreterPath": "/usr/local/bin/python3",
+    "python.defaultInterpreterPath": "/usr/bin/python3",
     "security.workspace.trust.untrustedFiles": "open",
     "python.analysis.extraPaths": [
         "/home/sarcos/.cache/asdf/shims"
@@ -36,5 +35,7 @@
             "!Module"
         ],
         "editor.wordBasedSuggestions": false
-    }
+    },
+    "latex-workshop.view.pdf.viewer": "tab",
+    "window.zoomLevel": 2
 }

@@ -1,5 +1,8 @@
 # zsh and bash aliases  
 
+# Issues with alacritty title bar on wayland. See https://wiki.archlinux.org/title/Alacritty#No_title_bar_on_Wayland_GNOME
+alias alacritty='WAYLAND_DISPLAY="" alacritty'
+
 alias grep='grep --color=always'
 
 alias ls='lsd -alh' # TODO: figure out how to use 'ind' with lsd while keeping the info we want from lsd # The only way I could get the indentation to work. If ls was already an alias, it would lose color with ind.

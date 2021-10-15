@@ -4,6 +4,10 @@ env:
   # Tmux will override this with 'screen-256color'
   TERM: xterm-256color
 
+# TODO: alacritty was not picking up my login shell. When that gets fixed, remove the shell setting
+shell:
+  program: /usr/bin/tmux
+
 dynamic_title: true
 
 font:

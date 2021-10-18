@@ -470,15 +470,6 @@ function cat()
 }
 
 
-function vpn()
-{
-    # Start vpn
-    sudo -E openfortigui --vpn-name=SarcoVPN --start-vpn
-    # Open Bob's wiki
-    #~/repo/scripts/addBobWiki.sh
-    #brave-browser-beta xo/wiki &
-}
-
 function ascii()
 {
     # Print the ascii table

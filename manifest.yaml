@@ -148,3 +148,21 @@ gdb:
   - src: gdbinit
     links: 
       - ${HOME}/.gdbinit
+
+sway:
+  - src: config
+    links:
+      - ${XDG_CONFIG_HOME}/sway/config
+
+gammastep:
+  - src: config.ini
+    links:
+      - ${XDG_CONFIG_HOME}/gammastep/config.ini
+  - src: gammastep.service
+    links:
+      - ${XDG_CONFIG_HOME}/systemd/user/gammastep.service
+
+systemd:
+  - src: sway-session.target
+    links:
+      - ${XDG_CONFIG_HOME}/systemd/user/sway-session.target

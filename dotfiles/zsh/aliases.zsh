@@ -1,4 +1,6 @@
-# zsh and bash aliases  
+# zsh aliases
+
+alias reload='exec zsh'
 
 # Issues with alacritty title bar on wayland. See https://wiki.archlinux.org/title/Alacritty#No_title_bar_on_Wayland_GNOME
 alias alacritty='WAYLAND_DISPLAY="" alacritty'

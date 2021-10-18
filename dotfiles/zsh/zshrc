@@ -13,10 +13,9 @@
 # Disable ctrl-s freezes terminal
 stty stop undef
 
+# No bell beep
 unsetopt beep notify
 
-# Vim
-bindkey -v
 
 
 # Set monokai theme. Run in background because it can hang - TODO
@@ -24,6 +23,7 @@ bindkey -v
 timeout 2 wal -q --theme ${XDG_CONFIG_HOME}/pywal/modified_monokai.json &
 # # Associate .dircolors_Monokai file with the dircolors utility
 # eval "$(dircolors "${DOTFILEDIR}/bash/colors/dircolors_Monokai")"
+
 
 
 # --------------------------------------------------
@@ -35,11 +35,9 @@ source ${XDG_CONFIG_HOME}/zsh/aliases.zsh
 # asdf language runtime manager
 source "${ASDF_DIR}/asdf.sh"
 # Remove asdf shims from the path. I symlink them to ~/.local/bin/
-export PATH="${PATH/${ASDF_USER_SHIMS}:/}"
+export PATH="${PATH/${ASDF_USER_SHIMS}:/}" # TODO: I'm not using asdf, I'm using my own fork, so I shouldnt even export these paths. Update that fork
 
 
-
-# TODO: sort and comment the rest
 
 
 # Install antibody (plugin manager)
@@ -50,6 +48,7 @@ source <(antibody init)
 antibody bundle zsh-users/zsh-autosuggestions
 antibody bundle zsh-users/zsh-syntax-highlighting
 antibody bundle zsh-users/zsh-completions
+antibody bundle olets/zsh-abbr
 
 
 # Suggestion strategies
@@ -59,6 +58,15 @@ export ZSH_AUTOSUGGEST_STRATEGY=(completion history)
 # History search with up and down arrows
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
+
+
+# Save all aliases as abbreviations. Remember not to create an abbr, but to always use an alias.
+# This way we can still use 'which' to find aliases and the aliases get expanded. Best of both words
+ABBR_QUIET_ORIGINAL_VALUE="${ABBR_QUIET:?0}" # See if $ABBR_QUIET is turned on. Default to off (0) if not set
+export ABBR_QUIET=1 # Force quiet
+abbr import-aliases
+abbr import-git-aliases
+export ABBR_QUIET="${ABBR_QUIET_ORIGINAL_VALUE}" # Reset value
 
 
 

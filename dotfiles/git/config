@@ -30,6 +30,7 @@
 [alias]
 	url = remote get-url origin
 	visual = !gitk
+	root = rev-parse --show-toplevel
 	# Use commitizen to commit
 	cz = !cz commit
 	batch = !gitbatch

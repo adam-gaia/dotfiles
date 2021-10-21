@@ -16,6 +16,8 @@ stty stop undef
 # No bell beep
 unsetopt beep notify
 
+# Keep readline keybinds even though we use vim as the default editor
+bindkey -e
 
 
 # Set monokai theme. Run in background because it can hang - TODO

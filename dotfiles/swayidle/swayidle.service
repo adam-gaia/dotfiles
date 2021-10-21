@@ -1,13 +1,13 @@
 [Unit]
-Description=Adjust the color temprature of your screen at night
-Documentation=https://gitlab.com/chinstrap/gammastep
+Description=Idle managment daemon
+Documentation=https://github.com/swaywm/swayidle
 PartOf=wayland-session.target
 BindsTo=sway-session.target
 After=wayland-session.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/gammastep
+ExecStart=/usr/bin/swayidle
 Restart=always
 
 [Install]

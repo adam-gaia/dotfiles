@@ -166,3 +166,8 @@ systemd:
   - src: sway-session.target
     links:
       - ${XDG_CONFIG_HOME}/systemd/user/sway-session.target
+
+swayidle:
+  - src: swayidle.service
+    links:
+      - "${XDG_CONFIG_HOME}/systemd/user/swayidle.service"

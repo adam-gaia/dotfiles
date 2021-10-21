@@ -8,4 +8,7 @@
 #
 # Starup Order: zshenv, zprofile, zshrc, zlogin
 
+# Sometimes sway cant find its socket
+export SWAYSOCK=/run/user/$(id -u)/sway-ipc.$(id -u).$(pgrep -x sway).sock
+
 fortune #| cowsay # commented out because cowsay takes up too much space in a tmux popup window :(

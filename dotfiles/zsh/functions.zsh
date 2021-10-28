@@ -485,7 +485,7 @@ function cd ()
 
     # Show directory contents after cd'ing with ls replacment: lsd
     # https://github.com/Peltoche/lsd
-    lsd
+    lsd --color=always
 }
 
 # Create a directory and cd to it

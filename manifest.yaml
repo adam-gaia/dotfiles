@@ -131,6 +131,13 @@ sqlite:
     links: 
       - ${HOME}/.sqliterc
 
+lsd:
+  - src: config.yaml
+    links:
+      - ${XDG_CONFIG_HOME}/lsd/config.yaml
+  - src: my-theme.yaml
+    links:
+      - ${XDG_CONFIG_HOME}/lsd/themes/adam.yaml
 
 sublime:  # TODO: if mac use mac settings path
   - src: sublime-text-3

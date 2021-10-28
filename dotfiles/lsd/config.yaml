@@ -1,0 +1,10 @@
+color:
+  when: always
+  theme: adam
+
+icons:
+  when: always
+
+sorting:
+  dir-grouping: first
+

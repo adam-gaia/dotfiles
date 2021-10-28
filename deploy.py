@@ -43,7 +43,7 @@ def link(source_path: Path, target_path: Path):
         time_stamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         backup_file = BACKUP_DIR/f"{name}_{time_stamp}.backup"
 
-        # Check if target already exists (implicitly checks if symlinks are valid)
+        # Check if target already exists
         if target_path.exists():
 
             # Check if target is a link

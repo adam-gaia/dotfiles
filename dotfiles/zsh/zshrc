@@ -66,6 +66,7 @@ bindkey '^[[B' history-substring-search-down
 # This way we can still use 'which' to find aliases and the aliases get expanded. Best of both words
 ABBR_QUIET_ORIGINAL_VALUE="${ABBR_QUIET:?0}" # See if $ABBR_QUIET is turned on. Default to off (0) if not set
 export ABBR_QUIET=1 # Force quiet
+abbr clear-session
 abbr import-aliases
 abbr import-git-aliases
 export ABBR_QUIET="${ABBR_QUIET_ORIGINAL_VALUE}" # Reset value

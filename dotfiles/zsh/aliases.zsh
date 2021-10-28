@@ -7,7 +7,7 @@ alias alacritty='WAYLAND_DISPLAY="" alacritty'
 
 alias grep='grep --color=always'
 
-alias ls='lsd -alh' # TODO: figure out how to use 'ind' with lsd while keeping the info we want from lsd # The only way I could get the indentation to work. If ls was already an alias, it would lose color with ind.
+alias ls='lsd -alh --color=always' # TODO: figure out how to use 'ind' with lsd while keeping the info we want from lsd # The only way I could get the indentation to work. If ls was already an alias, it would lose color with ind.
 
 # Tree with indentation and color
 alias tree="ind tree"
@@ -98,5 +98,5 @@ if [[ "$(command -v grc)" ]]; then # TODO add more checks for commands before us
     alias getsebool='colorify getsebool'
     alias ifconfig='colorify ifconfig'
 fi
-alias tree='lsd --tree'
+alias tree='lsd --tree --color=always'
 alias bat='batcat'

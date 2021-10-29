@@ -7,9 +7,9 @@ permission:
   exec-sticky: 15
   no-access: 245
 date:
-  hour-old: 15
-  day-old: 15
-  older: 15
+  hour-old: 252
+  day-old: 244
+  older: 240
 size:
   none: 15
   small: 15

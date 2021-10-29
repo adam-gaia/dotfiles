@@ -22,9 +22,9 @@ bindkey -e
 
 # Set monokai theme. Run in background because it can hang - TODO
 # Pywal cursor color may not show. Fix here: https://github.com/dylanaraps/pywal/issues/382 # TODO Automate the fix with sed or something # Note, we now use pywal in a docker container $DOTFILEDIR/pywal. Make the change in there
-timeout 2 wal -q --theme ${XDG_CONFIG_HOME}/pywal/modified_monokai.json &
-# # Associate .dircolors_Monokai file with the dircolors utility
-# eval "$(dircolors "${DOTFILEDIR}/bash/colors/dircolors_Monokai")"
+timeout 2 wal -e -q --theme ${XDG_CONFIG_HOME}/pywal/modified_monokai.json &
+# Set files based on type
+export LS_COLORS="$(vivid generate molokai)"
 
 
 

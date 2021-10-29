@@ -9,8 +9,6 @@ alias grep='grep --color=always'
 
 alias ls='lsd -alh --color=always' # TODO: figure out how to use 'ind' with lsd while keeping the info we want from lsd # The only way I could get the indentation to work. If ls was already an alias, it would lose color with ind.
 
-# Tree with indentation and color
-alias tree="ind tree"
 
 # NeoVim
 alias vim='nvim'

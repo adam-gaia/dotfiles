@@ -9,6 +9,8 @@ alias grep='grep --color=always'
 
 alias ls='lsd -alh --color=always' # TODO: figure out how to use 'ind' with lsd while keeping the info we want from lsd # The only way I could get the indentation to work. If ls was already an alias, it would lose color with ind.
 
+alias fd='fd --color=always'
+
 
 # NeoVim
 alias vim='nvim'
@@ -69,7 +71,7 @@ if [[ "$(command -v grc)" ]]; then # TODO add more checks for commands before us
     alias free='colorify free'
     alias fdisk='colorify fdisk'
     alias findmnt='colorify findmnt'
-    #alias make='colorify make' # Removed in favor of gmake alias
+    alias make='colorify make'
     alias gcc='colorify gcc'
     alias g++='colorify g++'
     alias id='colorify id'

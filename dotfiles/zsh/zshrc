@@ -70,7 +70,8 @@ abbr clear-session
 abbr import-aliases
 abbr import-git-aliases
 export ABBR_QUIET="${ABBR_QUIET_ORIGINAL_VALUE}" # Reset value
-
+# There is some issue where the 'fd' alias/abbr combo duplicates flags
+unalias fd
 
 
 # --------------------------------------------------------------------------------

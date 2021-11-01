@@ -4,8 +4,9 @@
 # Color
 --color=always
 --colors=match:fg:red
---colors=line:fg:yellow
+--colors=line:fg:green
 --colors=path:fg:blue
+--colors=path:style:bold
 
 # Ignore case, unless query has uppercase
 --smart-case

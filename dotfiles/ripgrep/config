@@ -1,0 +1,23 @@
+# Ignore git dir
+--glob=!git/*
+
+# Color
+--color=always
+--colors=match:fg:red
+--colors=line:fg:yellow
+--colors=path:fg:blue
+
+# Ignore case, unless query has uppercase
+--smart-case
+
+# Follow symlinks
+--follow
+
+# Search hidden files
+--hidden
+
+# Show line numbers
+--line-number
+
+# Search ignore files (.gitignore, .dockerignore, etc)
+--no-ignore

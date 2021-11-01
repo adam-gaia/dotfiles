@@ -4,7 +4,6 @@ alacritty:
     links: 
       - ${XDG_CONFIG_HOME}/alacritty/alacritty.yml
 
-
 asdf:
   - src: tool-versions
     links:
@@ -12,7 +11,6 @@ asdf:
   - src: asdfrc
     links:
       - ${XDG_CONFIG_HOME}/asdf/asdfrc
-
 
 bash:
   - src: bashrc
@@ -23,18 +21,15 @@ bash:
     links: 
       - ${HOME}/.bash_profile
 
-
 readline:
   - src: inputrc
     links: 
       - ${HOME}/.inputrc
 
-
 bat:
   - src: bat.conf
     links:
       - ${XDG_CONFIG_HOME}/bat/bat.conf
-
 
 zsh:
   - src: zshenv
@@ -66,18 +61,15 @@ zsh:
       - ${XDG_CONFIG_HOME}/zsh/functions.zsh
       - ${XDG_CONFIG_HOME}/bash/functions.sh
 
-
 starship:
   - src: starship.toml
     links: 
       - ${XDG_CONFIG_HOME}/starship.toml
 
-
 ssh:
   - src: config
     links: 
       - ${HOME}/.ssh/config
-
 
 neovim:
   - src: init.vim
@@ -85,12 +77,10 @@ neovim:
       - ${HOME}/.vimrc
       - ${XDG_CONFIG_HOME}/nvim/init.vim
 
-
 tmux:
   - src: tmux.conf
     links:
       - ${XDG_CONFIG_HOME}/tmux/tmux.conf
-
 
 git:
   - src: config
@@ -101,18 +91,15 @@ git:
     links: 
       - ${XDG_CONFIG_HOME}/git/ignore
 
-
 python:
   - src: pythonrc.py
     links: 
       - ${HOME}/.pythonrc.py
 
-
 pylint:
   - src: pylintrc
     links: 
       - ${XDG_CONFIG_HOME}/pylintrc
-
 
 pywal:
   - src: modified_monokai.json
@@ -132,7 +119,6 @@ flake8:
     links:
       - ${XDG_CONFIG_HOME}/flake8
 
-
 sqlite:
   - src: sqliterc
     links: 
@@ -151,12 +137,10 @@ sublime:  # TODO: if mac use mac settings path
     links: 
       - ${XDG_CONFIG_HOME}/sublime-text-3/Packages/User/Preferences.sublime-settings
 
-
 vs-code:
   - src: settings.json
     links: 
       - ${XDG_CONFIG_HOME}/Code/User/settings.json
-
 
 gdb:
   - src: gdbinit
@@ -185,3 +169,8 @@ swayidle:
   - src: swayidle.service
     links:
       - "${XDG_CONFIG_HOME}/systemd/user/swayidle.service"
+
+ripgrep:
+  - src: config
+    links:
+      - "${XDG_CONFIG_HOME}/ripgrep/config"

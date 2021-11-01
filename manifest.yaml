@@ -119,6 +119,13 @@ pywal:
     links:
       - ${XDG_CONFIG_HOME}/pywal/modified_monokai.json
 
+vivid:
+  - src: filetypes.yml
+    links:
+      - ${XDG_CONFIG_HOME}/vivid/filetypes.yml
+  - src: monokai-theme.yaml
+    links:
+      - ${XDG_CONFIG_HOME}/vivid/themes/monokai.yml
 
 flake8:
   - src: flake8

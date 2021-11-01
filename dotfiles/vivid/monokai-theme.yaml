@@ -1,0 +1,115 @@
+colors: # in 'RRGGBB' format
+  # Monokai Colors
+  background_color: '1a1a1a'
+  purple: "ae81ff"
+  yellow: "e6db74" # TODO: tweak to match monokai yellow
+  pink: "f92672"
+  cyan: "66d9ef"
+  green: "a6e22e"
+  orange: "fd971f"
+
+  # Others
+  white: "ffffff"
+  black: "000000"
+  red: "ff4a44"
+  gray: "b6b6b6"
+  dimgray: "7a7070"
+  gold: "e2d139"
+  springgreen: "00ff87"
+  darkgray: "333333"
+  symlink-teal: "a1eff0" # Tried to match the default symlink color
+
+core:
+  regular_file: {}
+
+  directory:
+    foreground: cyan
+
+  executable_file:
+    foreground: pink
+    font-style: bold
+
+  symlink:
+    foreground: symlink-teal # pink
+
+  broken_symlink:
+    foreground: black
+    background: red
+  missing_symlink_target:
+    foreground: black
+    background: red
+
+  fifo:
+    foreground: black
+    background: cyan
+
+  socket:
+    foreground: black
+    background: pink
+
+  character_device:
+    foreground: pink
+    background: darkgray
+
+  block_device:
+    foreground: cyan
+    background: darkgray
+
+  normal_text:
+    {}
+
+  sticky:
+    {}
+
+  sticky_other_writable:
+    {}
+
+  other_writable:
+    {}
+
+text:
+  special:
+    foreground: black
+    background: white #yellow
+
+  todo:
+    font-style: bold
+
+  licenses:
+    foreground: gray
+
+  configuration:
+    foreground: white # green
+
+  other:
+    foreground: white # gold
+
+markup:
+  foreground: white # gold
+
+programming:
+  source:
+    foreground: yellow #springgreen
+
+  tooling:
+    foreground: green
+
+    continuous-integration:
+      foreground: purple #yellow
+
+media:
+  foreground: orange
+
+office:
+  foreground: purple # yellow
+
+archives:
+  foreground: gray # pink
+  font-style: underline
+
+executable: # TODO: whats the difference between this and core:executable_file?
+  foreground: pink
+  font-style: bold
+
+unimportant:
+  foreground: dimgray

@@ -16,7 +16,7 @@ stty stop undef
 # No bell beep
 unsetopt beep notify
 
-# Keep readline keybinds even though we use vim as the default editor
+# Use readline keybinds even though we use vim as the default editor
 bindkey -e
 
 
@@ -24,7 +24,7 @@ bindkey -e
 # Pywal cursor color may not show. Fix here: https://github.com/dylanaraps/pywal/issues/382 # TODO Automate the fix with sed or something # Note, we now use pywal in a docker container $DOTFILEDIR/pywal. Make the change in there
 timeout 2 wal -e -q --theme ${XDG_CONFIG_HOME}/pywal/modified_monokai.json &
 # Set files based on type
-export LS_COLORS="$(vivid generate monokai)"
+export LS_COLORS="$(vivid generate monokai)" # TODO: we should only generate once when provisioning the machine and set to that output in here
 
 
 

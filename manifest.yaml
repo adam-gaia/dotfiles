@@ -174,3 +174,11 @@ ripgrep:
   - src: config
     links:
       - "${XDG_CONFIG_HOME}/ripgrep/config"
+
+sirula:
+  - src: config.toml
+    links:
+      - "${XDG_CONFIG_HOME}/sirula/config.toml"
+  - src: style.css
+    links:
+      - "${XDG_CONFIG_HOME}/sirula/style.css"

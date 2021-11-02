@@ -105,3 +105,7 @@ fpath=(${ASDF_DIR}/completions $fpath)
 
 autoload -Uz compinit
 compinit
+
+
+# Sometimes sway cant find its socket
+export SWAYSOCK=/run/user/$(id -u)/sway-ipc.$(id -u).$(pgrep -x sway).sock

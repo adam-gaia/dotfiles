@@ -62,6 +62,13 @@ bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
 
+setopt HIST_IGNORE_ALL_DUPS  # Do not put duplicated command into history list
+setopt HIST_SAVE_NO_DUPS  # Do not save duplicated command
+setopt HIST_REDUCE_BLANKS  # Remove unnecessary blanks
+setopt INC_APPEND_HISTORY_TIME  # Append command to history file immediately after execution
+setopt EXTENDED_HISTORY  # Record command start time
+
+
 # Save all aliases as abbreviations. Remember not to create an abbr, but to always use an alias.
 # This way we can still use 'which' to find aliases and the aliases get expanded. Best of both words
 ABBR_QUIET_ORIGINAL_VALUE="${ABBR_QUIET:?0}" # See if $ABBR_QUIET is turned on. Default to off (0) if not set

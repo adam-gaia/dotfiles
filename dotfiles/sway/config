@@ -182,6 +182,12 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86Search exec bemenu-run
 
 
+# Gaps and border
+gaps inner 10
+# Remove window title bar
+default_border pixel 2
+
+
 #
 # Scratchpad:
 #

@@ -247,3 +247,6 @@ bar {
 # Systemd
 include /etc/sway/config.d/*
 exec_always "systemctl --user import-environment; systemctl --user start sway-session.target"
+
+# Mako notifications
+exec mako

@@ -170,6 +170,11 @@ swayidle:
     links:
       - "${XDG_CONFIG_HOME}/systemd/user/swayidle.service"
 
+waybar:
+  - src: config.json
+    links:
+      - "${XDG_CONFIG_HOME}/waybar/config"
+
 ripgrep:
   - src: config
     links:

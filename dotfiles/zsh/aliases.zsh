@@ -2,6 +2,9 @@
 
 alias reload='exec zsh'
 
+# Zsh's 'history' builtin only shows 16 items. This alias shows all history
+alias history='fc -l 1'
+
 # Issues with alacritty title bar on wayland. See https://wiki.archlinux.org/title/Alacritty#No_title_bar_on_Wayland_GNOME
 alias alacritty='WAYLAND_DISPLAY="" alacritty'
 

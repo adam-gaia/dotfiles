@@ -444,6 +444,27 @@ function git()
 #     done
 # }
 
+function page()
+{
+    # Run input command piped to a pager
+    # Must use 'eval' so that aliases are expanded
+    eval "$@ | ${PAGER}"
+}
+
+function hist()
+{
+    # Search input in history
+    # Must use 'eval' so that the 'history' alias is expanded
+    eval "history | grep $@"
+}
+
+function phist()
+{
+    # View shell history in a pager, but start at bottom
+    # Must use 'eval' so that the 'history' alias is expanded
+    eval "history | less +G"
+}
+
 function cht()
 {
     curl "cht.sh/${1}" 2> /dev/null | less --RAW-CONTROL-CHARS

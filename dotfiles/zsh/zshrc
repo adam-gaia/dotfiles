@@ -76,7 +76,7 @@ source <(antibody init)
 antibody bundle zsh-users/zsh-autosuggestions
 antibody bundle zsh-users/zsh-syntax-highlighting
 antibody bundle zsh-users/zsh-completions
-antibody bundle olets/zsh-abbr
+antibody bundle olets/zsh-abbr # Expands aliases as abbrs instead
 
 
 # Suggestion strategies
@@ -124,8 +124,16 @@ eval "$(starship init zsh)"
 
 
 # --------------------------------------------------------------------------------
+# Fzf keybinds (ctrl-r history, ctrl-t file paths, alt-c cd to dir)
+# --------------------------------------------------------------------------------
+source /usr/share/doc/fzf/examples/key-bindings.zsh
+
+
+# --------------------------------------------------------------------------------
 # Auto completion
 # --------------------------------------------------------------------------------
+source /usr/share/doc/fzf/examples/completion.zsh  # '**<tab>' See source /usr/share/doc/fzf/examples/key-bindings.zsh
+
 zstyle :compinstall filename "${ZDOTDIR}/.zshrc"
 fpath=("${ASDF_DIR}/completions" "${fpath}")
 

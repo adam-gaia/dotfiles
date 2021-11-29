@@ -24,7 +24,7 @@
         "!plaintext"
     ],
     "cmake.configureOnOpen": false,
-    "python.defaultInterpreterPath": "/usr/bin/python3",
+    "python.defaultInterpreterPath": "/usr/local/bin/python",
     "security.workspace.trust.untrustedFiles": "open",
     "python.analysis.extraPaths": [
         "/home/sarcos/.cache/asdf/shims"
@@ -37,5 +37,6 @@
         "editor.wordBasedSuggestions": false
     },
     "latex-workshop.view.pdf.viewer": "tab",
-    "window.zoomLevel": 2
+    "window.zoomLevel": 2,
+    "python.formatting.provider": "black"
 }

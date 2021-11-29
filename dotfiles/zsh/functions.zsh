@@ -453,9 +453,13 @@ function page()
 
 function hist()
 {
-    # Search input in history
+    # Search input in history. Show all history if no input arg provided
     # Must use 'eval' so that the 'history' alias is expanded
-    eval "history | grep $@"
+    if [[ -z "${@}" ]]; then
+        eval 'history'
+    else
+        eval "history | grep $@"
+    fi
 }
 
 function phist()

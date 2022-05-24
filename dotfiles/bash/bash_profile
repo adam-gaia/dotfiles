@@ -238,3 +238,5 @@ fi
 # Starship Prompt (https://starship.rs) - THIS MUST BE LAST
 # --------------------------------------------------------------------------------
 eval "$(starship init bash)"
+
+if [ -e /home/sarcos/.nix-profile/etc/profile.d/nix.sh ]; then . /home/sarcos/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

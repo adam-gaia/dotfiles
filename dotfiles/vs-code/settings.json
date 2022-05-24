@@ -1,42 +1,49 @@
 {
-    "editor.fontFamily": "FiraCode Nerd Font",
-    "files.autoSave": "afterDelay",
-    "workbench.editorAssociations": {
-        "*.ipynb": "jupyter-notebook"
-    },
-    "python.linting.flake8Enabled": true,
-    "python.linting.enabled": true,
-    "python.pythonPath": "/usr/bin/python3",
-    "workbench.colorTheme": "Monokai",
-    "workbench.preferredDarkColorTheme": "Monokai",
-    "workbench.preferredLightColorTheme": "Monokai",
-    "cSpell.enabled": true,
-    "workbench.startupEditor": "none",
-    "workbench.activityBar.visible": false,
-    "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
-    "files.associations": {
-        "*.toml": "toml"
-    },
-    "cSpell.userWords": [
-        "repos"
+  "editor.fontFamily": "FiraCode Nerd Font",
+  "files.autoSave": "afterDelay",
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter-notebook"
+  },
+  "python.linting.enabled": true,
+  "python.pythonPath": "/usr/bin/python3",
+  "workbench.colorTheme": "Monokai",
+  "workbench.preferredDarkColorTheme": "Monokai",
+  "workbench.preferredLightColorTheme": "Monokai",
+  "cSpell.enabled": true,
+  "workbench.startupEditor": "none",
+  "workbench.activityBar.visible": false,
+  "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
+  "files.associations": {
+    "*.toml": "toml"
+  },
+  "cSpell.userWords": [
+    "repos",
+    "Sarcos"
+  ],
+  "cSpell.enableFiletypes": [
+    "!plaintext"
+  ],
+  "cmake.configureOnOpen": false,
+  "python.defaultInterpreterPath": "python3",
+  "security.workspace.trust.untrustedFiles": "open",
+  "python.analysis.extraPaths": [],
+  "[python]": {
+    "gitlens.codeLens.symbolScopes": [
+      "!Module"
     ],
-    "cSpell.enableFiletypes": [
-        "!plaintext"
-    ],
-    "cmake.configureOnOpen": false,
-    "python.defaultInterpreterPath": "/usr/local/bin/python",
-    "security.workspace.trust.untrustedFiles": "open",
-    "python.analysis.extraPaths": [
-        "/home/sarcos/.cache/asdf/shims"
-    ],
-    "[python]": {
-
-        "gitlens.codeLens.symbolScopes": [
-            "!Module"
-        ],
-        "editor.wordBasedSuggestions": false
-    },
-    "latex-workshop.view.pdf.viewer": "tab",
-    "window.zoomLevel": 2,
-    "python.formatting.provider": "black"
+    "editor.wordBasedSuggestions": false
+  },
+  "latex-workshop.view.pdf.viewer": "tab",
+  "window.zoomLevel": 2,
+  "python.formatting.provider": "black",
+  "rust-analyzer.inlayHints.smallerHints": false,
+  "editor.tabCompletion": "on",
+  "python.languageServer": "Pylance",
+  "python.venvPath": "/home/sarcos/.cache/pypoetry/virtualenvs/smc-24BL2xUr-py3.9",
+  "python.linting.flake8Enabled": true,
+  "python.linting.flake8Path": "/home/sarcos/repo/smc2/.venv/bin/flakeheaven",
+  "editor.formatOnSave": true,
+  "[dockerfile]": {
+    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+  }
 }

@@ -6,7 +6,6 @@
 #
 # Startup Order: zshenv, zprofile, zshrc, zlogin
 
-
 # --------------------------------------------------
 # Shell & term options
 # --------------------------------------------------
@@ -19,7 +18,7 @@ unsetopt beep
 # Report background jobs at next prompt instead of immediatly
 unsetopt notify
 
-# Prompt to fix misspelled commands 
+# Prompt to fix misspelled commands
 setopt correct
 setopt correct_all # Try to correct args too
 
@@ -41,32 +40,25 @@ setopt AUTO_REMOVE_SLASH
 # Glob will match dot files without the explicit dot. Lets tab complete suggest dotfiles
 setopt globdots
 
-
 # Use readline keybinds even though we use vim as the default editor
 bindkey -e
 
+if command -v wal &>/dev/null; then
+    # Set monokai theme. Run in background because it can hang - TODO
+    # Pywal cursor color may not show. Fix here: https://github.com/dylanaraps/pywal/issues/382 # TODO Automate the fix with sed or something # Note, we now use pywal in a docker container $DOTFILEDIR/pywal. Make the change in there
+    timeout 2 wal -e -q --theme "${XDG_CONFIG_HOME}/pywal/modified_monokai.json" &
+fi
 
-# Set monokai theme. Run in background because it can hang - TODO
-# Pywal cursor color may not show. Fix here: https://github.com/dylanaraps/pywal/issues/382 # TODO Automate the fix with sed or something # Note, we now use pywal in a docker container $DOTFILEDIR/pywal. Make the change in there
-timeout 2 wal -e -q --theme "${XDG_CONFIG_HOME}/pywal/modified_monokai.json" &
-# Set files based on type
-export LS_COLORS="$(vivid generate monokai)" # TODO: we should only generate once when provisioning the machine and set to that output in here
-
-
+if command -v vivid &>/dev/null; then
+    # Set file colors based on type
+    export LS_COLORS="$(vivid generate monokai)" # TODO: we should only generate once when provisioning the machine and set to that output in here
+fi
 
 # --------------------------------------------------
 # Source extenal files
 # --------------------------------------------------
 source "${XDG_CONFIG_HOME}/zsh/functions.zsh"
 source "${XDG_CONFIG_HOME}/zsh/aliases.zsh"
-
-# asdf language runtime manager
-source "${ASDF_DIR}/asdf.sh"
-# Remove asdf shims from the path. I symlink them to ~/.local/bin/
-export PATH="${PATH/${ASDF_USER_SHIMS}:/}" # TODO: I'm not using asdf, I'm using my own fork, so I shouldnt even export these paths. Update that fork
-
-
-
 
 # Install antibody (plugin manager)
 # curl -sfL git.io/antibody | sh -s - -b /usr/local/bin
@@ -78,27 +70,23 @@ antibody bundle zsh-users/zsh-syntax-highlighting
 antibody bundle zsh-users/zsh-completions
 antibody bundle olets/zsh-abbr # Expands aliases as abbrs instead
 
-
 # Suggestion strategies
 export ZSH_AUTOSUGGEST_STRATEGY=(completion history)
-
 
 # History search with up and down arrows
 #bindkey '^[[A' history-substring-search-up
 #bindkey '^[[B' history-substring-search-down
 
-
-setopt HIST_IGNORE_ALL_DUPS  # Do not put duplicated command into history list
-setopt HIST_SAVE_NO_DUPS  # Do not save duplicated command
-setopt HIST_REDUCE_BLANKS  # Remove unnecessary blanks
-setopt INC_APPEND_HISTORY_TIME  # Append command to history file immediately after execution
-setopt EXTENDED_HISTORY  # Record command start time
-
+setopt HIST_IGNORE_ALL_DUPS    # Do not put duplicated command into history list
+setopt HIST_SAVE_NO_DUPS       # Do not save duplicated command
+setopt HIST_REDUCE_BLANKS      # Remove unnecessary blanks
+setopt INC_APPEND_HISTORY_TIME # Append command to history file immediately after execution
+setopt EXTENDED_HISTORY        # Record command start time
 
 # Save all aliases as abbreviations. Remember not to create an abbr, but to always use an alias.
 # This way we can still use 'which' to find aliases and the aliases get expanded. Best of both words
 ABBR_QUIET_ORIGINAL_VALUE="${ABBR_QUIET:?0}" # See if $ABBR_QUIET is turned on. Default to off (0) if not set
-export ABBR_QUIET=1 # Force quiet
+export ABBR_QUIET=1                          # Force quiet
 abbr clear-session
 abbr import-aliases
 abbr import-git-aliases
@@ -106,40 +94,43 @@ export ABBR_QUIET="${ABBR_QUIET_ORIGINAL_VALUE}" # Reset value
 # There is some issue where the 'fd' alias/abbr combo duplicates flags
 unalias fd
 
-
 # --------------------------------------------------------------------------------
 # zoxide zmarter cd
 # Make sure to set env vars before calling 'zoxide init'
+# jk this is terrible. I keep jumping into random directories all over the place and not realizing I'm in the wrong one
 # --------------------------------------------------------------------------------
-export _ZO_ECHO=1
-export _ZO_RESOLVE_SYMLINKS=1
-# Init zoxide without creating 'z' and 'zi' aliases
-eval "$(zoxide init --no-aliases zsh)"
-
+# export _ZO_ECHO=1
+# export _ZO_RESOLVE_SYMLINKS=1
+# # Init zoxide without creating 'z' and 'zi' aliases
+# eval "$(zoxide init --no-aliases zsh)"
 
 # --------------------------------------------------------------------------------
 # Starship prompt
 # --------------------------------------------------------------------------------
-eval "$(starship init zsh)"
-
+if command -v starship &>/dev/null; then
+    eval "$(starship init zsh)"
+fi
 
 # --------------------------------------------------------------------------------
 # Fzf keybinds (ctrl-r history, ctrl-t file paths, alt-c cd to dir)
 # --------------------------------------------------------------------------------
-source /usr/share/doc/fzf/examples/key-bindings.zsh
-
+if command -v fzf &>/dev/null; then
+    source /usr/share/doc/fzf/examples/key-bindings.zsh
+fi
 
 # --------------------------------------------------------------------------------
 # Auto completion
 # --------------------------------------------------------------------------------
-source /usr/share/doc/fzf/examples/completion.zsh  # '**<tab>' See source /usr/share/doc/fzf/examples/key-bindings.zsh
+if command -v fzf &>/dev/null; then
+    source /usr/share/doc/fzf/examples/completion.zsh # '**<tab>' See source /usr/share/doc/fzf/examples/key-bindings.zsh
+fi
 
 zstyle :compinstall filename "${ZDOTDIR}/.zshrc"
-fpath=("${ASDF_DIR}/completions" "${fpath}")
 
 autoload -Uz compinit
 compinit
 
-
-# Sometimes sway cant find its socket
-export SWAYSOCK=/run/user/$(id -u)/sway-ipc.$(id -u).$(pgrep -x sway).sock
+if pgrep --uid "${UID}" --exact 'sway' &>/dev/null; then
+    # Sometimes sway cant find its socket
+    export "SWAYSOCK=/run/user/${UID}/sway-ipc.${UID}.$(pgrep --exact sway).sock"
+fi

@@ -17,8 +17,8 @@
 [credential]
 	helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
 
-[pull]
-	ff = only
+# [pull]
+# 	ff = only
 
 [init]
 	defaultBranch = main

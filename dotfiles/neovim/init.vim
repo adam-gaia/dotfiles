@@ -93,11 +93,7 @@ Plug 'dylanaraps/wal.vim'
 
 " File tree
 Plug 'kyazdani42/nvim-tree.lua'
-let g:nvim_tree_auto_open = 1 "0 by default, opens the tree when typing `vim $DIR` or `vim`
-let g:nvim_tree_auto_close = 1 "0 by default, closes the tree when it's the last window
 let g:nvim_tree_auto_ignore_ft = [ 'startify', 'dashboard' ] "empty by default, don't auto open tree on specific filetypes.
-let g:nvim_tree_follow = 1 "0 by default, this option allows the cursor to be updated when entering a buffer
-let g:nvim_tree_follow_update_path = 1 "0 by default, will update the path of the current dir if the file is not inside the tree. Default is 0
 let g:nvim_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open
 let g:nvim_tree_git_hl = 1 "0 by default, will enable file highlight for git attributes (can be used without the icons).
 let g:nvim_tree_highlight_opened_files = 1 "0 by default, will enable folder and file icon highlight for opened files/directories.
@@ -107,6 +103,14 @@ let g:nvim_tree_special_files = { 'README.md': 1, 'Makefile': 1, 'MAKEFILE': 1 }
 " Git diff markers
 Plug 'airblade/vim-gitgutter'
 
+" Render minimap to preview full file
+Plug 'wfxr/minimap.vim'
+let g:minimap_width = 10
+let g:minimap_auto_start = 1
+let g:minimap_auto_start_win_enter = 1
+let g:minimap_git_colors = 1
+let g:minimap_highlight_search = 1
+let g:minimap_highlight_range = 1
 
 call plug#end()    " Initialize plugin system
 
@@ -118,6 +122,18 @@ lua << EOF
 
   -- Trouble
   require("trouble").setup {
+  }
+
+  -- Nvim-tree
+  require("nvim-tree").setup {
+    auto_open = true,
+    -- by default, opens the tree when typing `vim $DIR` or `vim`
+    nvim_tree_auto_close = true,
+    -- 0 by default, closes the tree when it's the last window
+    nvim_tree_follow = true,
+    -- 0 by default, this option allows the cursor to be updated when entering a buffer
+    nvim_tree_follow_update_path = true
+    -- 0 by default, will update the path of the current dir if the file is not inside the tree. Default is 0
   }
 
   -- Status bar
@@ -133,7 +149,7 @@ lua << EOF
   completion_callback = require'completion'.on_attach
 
   -- python
-  lspconfig.pyright.setup{
+  lspconfig.pyright.setup {
     enabled = true;
     pythonpath = "/usr/local/bin/python";
     on_attach=completion_callback

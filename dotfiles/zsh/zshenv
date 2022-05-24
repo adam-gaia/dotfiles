@@ -66,19 +66,13 @@ export LESS_TERMCAP_ue=$'\e[0m'
 export EDITOR='vim'
 # Set less as the default pager (like when reading man pages)
 export PAGER="less"
-# '-R' interprets terminal color escape codes, '-F' quits if content is less than 1 page (acts more like cat for short files)
-export LESS='-RF --mouse --wheel-lines=5'
+# '-R' interprets terminal color escape codes, '-F' quits if content is less than 1 page (acts more like cat for short files), 'LONG-PROMPT' intentionally capitalized for an even longer prompt
+export LESS='-RF --LONG-PROMPT --mouse --wheel-lines=5'
 
 
 # --------------------------------------------------
 # Force tools to conform to XDG base directory specification
 # --------------------------------------------------
-# asdf language runtime version manager
-export ASDF_DEFAULT_TOOL_VERSIONS_FILENAME=".tool-versions"
-export ASDF_CONFIG_FILE="${XDG_CONFIG_HOME}/asdf/asdfrc"
-export ASDF_DIR="${HOME}/.asdf" # TODO: find a better location for this one. The cache dir doesn't seem right
-export ASDF_DATA_DIR="${XDG_CACHE_HOME}/asdf"
-
 export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME}/ripgrep/config"
 export BAT_CONFIG_PATH="${XDG_CONFIG_HOME}/bat/bat.conf"
 export PYTHONSTARTUP="${XDG_CONFIG_HOME}/python/pythonrc.py"
@@ -86,5 +80,9 @@ export PYTHONSTARTUP="${XDG_CONFIG_HOME}/python/pythonrc.py"
 # --------------------------------------------------
 # Path
 # --------------------------------------------------
+export PATH="${HOME}/.cargo/bin:${PATH}"
 export PATH="${HOME}/.local/bin:${PATH}"
 export PATH="${HOME}/repo/scripts:${PATH}"
+export PATH="${HOME}/.pyenv/bin:${PATH}"
+
+if [ -e /home/sarcos/.nix-profile/etc/profile.d/nix.sh ]; then . /home/sarcos/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

@@ -4,14 +4,6 @@ alacritty:
     links: 
       - ${XDG_CONFIG_HOME}/alacritty/alacritty.yml
 
-asdf:
-  - src: tool-versions
-    links:
-      - ${HOME}/.tool-versions
-  - src: asdfrc
-    links:
-      - ${XDG_CONFIG_HOME}/asdf/asdfrc
-
 bash:
   - src: bashrc
     links:

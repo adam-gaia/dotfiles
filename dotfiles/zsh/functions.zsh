@@ -217,16 +217,16 @@ printUnderline()
 # Override git
 # Git does not allow aliases or user defined sub-commands to overide existing commands
 # ---------------------------------------------------------------------------------
-function git()
-{
-    if [[ "${1}" == "commit" ]]; then
-        # Use commitizen to make a commit
-        cz ${@}
-    else
-        # Bash/zsh buildin 'command' stops this function from recursively calling itself by only running external commands
-        command git ${@}
-    fi
-}
+# function git()
+# {
+#     if [[ "${1}" == "commit" ]]; then
+#         # Use commitizen to make a commit
+#         cz ${@}
+#     else
+#         # Bash/zsh buildin 'command' stops this function from recursively calling itself by only running external commands
+#         command git ${@}
+#     fi
+# }
 
 
 # --------------------------------------------------------------------------------
@@ -444,6 +444,18 @@ function git()
 #     done
 # }
 
+function barfix()
+{
+    # TODO: once I've figured out why waybar runs a second time on startup reove this function
+    local num_bars="$(pgrep waybar | wc -l)"
+    if [[ "${num_bars}" -gt 1 ]]; then
+        kill "$(pgrep waybar | tail -n 1)"
+    else
+      echo "There is not a redundant waybar running"
+      return 1
+    fi
+}
+
 function page()
 {
     # Run input command piped to a pager
@@ -502,15 +514,16 @@ function ascii()
 }
 
 # Overide cd
-function cd ()
+function cd()
 {
     # Use zoxide an auto-jump style cd replacement
     # https://github.com/ajeetdsouza/zoxide
-    __zoxide_z "$@"
-
-    # Show directory contents after cd'ing with ls replacment: lsd
-    # https://github.com/Peltoche/lsd
-    lsd --color=always
+    #__zoxide_z "$@" # No actually dont do that I keep jumping into random places and not realizing
+    if [[ "$#" -eq '0' ]]; then
+        builtin cd
+    else
+        builtin cd "$*" && lsd --color=always
+    fi
 }
 
 # Create a directory and cd to it

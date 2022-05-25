@@ -102,4 +102,5 @@ if [[ "$(command -v grc)" ]]; then # TODO add more checks for commands before us
     alias ifconfig='colorify ifconfig'
 fi
 alias tree='lsd --tree --color=always'
-alias bat='batcat'
+alias cat='bat'
+

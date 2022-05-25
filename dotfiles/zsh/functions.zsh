@@ -495,7 +495,7 @@ function cat()
 {
     case "$#" in
         0|1)
-            batcat "${@}"
+            bat "${@}"
             ;;
 
         *)

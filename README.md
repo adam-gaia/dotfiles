@@ -1,5 +1,14 @@
 # Dotfiles
 
+## Unlock git crypt
+
+```bash
+# Save git crypt key in a file outside of the repo
+KEY_FILE="~/repo/personal/git-crypt-private-key.key"
+echo "KEY" > "${KEY_FILE}"
+git-crypt unlock "${KEY_FILE}"
+```
+
 ## Usage
 
 ```bash

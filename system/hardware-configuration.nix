@@ -27,5 +27,6 @@
   # networking.interfaces.enp0s8.useDHCP = lib.mkDefault true;
 
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  virtualisation.virtualbox.guest.enable = true;
+  # Broken in 22.05
+  #virtualisation.virtualbox.guest.enable = true;
 }

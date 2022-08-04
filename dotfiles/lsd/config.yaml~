@@ -1,6 +1,6 @@
 color:
   when: always
-  theme: my-theme
+  theme: adam
 
 icons:
   when: always

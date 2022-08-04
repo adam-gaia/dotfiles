@@ -2,9 +2,9 @@
   description = "My system config";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-21.11";
+    nixpkgs.url = "nixpkgs/nixos-22.05";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    home-manager.url = "github:nix-community/home-manager/release-21.11";
+    home-manager.url = "github:nix-community/home-manager/release-22.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -34,7 +34,6 @@
       nixbox = lib.nixosSystem {
         inherit system;
         modules = [
-          nixos-hardware.nixosModules.dell-precision-5530
           ./system/configuration.nix
         ];
       };

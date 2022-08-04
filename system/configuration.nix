@@ -10,6 +10,12 @@
       ./hardware-configuration.nix
     ];
 
+  # Enable flakes
+  nix.package = pkgs.nixFlakes;
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
+
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
@@ -68,36 +74,50 @@
     isNormalUser = true;
     uid = 1000;
     initialPassword = "agaia";
+    shell = pkgs.zsh;
     extraGroups = [ "wheel" "docker"]; # 'wheel' grants sudoer permission.
-    packages = with pkgs; [
-      tmux
-      zsh
-      vim
-      sudo
-      curl
-      wget
-      nano
-      gcc
-    ];
   };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-      ];
+    bash
+    vim  
+    zsh
+    tmux
+    gnumake
+    git
+    gcc
+    htop
+    less
+    curl
+    wget
+    parted
+    neovim
+  ];
 
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
-  programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
+  #programs.mtr.enable = true;
+  #programs.gnupg.agent = {
+  #  enable = true;
+  #  enableSSHSupport = true;
+  #};
 
   virtualisation.docker.enable = true;
   virtualisation.podman.enable = true;
 
+  # XDG standard - improces communication between bundled flatpak apps and Wayland
+  xdg = {
+    portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-wlr
+        #xdg-desktop-portal-gtk # I think this is already set with sway or gnome
+      ];
+    };
+  };
   services.flatpak.enable = true;
   
 
@@ -111,11 +131,6 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  system.copySystemConfiguration = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

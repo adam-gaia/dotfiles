@@ -109,10 +109,10 @@ printRed()
     # Use argument or standard input. Reads from stdin unless an arg is given
     if [[ "$#" -eq 0 ]]; then
         while IFS= read -r line; do
-            echo -en "${RED}${line}${END_COLOR}"
+            echo -en "${RED}${line}${NO_COLOR}"
         done
     else
-        echo -en "${RED}${*}${END_COLOR}"
+        echo -en "${RED}${*}${NO_COLOR}"
     fi
 }
 
@@ -121,10 +121,10 @@ printGreen()
     # Use argument or standard input. Reads from stdin unless an arg is given
     if [[ "$#" -eq 0 ]]; then
         while IFS= read -r line; do
-            echo -en "${GREEN}${line}${END_COLOR}"
+            echo -en "${GREEN}${line}${NO_COLOR}"
         done
     else
-        echo -en "${GREEN}${*}${END_COLOR}"
+        echo -en "${GREEN}${*}${NO_COLOR}"
     fi
 }
 
@@ -133,10 +133,10 @@ printYellow()
     # Use argument or standard input. Reads from stdin unless an arg is given
     if [[ "$#" -eq 0 ]]; then
         while IFS= read -r line; do
-            echo -en "${YELLOW}${line}${END_COLOR}"
+            echo -en "${YELLOW}${line}${NO_COLOR}"
         done
     else
-        echo -en "${YELLOW}${*}${END_COLOR}"
+        echo -en "${YELLOW}${*}${NO_COLOR}"
     fi
 }
 
@@ -145,10 +145,10 @@ printBlue()
     # Use argument or standard input. Reads from stdin unless an arg is given
     if [[ "$#" -eq 0 ]]; then
         while IFS= read -r line; do
-            echo -en "${BLUE}${line}${END_COLOR}"
+            echo -en "${BLUE}${line}${NO_COLOR}"
         done
     else
-        echo -en "${BLUE}${*}${END_COLOR}"
+        echo -en "${BLUE}${*}${NO_COLOR}"
     fi
 }
 
@@ -157,10 +157,10 @@ printBlack()
     # Use argument or standard input. Reads from stdin unless an arg is given
     if [[ "$#" -eq 0 ]]; then
         while IFS= read -r line; do
-            echo -en "${BLACK}${line}${END_COLOR}"
+            echo -en "${BLACK}${line}${NO_COLOR}"
         done
     else
-        echo -en "${BLACK}${*}${END_COLOR}"
+        echo -en "${BLACK}${*}${NO_COLOR}"
     fi
 }
 
@@ -169,10 +169,10 @@ printPurple()
     # Use argument or standard input. Reads from stdin unless an arg is given
     if [[ "$#" -eq 0 ]]; then
         while IFS= read -r line; do
-            echo -en "${PURPLE}${line}${END_COLOR}"
+            echo -en "${PURPLE}${line}${NO_COLOR}"
         done
     else
-        echo -en "${PURPLE}${*}${END_COLOR}"
+        echo -en "${PURPLE}${*}${NO_COLOR}"
     fi
 }
 
@@ -181,10 +181,10 @@ printCyan()
     # Use argument or standard input. Reads from stdin unless an arg is given
     if [[ "$#" -eq 0 ]]; then
         while IFS= read -r line; do
-            echo -en "${CYAN}${line}${END_COLOR}"
+            echo -en "${CYAN}${line}${NO_COLOR}"
         done
     else
-        echo -en "${CYAN}${*}${END_COLOR}"
+        echo -en "${CYAN}${*}${NO_COLOR}"
     fi
 }
 
@@ -196,7 +196,7 @@ printBold()
             echo -en "${BOLD_ON}${line}${BOLD_OFF}"
         done
     else
-        echo -en "${BOLD_ON}${*}${END_COLOR}"
+        echo -en "${BOLD_ON}${*}${NO_COLOR}"
     fi
 }
 
@@ -208,7 +208,7 @@ printUnderline()
             echo -en "${UNDERLINE_ON}${line}${UNDERLINE_OFF}"
         done
     else
-        echo -en "${UNDERLINE_ON}${*}${END_COLOR}"
+        echo -en "${UNDERLINE_ON}${*}${NO_COLOR}"
     fi
 }
 

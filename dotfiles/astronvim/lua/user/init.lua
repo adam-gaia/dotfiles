@@ -1,4 +1,5 @@
 local config = {
+  -- Most of this is from AstroNvim's example user config
 
   -- Configure AstroNvim updates
   updater = {
@@ -225,6 +226,10 @@ local config = {
       ["<leader>bt"] = { "<cmd>BufferLineSortByTabs<cr>", desc = "Sort by tabs" },
       -- quick save
       -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
+      ["<up>"] = {"<nop>", desc = "Ignore up arrow key"},
+      ["<down>"] = {"<nop>", desc = "Ignore down arrow key"},
+      ["<left>"] = {"<nop>", desc = "Ignore left arrow key"},
+      ["<right>"] = {"<nop>", desc = "Ignore right arrow key"},
     },
     t = {
       -- setting a mapping to false will disable it

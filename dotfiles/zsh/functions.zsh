@@ -40,7 +40,7 @@ function rm()
                 original="${arg}"
                 new="${TRASHCAN}/$(basename "${original}")_${timestamp}"
                 echo "Moving trash can..."
-                /bin/mv --no-clobber "${original}" "${new}"
+                $(which mv) --no-clobber "${original}" "${new}"
                 ;;
         esac
         shift

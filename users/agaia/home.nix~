@@ -201,15 +201,11 @@
 
 
     home.sessionVariables = {
-
-      XDG_CONFIG_HOME = "/home/agaia/.config";
-      XDG_CACHE_HOME = "/home/agaia/.cache";
-
       EDITOR = "vim";
       PAGER = "less";
       LESS = "-RF --LONG-PROMPT --mouse --wheel-lines=5";
-      RIPGREP_CONFIG_PATH = "/home/agaia/.config/ripgrep/config";
-      PYTHONSTARTUP = "/home/agaia/.config/python/pythonrc.py";
+      RIPGREP_CONFIG_PATH = "\${XDG_CONFIG_HOME}/ripgrep/config";
+      PYTHONSTARTUP = "\${XDG_CONFIG_HOME}/python/pythonrc.py";
 
     # Heads up: Colors are mapped to the Pywal Monokai scheme
     # TODO: checkout color heading from https://github.com/dylanaraps/pure-sh-bible#get-the-directory-name-of-a-file-path
@@ -281,53 +277,45 @@
     vivid
     fd
     #didyoumean
-    nodejs
   ];
 
   # TODO: note said not to forget this
   #environment.pathsToLink = [ "/share/zsh" ];
       
-  xdg = {
-    enable = true; 
-  configFile = {
-    # Symlink dotfiles until I get around to nixifying them
-      #nvim = {
-      #  source = ../../dotfiles/nvim;
-      #  recursive = true;
-      #}; 
-      astronvim = {
-        source = ../../dotfiles/astronvim;
-        recursive = true;
-      };
-      bat = {
-        source = ../../dotfiles/bat;
-        recursive = true;
-      };
-      lsd = {
-        source = ../../dotfiles/lsd;
-        recursive = true;
-      };
-      ripgrep = {
-        source = ../../dotfiles/ripgrep;
-        recursive = true;
-      };
-      vivid = {
-        source = ../../dotfiles/vivid;
-        recursive = true;
-      };
-      tmux = {
-        source = ../../dotfiles/tmux;
-        recursive = true;
-      };
-      starship = {
-        source = ../../dotfiles/starship/starship.toml;
-        target = "starship.toml";
-      };
-      zshfunctions = {
-        source = ../../dotfiles/zsh/functions.zsh;
-        target = "zsh/functions.zsh";
-      };
-    };
+
+  # Symlink dotfiles until I get around to nixifying them
+  xdg.configFile.nvim = {
+    source = ../../dotfiles/neovim;
+    recursive = true;
+  };  
+  xdg.configFile.bat = {
+    source = ../../dotfiles/bat;
+    recursive = true;
   };
+  xdg.configFile.lsd = {
+    source = ../../dotfiles/lsd;
+    recursive = true;
+  };
+  xdg.configFile.ripgrep = {
+    source = ../../dotfiles/ripgrep;
+    recursive = true;
+  };
+  xdg.configFile.vivid = {
+    source = ../../dotfiles/vivid;
+    recursive = true;
+  };
+  xdg.configFile.tmux = {
+    source = ../../dotfiles/tmux;
+    recursive = true;
+  };
+  xdg.configFile.starship = {
+    source = ../../dotfiles/starship/starship.toml;
+    target = "starship.toml";
+  };
+  xdg.configFile.zshfunctions = {
+    source = ../../dotfiles/zsh/functions.zsh;
+    target = "zsh/functions.zsh";
+  };
+
 }
 

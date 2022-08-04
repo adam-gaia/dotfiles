@@ -1,7 +1,9 @@
-[user]
-	name = Adam Gaia
-	username = a.gaia
-	email = a.gaia@sarcos.com
+[includeIf "gitdir:~/repo/work/"]
+  path = ~/.config/git/config-work
+
+[includeIf "gitdir:~/repo/personal/"]
+  path = ~/.config/git/config-personal
+
 
 [core]
 	editor = vim

@@ -327,6 +327,10 @@
         source = ../../dotfiles/zsh/functions.zsh;
         target = "zsh/functions.zsh";
       };
+      git = {
+        source = ../../dotfiles/git;
+        recursive = true;
+      };
     };
   };
 }

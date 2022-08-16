@@ -54,9 +54,7 @@
 
   # Configure keymap in X11
   services.xserver.layout = "us";
-  services.xserver.xkbOptions = {
-    "caps:escape" # map caps to escape.
-  };
+  services.xserver.xkbOptions = "caps:escape"; # map caps to escape.
 
   # Enable Gnome, but exclude some apps
   services.xserver.displayManager.gdm.enable = true;

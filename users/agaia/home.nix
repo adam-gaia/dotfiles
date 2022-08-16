@@ -302,6 +302,9 @@
       draw_bold_text_with_bright_colors = false;
 
       cursor = {
+        style = {
+	  shape = "Block";
+	};
         blinking = "On";
         vi_mode_style = "Beam";
         blink_interval = 750;

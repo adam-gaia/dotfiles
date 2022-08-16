@@ -305,7 +305,7 @@
         blinking = "On";
         vi_mode_style = "Beam";
         blink_interval = 750;
-        unfocused_hollow = "true";
+        unfocused_hollow = true;
         thickness = 0.15;
       };
 

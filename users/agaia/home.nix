@@ -299,7 +299,7 @@
       use_thin_strokes = "true";
       };
 
-      draw_bold_text_with_bright_colors = "false";
+      draw_bold_text_with_bright_colors = false;
 
       cursor = {
         blinking = "On";

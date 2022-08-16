@@ -258,6 +258,16 @@
     };
   }; 
 
+  programs.gnome-terminal = {
+    enable = true;
+    profile = {
+      "5ddfe964-7ee6-4131-b449-26bdd97518f7" = {
+        default = true;
+	visibleName = "Adam Default";
+	audibleBell = false;
+      };
+    };
+  };
 
 
   programs.fzf = {

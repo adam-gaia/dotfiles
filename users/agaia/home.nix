@@ -294,7 +294,7 @@
           # style: Bold Italic
         };
 
-      size = "14";
+      size = 14;
 
       use_thin_strokes = "true";
       };
@@ -304,9 +304,9 @@
       cursor = {
         blinking = "On";
         vi_mode_style = "Beam";
-        blink_interval = "750";
+        blink_interval = 750;
         unfocused_hollow = "true";
-        thickness = "0.15";
+        thickness = 0.15;
       };
 
       #key_bindings = {

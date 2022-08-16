@@ -296,7 +296,7 @@
 
       size = 14;
 
-      use_thin_strokes = "true";
+      use_thin_strokes = true;
       };
 
       draw_bold_text_with_bright_colors = false;

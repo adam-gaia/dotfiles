@@ -179,6 +179,85 @@
     
 
   };
+ 
+
+ #[filter "lfs"]
+#	clean = git-lfs clean -- %f
+#	smudge = git-lfs smudge -- %f
+#	process = git-lfs filter-process
+#	required = true
+
+#[color "grep"]
+#	linenumber = green
+#    filename = "magenta" 
+
+#[color "diff"]
+#  meta = white
+#  frag = magenta
+#  new = green
+
+#[color "status"]
+#  added = green
+#  changed = yellow
+#  untracked = red
+
+#[diff "bin"]
+    # Use `hexdump` to diff binary files.
+	# From https://github.com/alrra/dotfiles/blob/main/src/git/gitconfig
+#    textconv = hexdump --canonical --no-squeezing
+
+
+  programs.git = {
+    enable = true;
+    lfs.enable = true;
+    aliases = {
+	url = "remote get-url origin";
+	visual = "!gitk";
+	root = "rev-parse --show-toplevel";
+	# Use commitizen to commit
+	cz = "!cz commit";
+	batch = "!gitbatch";
+    };
+    includes = [
+      {
+        path = "~/.config/git/config-work";
+	condition = "gitdir:~/repo/work/";
+      }
+      {
+        path = "~/.config/git/config-personal";
+	condition = "gitdir:~/repo/personal/";
+      }
+    ];
+    extraConfig = {
+      credential.helper = "${
+          pkgs.git.override { withLibsecret = true; }
+        }/bin/git-credential-libsecret";
+
+      core = {
+	editor = "vim";
+	pager = "less";
+	whitespace = "fix,-indent-with-non-tab,trailing-space,cr-at-eol";
+      };
+
+      init = {
+	defaultBranch = "main";
+	#TODO templateDir = /home/sarcos/repo/dotfiles/git/git-template-dir;
+      };
+
+      advice = {
+	detachedHead = false;
+      };
+
+      merge = {
+	conflictstyle = "diff3";
+      };
+
+      color = {
+	ui = "auto";
+      };
+    };
+  }; 
+
 
 
   programs.fzf = {
@@ -328,8 +407,8 @@
         target = "zsh/functions.zsh";
       };
       git = {
-        source = ../../dotfiles/git;
-        recursive = true;
+       source = ../../dotfiles/git;
+      recursive = true;
       };
     };
   };

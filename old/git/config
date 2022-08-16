@@ -16,9 +16,6 @@
 	process = git-lfs filter-process
 	required = true
 
-[credential]
-	helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
-
 # [pull]
 # 	ff = only
 

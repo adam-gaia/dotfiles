@@ -34,9 +34,16 @@
       nixbox = lib.nixosSystem {
         inherit system;
         modules = [
-          ./system/configuration.nix
+          ./system/nixbox/configuration.nix
         ];
       };
+    orion = lib.nixosSystem {
+        inherit system;
+        modules = [
+          ./system/orion/configuration.nix
+        ];
+      };
+
     };
   };
 }

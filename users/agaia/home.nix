@@ -337,6 +337,13 @@
       extensions = with pkgs.vscode-extensions; [
       ];
     };
+
+    chromium = {
+      enable = true;
+      package = pkgs.brave;
+    };
+
+
   };
 
 

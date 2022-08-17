@@ -25,3 +25,14 @@ git-crypt unlock "${KEY_FILE}"
 - Automate astronvim install
   - Must be manually installed
   - Instructions here: https://github.com/AstroNvim/AstroNvim
+
+
+## Troubleshooting
+- Keymap changes weren't getting picked up on 'nixos-rebuild switch'
+Needed to run
+```bash
+gsettings reset org.gnome.desktop.input-sources xkb-options
+gsettings reset org.gnome.desktop.input-sources sources
+```
+and logout+login
+

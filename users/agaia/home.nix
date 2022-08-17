@@ -2,10 +2,8 @@
 
 { 
   programs = {
-
     # Let home manager install and enable itself
     home-manager.enable = true;
-
 
   zsh = {
     enable = true;
@@ -314,6 +312,7 @@
         thickness = 0.15;
       };
 
+      # Monokai color scheme from https://github.com/alacritty/alacritty/wiki/Color-schemes
       colors = {
         primary = {
 	  background = "#272822";

@@ -368,7 +368,6 @@ fzf = { enable = true;
       package = pkgs.brave;
     };
 
-
   };
 
 
@@ -422,6 +421,7 @@ fzf = { enable = true;
     bat	
     rustc
     cargo
+    rust-analyzer
     neovim
     #make
     neomutt
@@ -458,8 +458,12 @@ fzf = { enable = true;
     bitwarden-cli
     vivid
     fd
-    #didyoumean
+    didyoumean
     nodejs
+    terraform-ls
+    nodePackages.bash-language-server
+    nodePackages.yaml-language-server
+    ansible
   ];
 
   # TODO: note said not to forget this

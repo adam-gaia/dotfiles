@@ -20,19 +20,35 @@ git-crypt unlock "${KEY_FILE}"
 
 ```
 
+### Install (astro)nvim lsp servers
+
+```vim
+:LspInstall pyright
+:LspInstall clangd
+:LspInstall cmake
+:LspInstall dockerls
+:LspInstall rust-analyzer
+:LspInstall terraform-ls
+:LspInstall bash-language-server
+:LspInstall yaml-language-server
+:LspInstall ansiblels
+:LspInstall ltex # LaTeX and markdown
+```
+
 ## Todo
 
 - Automate astronvim install
   - Must be manually installed
   - Instructions here: https://github.com/AstroNvim/AstroNvim
 
-
 ## Troubleshooting
+
 - Keymap changes weren't getting picked up on 'nixos-rebuild switch'
-Needed to run
+  Needed to run
+
 ```bash
 gsettings reset org.gnome.desktop.input-sources xkb-options
 gsettings reset org.gnome.desktop.input-sources sources
 ```
-and logout+login
 
+and logout+login

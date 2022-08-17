@@ -1,7 +1,13 @@
 { config, pkgs, ... }:
 
-{
-  programs.zsh = {
+{ 
+  programs = {
+
+    # Let home manager install and enable itself
+    home-manager.enable = true;
+
+
+  zsh = {
     enable = true;
     enableAutosuggestions = true;
     enableCompletion = true;
@@ -175,9 +181,6 @@
       tree = "lsd --tree --color=always";
       cat = "bat";
     };
-    
-    
-
   };
  
 
@@ -206,8 +209,7 @@
 	# From https://github.com/alrra/dotfiles/blob/main/src/git/gitconfig
 #    textconv = hexdump --canonical --no-squeezing
 
-
-  programs.git = {
+  git = {
     enable = true;
     lfs.enable = true;
     aliases = {
@@ -258,7 +260,7 @@
     };
   }; 
 
-  programs.alacritty = {
+  alacritty = {
     enable = true;
     settings = {
       dynamic_title = true;
@@ -312,25 +314,25 @@
         thickness = 0.15;
       };
 
-      #key_bindings = {
+      colors = {};
+
+      key_bindings = [ 
+	{
+	  key = "N";
+	  mods = "Control|Shift";
+	  action = "SpawnNewInstance";
+	}
+      ];
        # - { key: N, mods: Control|Shift, action: SpawnNewInstance }
         # TODO: Because I set tmux as my login shell and then run zsh as a subshell,
         # creating a new window will not open the with working directory the same as the previous window
       # See https://github.com/alacritty/alacritty/issues/2155
-      #};
     };
   };
-
-  programs.fzf = {
-    enable = true;
+fzf = { enable = true;
     # Fzf keybinds (ctrl-r history, ctrl-t file paths, alt-c cd to dir)	
     enableZshIntegration = true;
   };
-
-  programs = {
-
-    # Let home manager install and enable itself
-    home-manager.enable = true;
 
     vscode = {
       enable = true;

@@ -323,9 +323,8 @@
 	  action = "SpawnNewInstance";
 	}
       ];
-       # - { key: N, mods: Control|Shift, action: SpawnNewInstance }
-        # TODO: Because I set tmux as my login shell and then run zsh as a subshell,
-        # creating a new window will not open the with working directory the same as the previous window
+      # TODO: Because I set tmux as my login shell and then run zsh as a subshell,
+      # creating a new window will not open the with working directory the same as the previous window
       # See https://github.com/alacritty/alacritty/issues/2155
     };
   };

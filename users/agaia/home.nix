@@ -459,11 +459,17 @@ fzf = { enable = true;
     vivid
     fd
     didyoumean
+    du-dust
     nodejs
     terraform-ls
     nodePackages.bash-language-server
     nodePackages.yaml-language-server
     ansible
+    commitizen
+    xxh
+    navi
+    antibody
+    sumneko-lua-language-server
   ];
 
   # TODO: note said not to forget this

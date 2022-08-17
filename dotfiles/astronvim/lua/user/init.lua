@@ -4,7 +4,7 @@ local config = {
   -- Configure AstroNvim updates
   updater = {
     remote = "origin", -- remote to use
-    channel = "nightly", -- "stable" or "nightly"
+    channel = "stable", -- "stable" or "nightly"
     version = "latest", -- "latest", tag name, or regex search like "v1.*" to only do updates before v2 (STABLE ONLY)
     branch = "main", -- branch name (NIGHTLY ONLY)
     commit = nil, -- commit hash (NIGHTLY ONLY)
@@ -41,6 +41,8 @@ local config = {
     },
     g = {
       mapleader = " ", -- sets vim.g.mapleader
+      tmux_navigator_no_mappings = 1,
+      tmux_navigator_save_on_switch = 2, -- sutosave when leaving vim buffer
     },
   },
 
@@ -48,9 +50,9 @@ local config = {
   default_theme = {
     diagnostics_style = { italic = true },
     -- Modify the color table
-    colors = {
-      fg = "#abb2bf",
-    },
+    --colors = {
+    --  fg = "#abb2bf",
+    --},
     plugins = { -- enable or disable extra plugin highlighting
       aerial = true,
       beacon = false,
@@ -94,6 +96,9 @@ local config = {
       --     require("lsp_signature").setup()
       --   end,
       -- },
+      {
+        "christoomey/vim-tmux-navigator",
+      },
       {
         "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
         config = function()

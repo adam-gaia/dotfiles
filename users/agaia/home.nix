@@ -260,7 +260,8 @@
 
   alacritty = {
     enable = true;
-    settings = {
+
+    settings = with import ../../modules/colors/gnome_dark.nix {}; {
       dynamic_title = true;
 
       font = {
@@ -269,8 +270,7 @@
           style = "Regular";
           #family: monospace
           #style: Regular
-	};
-      
+	      };
 
         bold = {
           family = "FiraCode Nerd Font";
@@ -278,7 +278,6 @@
           # family: monospace
           # style: Bold
         };
-
 
         italic = {
           family = "FiraCode Nerd Font";
@@ -294,17 +293,16 @@
           # style: Bold Italic
         };
 
-      size = 14;
-
-      use_thin_strokes = true;
+        size = 14;
+        use_thin_strokes = true;
       };
 
       draw_bold_text_with_bright_colors = false;
 
       cursor = {
         style = {
-	  shape = "Block";
-	};
+	      shape = "Block";
+	    };
         blinking = "On";
         vi_mode_style = "Beam";
         blink_interval = 750;
@@ -312,52 +310,27 @@
         thickness = 0.15;
       };
 
-      # Monokai color scheme from https://github.com/alacritty/alacritty/wiki/Color-schemes
-      colors = {
-        primary = {
-	  background = "#272822";
-	  foreground = "#F8F8F2";
-	};
-	normal = {
-          black = "#272822";
-	  red = "#F92672";
-	  green = "#A6E22E";
-	  yellow = "#F4BF75";
-	  blue = "#66D9EF";
-	  magenta = "#AE81FF";
-	  cyan = "#A1EFE4";
-	  white = "#F8F8F2";
-	};
-	bright = {
-          black = "#75715E";
-	  red = "#F92672";
-	  green = "#A6E22E";
-	  yellow = "#F4BF75";
-	  blue = "#66D9EF";
-	  magenta = "#AE81FF";
-	  cyan = "#A1EFE4";
-	  white = "#F9F8F5";
-	};
-      };
+     colors = colors; 
 
-      key_bindings = [ 
-	{
-	  key = "N";
-	  mods = "Control|Shift";
-	  action = "SpawnNewInstance";
-	}
-      ];
+    key_bindings = [ 
+	    {
+	      key = "N";
+	      mods = "Control|Shift";
+	      action = "SpawnNewInstance";
+	    }
+    ];
       # TODO: Because I set tmux as my login shell and then run zsh as a subshell,
       # creating a new window will not open the with working directory the same as the previous window
       # See https://github.com/alacritty/alacritty/issues/2155
     };
   };
-fzf = { enable = true;
+
+  fzf = { enable = true;
     # Fzf keybinds (ctrl-r history, ctrl-t file paths, alt-c cd to dir)	
     enableZshIntegration = true;
   };
 
-    vscode = {
+  vscode = {
       enable = true;
       extensions = with pkgs.vscode-extensions; [
       ];
@@ -470,6 +443,8 @@ fzf = { enable = true;
     navi
     antibody
     sumneko-lua-language-server
+    htmlq
+    nixpkgs-fmt 
   ];
 
   # TODO: note said not to forget this

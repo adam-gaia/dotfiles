@@ -19,7 +19,7 @@ local config = {
   },
 
   -- Set colorscheme
-  colorscheme = "default_theme",
+  colorscheme = "sonokai", -- "default_theme",
 
   -- Override highlight groups in any theme
   highlights = {
@@ -43,6 +43,7 @@ local config = {
       mapleader = " ", -- sets vim.g.mapleader
       tmux_navigator_no_mappings = 1,
       tmux_navigator_save_on_switch = 2, -- sutosave when leaving vim buffer
+      sonokai_style = "default",
     },
   },
 
@@ -96,6 +97,9 @@ local config = {
       --     require("lsp_signature").setup()
       --   end,
       -- },
+      {
+        "sainnhe/sonokai"
+      },
       {
         "christoomey/vim-tmux-navigator",
       },

@@ -185,7 +185,7 @@
   #};
 
   virtualisation.docker.enable = true;
-  #virtualisation.podman.enable = true;
+  virtualisation.podman.enable = true;
 
   # XDG standard - improces communication between bundled flatpak apps and Wayland
   xdg = {

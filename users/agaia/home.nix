@@ -399,7 +399,6 @@
     #make
     neomutt
     starship
-    podman
     python3
     jq
     lynx

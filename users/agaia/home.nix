@@ -260,8 +260,7 @@
 
   alacritty = {
     enable = true;
-
-    settings = with import ../../modules/colors/gnome_dark.nix {}; {
+    settings = with import ../../modules/colors/Monokai_Dark.nix {}; {
       dynamic_title = true;
 
       font = {
@@ -345,6 +344,7 @@
 
 
     home.sessionVariables = {
+      GIT_DISCOVERY_ACROSS_FILESYSTEM = "1"; 
 
       XDG_CONFIG_HOME = "/home/agaia/.config";
       XDG_CACHE_HOME = "/home/agaia/.cache";
@@ -445,6 +445,7 @@
     sumneko-lua-language-server
     htmlq
     nixpkgs-fmt 
+    shellcheck
   ];
 
   # TODO: note said not to forget this

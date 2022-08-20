@@ -173,6 +173,7 @@
     parted
     neovim
     firefox
+    nix-direnv
   ];
 
 

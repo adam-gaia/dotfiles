@@ -1,335 +1,426 @@
 { config, pkgs, ... }:
 
-{ 
+let
+  term = "xterm-256color";
+in {
   programs = {
     # Let home manager install and enable itself
     home-manager.enable = true;
-
-  zsh = {
-    enable = true;
-    enableAutosuggestions = true;
-    enableCompletion = true;
-    enableSyntaxHighlighting = true;
-    enableVteIntegration = true;
-    completionInit = "autoload -Uz compinit && compinit";
-    dotDir = ".config/zsh";
-
-    history.save = 100000;
-    history.size = 100000;
-    history.path = "\${XDG_CACHE_HOME}/zsh/history";
-    history.ignoreDups = true;
-    history.extended = true;
-
-    initExtraFirst = ''
-      # --------------------------------------------------
-      # Shell & term options
-      # --------------------------------------------------
-      # Disable ctrl-s freezes terminal
-      stty stop undef
-
-      # No bell beep
-      unsetopt beep
-
-      # Report background jobs at next prompt instead of immediatly
-	    unsetopt notify
-
-      # Prompt to fix misspelled commands
-	    setopt correct
-	    setopt correct_all # Try to correct args too
-
-      # Allow comments in the interactive shell (makes it ok to type '# comment')
-	    setopt interactive_comments
-
-      # Disable pressing ctrl-d will exit the current shell
-	    setopt IGNOREEOF
-
-      # Redirecting to an existing file will error out instead of overriding the file
-	    setopt NOCLOBBER
-
-      # If a parameter is completed whose content is the name of a directory, then add a trailing slash instead of a space.
-	    setopt AUTO_PARAM_SLASH
-
-      # Glob will match dot files without the explicit dot. Lets tab complete suggest dotfiles
-	    setopt globdots
-
-      # Use readline keybinds even though we use vim as the default editor
-	    bindkey -e
-
-			if command -v vivid &>/dev/null; then
-        # Set file colors based on type
-				export LS_COLORS="$(vivid generate monokai)" # TODO: we should only generate once when provisioning the machine and set to that output in here
-		  fi
-
-      # Install antibody (plugin manager)
-      # curl -sfL git.io/antibody | sh -s - -b /usr/local/bin
-      # Source antibody plugins
-      # TODO: drop antibody and manage plugins manually
-			source <(antibody init)
-		  antibody bundle zsh-users/zsh-autosuggestions
-		  antibody bundle zsh-users/zsh-syntax-highlighting
-			antibody bundle zsh-users/zsh-completions
-			antibody bundle olets/zsh-abbr # Expands aliases as abbrs instead
-
-
-      # Suggestion strategies
-			export ZSH_AUTOSUGGEST_STRATEGY=(completion history)
-
-      # History search with up and down arrows
-      #bindkey '^[[A' history-substring-search-up
-      #bindkey '^[[B' history-substring-search-down
-
-			setopt HIST_SAVE_NO_DUPS       # Do not save duplicated command
-			setopt HIST_REDUCE_BLANKS      # Remove unnecessary blanks
-			setopt INC_APPEND_HISTORY_TIME # Append command to history file immediately after execution
-
-      
-
-      # --------------------------------------------------------------------------------
-      # Starship prompt
-      # --------------------------------------------------------------------------------
-			if command -v starship &>/dev/null; then
-				eval "$(starship init zsh)"
-			fi
-    '';
-
-    initExtra = "source \${XDG_CONFIG_HOME}/zsh/functions.zsh";
-
-
-    loginExtra = "fortune | cowsay";
-    logoutExtra = "[ $SHLVL = 1 ] && [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q || clear";
-
-    
-    shellAliases = {
-      reload = "exec zsh";
-      
-      # Zsh's 'history' builtin only shows 16 items. This alias shows all history
-      history = "fc -l 1";
-
-      grep = "grep --color=always"; 
-      fd = "fd --color=always";
-
-      ls = "lsd -alh --color=always"; # TODO: figure out how to use 'ind' with lsd while keeping the info we want from lsd # The only way I could get the indentation to work. If ls was already an alias, it would lose color with ind.
-
-      vim = "nvim";
-      vi = "vim";
-      emacs = "vim"; # lol
-
-      # git
-      ga = "git add";
-      gc = "git commit";
-      gpl = "git pull";
-      gps = "git push";
-      gf = "git fetch";
-      gb = "git branch";
-      gm = "git merge";
-
-      # cd with ease
-      ".." = "cd ..";
-      "..2" = "cd ../..";
-      "..3" = "cd ../../..";
-      "..4" = "cd ../../../..";
-      "..5" = "cd ../../../../..";
-      
-      ":q" = "exit";
-
-      # :D
-      simonsays = "sudo";
-
-      # Use htop instead of top
-      top = "htop";
-
-      colorify = "grc -es --colour=auto";
-      blkid = "colorify blkid";
-      df = "colorify df";
-      diff = "colorify diff";
-      docker = "colorify docker";
-      docker-machine = "colorify docker-machine";
-      du = "colorify du";
-      env = "colorify env";
-      free = "colorify free";
-      fdisk = "colorify fdisk";
-      findmnt = "colorify findmnt";
-      make = "colorify make --warn-undefined-variables"; # Make make a little safer
-      gcc = "colorify gcc";
-      "g++" = "colorify g++";
-      id = "colorify id";
-      ip = "colorify ip";
-      iptables = "colorify iptables";
-      as = "colorify as";
-      gas = "colorify gas";
-      ld = "colorify ld";
-      #ls = "colorify ls";
-      lsof = "colorify lsof";
-      lsblk = "colorify lsblk";
-      lspci = "colorify lspci";
-      netstat = "colorify netstat";
-      ping = "colorify ping";
-      traceroute = "colorify traceroute";
-      traceroute6 = "colorify traceroute6";
-      head = "colorify head";
-      tail = "colorify tail";
-      dig = "colorify dig";
-      mount = "colorify mount";
-      ps = "colorify ps";
-      mtr = "colorify mtr";
-      semanage = "colorify semanage";
-      getsebool = "colorify getsebool";
-      ifconfig = "colorify ifconfig";
-
-      tree = "lsd --tree --color=always";
-      cat = "bat";
-    };
-  };
  
+    zsh = {
+      enable = true;
+      enableAutosuggestions = true;
+      enableCompletion = true;
+      enableSyntaxHighlighting = true;
+      enableVteIntegration = true;
+      completionInit = "autoload -Uz compinit && compinit";
+      dotDir = ".config/zsh";
 
- #[filter "lfs"]
-#	clean = git-lfs clean -- %f
-#	smudge = git-lfs smudge -- %f
-#	process = git-lfs filter-process
-#	required = true
+      history.save = 100000;
+      history.size = 100000;
+      history.path = "\${XDG_CACHE_HOME}/zsh/history";
+      history.ignoreDups = true;
+      history.extended = true;
 
-#[color "grep"]
-#	linenumber = green
-#    filename = "magenta" 
+      initExtraFirst = ''
+        # --------------------------------------------------
+        # Shell & term options
+        # --------------------------------------------------
+        # Disable ctrl-s freezes terminal
+        stty stop undef
 
-#[color "diff"]
-#  meta = white
-#  frag = magenta
-#  new = green
+        # No bell beep
+        unsetopt beep
 
-#[color "status"]
-#  added = green
-#  changed = yellow
-#  untracked = red
+        # Report background jobs at next prompt instead of immediatly
+        unsetopt notify
 
-#[diff "bin"]
-    # Use `hexdump` to diff binary files.
-	# From https://github.com/alrra/dotfiles/blob/main/src/git/gitconfig
-#    textconv = hexdump --canonical --no-squeezing
+        # Prompt to fix misspelled commands
+        setopt correct
+        setopt correct_all # Try to correct args too
 
-  git = {
-    enable = true;
-    lfs.enable = true;
-    aliases = {
-	url = "remote get-url origin";
-	visual = "!gitk";
-	root = "rev-parse --show-toplevel";
-	# Use commitizen to commit
-	cz = "!cz commit";
-	batch = "!gitbatch";
+        # Allow comments in the interactive shell (makes it ok to type '# comment')
+        setopt interactive_comments
+
+        # Disable pressing ctrl-d will exit the current shell
+        setopt IGNOREEOF
+
+        # Redirecting to an existing file will error out instead of overriding the file
+        setopt NOCLOBBER
+
+        # If a parameter is completed whose content is the name of a directory, then add a trailing slash instead of a space.
+        setopt AUTO_PARAM_SLASH
+
+        # Glob will match dot files without the explicit dot. Lets tab complete suggest dotfiles
+        setopt globdots
+
+        # Use readline keybinds even though we use vim as the default editor
+        bindkey -e
+
+        if command -v vivid &>/dev/null; then
+          # Set file colors based on type
+          export LS_COLORS="$(vivid generate monokai)" # TODO: we should only generate once when provisioning the machine and set to that output in here
+        fi
+
+        # Install antibody (plugin manager)
+        # curl -sfL git.io/antibody | sh -s - -b /usr/local/bin
+        # Source antibody plugins
+        # TODO: drop antibody and manage plugins manually
+        source <(antibody init)
+        antibody bundle zsh-users/zsh-autosuggestions
+        antibody bundle zsh-users/zsh-syntax-highlighting
+        antibody bundle zsh-users/zsh-completions
+        antibody bundle olets/zsh-abbr # Expands aliases as abbrs instead
+
+
+        # Suggestion strategies
+        export ZSH_AUTOSUGGEST_STRATEGY=(completion history)
+
+        # History search with up and down arrows
+        #bindkey '^[[A' history-substring-search-up
+        #bindkey '^[[B' history-substring-search-down
+
+        setopt HIST_SAVE_NO_DUPS       # Do not save duplicated command
+        setopt HIST_REDUCE_BLANKS      # Remove unnecessary blanks
+        setopt INC_APPEND_HISTORY_TIME # Append command to history file immediately after execution
+
+      
+
+        # --------------------------------------------------------------------------------
+        # Starship prompt
+        # --------------------------------------------------------------------------------
+        if command -v starship &>/dev/null; then
+          eval "$(starship init zsh)"
+        fi
+      '';
+
+      initExtra = "source \${XDG_CONFIG_HOME}/zsh/functions.zsh";
+
+
+      loginExtra = "fortune | cowsay";
+      logoutExtra = "[ $SHLVL = 1 ] && [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q || clear";
+
+
+      shellAliases = {
+        reload = "exec zsh";
+
+        # Zsh's 'history' builtin only shows 16 items. This alias shows all history
+        history = "fc -l 1";
+
+        grep = "grep --color=always";
+        fd = "fd --color=always";
+
+        ls = "lsd -alh --color=always"; # TODO: figure out how to use 'ind' with lsd while keeping the info we want from lsd # The only way I could get the indentation to work. If ls was already an alias, it would lose color with ind.
+
+        vim = "nvim";
+        vi = "vim";
+        emacs = "vim"; # lol
+
+        # git
+        ga = "git add";
+        gc = "git commit";
+        gpl = "git pull";
+        gps = "git push";
+        gf = "git fetch";
+        gb = "git branch";
+        gm = "git merge";
+
+        # cd with ease
+        ".." = "cd ..";
+        "..2" = "cd ../..";
+        "..3" = "cd ../../..";
+        "..4" = "cd ../../../..";
+        "..5" = "cd ../../../../..";
+
+        ":q" = "exit";
+
+        # :D
+        simonsays = "sudo";
+
+        # Use htop instead of top
+        top = "htop";
+
+        colorify = "grc -es --colour=auto";
+        blkid = "colorify blkid";
+        df = "colorify df";
+        diff = "colorify diff";
+        docker = "colorify docker";
+        docker-machine = "colorify docker-machine";
+        du = "colorify du";
+        env = "colorify env";
+        free = "colorify free";
+        fdisk = "colorify fdisk";
+        findmnt = "colorify findmnt";
+        make = "colorify make --warn-undefined-variables"; # Make make a little safer
+        gcc = "colorify gcc";
+        "g++" = "colorify g++";
+        id = "colorify id";
+        ip = "colorify ip";
+        iptables = "colorify iptables";
+        as = "colorify as";
+        gas = "colorify gas";
+        ld = "colorify ld";
+        #ls = "colorify ls";
+        lsof = "colorify lsof";
+        lsblk = "colorify lsblk";
+        lspci = "colorify lspci";
+        netstat = "colorify netstat";
+        ping = "colorify ping";
+        traceroute = "colorify traceroute";
+        traceroute6 = "colorify traceroute6";
+        head = "colorify head";
+        tail = "colorify tail";
+        dig = "colorify dig";
+        mount = "colorify mount";
+        ps = "colorify ps";
+        mtr = "colorify mtr";
+        semanage = "colorify semanage";
+        getsebool = "colorify getsebool";
+        ifconfig = "colorify ifconfig";
+
+        tree = "lsd --tree --color=always";
+        cat = "bat";
+      };
     };
-    includes = [
-      {
-        path = "~/.config/git/config-work";
-	condition = "gitdir:~/repo/work/";
-      }
-      {
-        path = "~/.config/git/config-personal";
-	condition = "gitdir:~/repo/personal/";
-      }
-    ];
-    extraConfig = {
-      credential.helper = "${
+
+    tmux = {
+      enable = true;
+      extraConfig = ''
+        # Set prefix to ctrl-space
+        # unbind C-b
+        # set-option -g prefix C-Space
+
+        # Enable scrolling by default
+        set -g mouse on
+
+        # Allow vim colors to overrule tmux colors when in vim. Advised to do this to prevent color issues with vim
+        set -g default-terminal "screen-256color"
+        set -g terminal-overrides 'xterm:colors=256'
+
+        # Tweaks to fix issue with tmux
+        # See https://github.com/neovim/neovim/wiki/FAQ#esc-in-tmux-or-gnu-screen-is-delayed
+        # and run ':checkhealth'
+        set -sg escape-time 10
+        set -g focus-events on
+        set-option -sa terminal-overrides ',xterm-256color:RGB'
+
+
+        # Highlight color
+        set -g mode-style 'reverse' # TODO: alacritty's highlight inverts foreground and background color. Can this be done in tmux?
+
+        # Border over active window
+        set -g pane-border-style fg=white
+        set -g pane-active-border-style fg=blue
+
+        # Status bar on
+        set -g status
+
+        # Pane border status on too
+        set -g pane-border-status  # TODO: change the info to something better
+
+        # Grey status bar
+        set -g status-bg colour8
+
+        # Set status bar info display
+        set -g status-left '[#S] '
+        set -g status-right "#{?pane_synchronized,--SYNCED--,} #(is-online) #(battery -t -g black)  #(date '+%a %b%d %I:%M') "
+
+
+        # --------------------------------------------------------------
+        # Smart pane switching with awareness of Vim splits.
+        # ctrl-h/j/k/l
+        # See: https://github.com/christoomey/vim-tmux-navigator
+        # --------------------------------------------------------------
+        is_vim="ps -o state= -o comm= -t '#{pane_tty}' \
+            | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
+        bind-key -n 'C-h' if-shell "$is_vim" 'send-keys C-h'  'select-pane -L'
+        bind-key -n 'C-j' if-shell "$is_vim" 'send-keys C-j'  'select-pane -D'
+        bind-key -n 'C-k' if-shell "$is_vim" 'send-keys C-k'  'select-pane -U'
+        bind-key -n 'C-l' if-shell "$is_vim" 'send-keys C-l'  'select-pane -R'
+        tmux_version='$(tmux -V | sed -En "s/^tmux ([0-9]+(.[0-9]+)?).*/\1/p")'
+        if-shell -b '[ "$(echo "$tmux_version < 3.0" | bc)" = 1 ]' \
+            "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\'  'select-pane -l'"
+        if-shell -b '[ "$(echo "$tmux_version >= 3.0" | bc)" = 1 ]' \
+            "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\\\'  'select-pane -l'"
+
+        bind-key -T copy-mode-vi 'C-h' select-pane -L
+        bind-key -T copy-mode-vi 'C-j' select-pane -D
+        bind-key -T copy-mode-vi 'C-k' select-pane -U
+        bind-key -T copy-mode-vi 'C-l' select-pane -R
+        bind-key -T copy-mode-vi 'C-\' select-pane -l # VS-code syntax highlight thinks the backslash escapes the quote. One more quote in this comment puts things back to normal '
+
+        # Bring back clear screen under tmux prefix
+        bind C-l send-keys 'C-l'
+
+
+        # --------------------------------------------------------------
+        # Properly display undercurls (squiggly lines under syntax errors in vim)
+        # --------------------------------------------------------------
+        #set -g default-terminal "${term}"
+        set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'  # undercurl support
+        set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'  # underscore colours - needs tmux-3.0
+
+
+        # --------------------------------------------------------------
+        # Key binds
+        # --------------------------------------------------------------
+        bind-key j run-shell '/home/sarcos/repo/scripts/tmux-popup.sh'
+      '';
+    };
+
+
+    #[filter "lfs"]
+    #  clean = git-lfs clean -- %f
+    #  smudge = git-lfs smudge -- %f
+    #  process = git-lfs filter-process
+    #  required = true
+
+    #[color "grep"]
+    #  linenumber = green
+    #    filename = "magenta" 
+
+    #[color "diff"]
+    #  meta = white
+    #  frag = magenta
+    #  new = green
+
+    #[color "status"]
+    #  added = green
+    #  changed = yellow
+    #  untracked = red
+
+    #[diff "bin"]
+    # Use `hexdump` to diff binary files.
+    # From https://github.com/alrra/dotfiles/blob/main/src/git/gitconfig
+    #    textconv = hexdump --canonical --no-squeezing
+
+    git = {
+      enable = true;
+      lfs.enable = true;
+      aliases = {
+        url = "remote get-url origin";
+        visual = "!gitk";
+        root = "rev-parse --show-toplevel";
+        # Use commitizen to commit
+        cz = "!cz commit";
+        batch = "!gitbatch";
+      };
+      includes = [
+        {
+          path = "~/.config/git/config-work";
+          condition = "gitdir:~/repo/work/";
+        }
+        {
+          path = "~/.config/git/config-personal";
+          condition = "gitdir:~/repo/personal/";
+        }
+      ];
+      extraConfig = {
+        credential.helper = "${
           pkgs.git.override { withLibsecret = true; }
         }/bin/git-credential-libsecret";
 
-      core = {
-	editor = "vim";
-	pager = "less";
-	whitespace = "fix,-indent-with-non-tab,trailing-space,cr-at-eol";
-      };
+        core = {
+          editor = "vim";
+          pager = "less";
+          whitespace = "fix,-indent-with-non-tab,trailing-space,cr-at-eol";
+        };
 
-      init = {
-	defaultBranch = "main";
-	#TODO templateDir = /home/sarcos/repo/dotfiles/git/git-template-dir;
-      };
+        init = {
+          defaultBranch = "main";
+          #TODO templateDir = /home/sarcos/repo/dotfiles/git/git-template-dir;
+        };
 
-      advice = {
-	detachedHead = false;
-      };
+        advice = {
+          detachedHead = false;
+        };
 
-      merge = {
-	conflictstyle = "diff3";
-      };
+        merge = {
+          conflictstyle = "diff3";
+        };
 
-      color = {
-	ui = "auto";
+        color = {
+          ui = "auto";
+        };
       };
     };
-  }; 
 
-  alacritty = {
-    enable = true;
-    settings = with import ../../modules/colors/Monokai_Dark.nix {}; {
-      dynamic_title = true;
+    alacritty = {
+      enable = true;
+      settings = with import ../../modules/colors/Monokai_Dark.nix { }; {
+        env = {
+          TERM = "${term}"; # Defaults to 'alacritty' which breaks tmux's handling of color codes
+        };
+        dynamic_title = true;
 
-      font = {
-        normal = {
-          family = "FiraCode Nerd Font";
-          style = "Regular";
-          #family: monospace
-          #style: Regular
-	      };
+        font = {
+          normal = {
+            family = "FiraCode Nerd Font";
+            style = "Regular";
+            #family: monospace
+            #style: Regular
+          };
 
-        bold = {
-          family = "FiraCode Nerd Font";
-          style = "Bold";
-          # family: monospace
-          # style: Bold
+          bold = {
+            family = "FiraCode Nerd Font";
+            style = "Bold";
+            # family: monospace
+            # style: Bold
+          };
+
+          italic = {
+            family = "FiraCode Nerd Font";
+            style = "Light";
+            # family: monospace
+            # style: Italic
+          };
+
+          bold_italic = {
+            family = "FiraCode Nerd Font";
+            style = "Regular";
+            # family: monospace
+            # style: Bold Italic
+          };
+
+          size = 14;
+          use_thin_strokes = true;
         };
 
-        italic = {
-          family = "FiraCode Nerd Font";
-          style = "Light";
-          # family: monospace
-          # style: Italic
+        draw_bold_text_with_bright_colors = false;
+
+        cursor = {
+          style = {
+            shape = "Block";
+          };
+          blinking = "On";
+          vi_mode_style = "Beam";
+          blink_interval = 750;
+          unfocused_hollow = true;
+          thickness = 0.15;
         };
 
-        bold_italic = {
-          family = "FiraCode Nerd Font";
-          style = "Regular";
-          # family: monospace
-          # style: Bold Italic
-        };
+        colors = colors;
 
-        size = 14;
-        use_thin_strokes = true;
+        key_bindings = [
+          {
+            key = "N";
+            mods = "Control|Shift";
+            action = "SpawnNewInstance";
+          }
+        ];
+        # TODO: Because I set tmux as my login shell and then run zsh as a subshell,
+        # creating a new window will not open the with working directory the same as the previous window
+        # See https://github.com/alacritty/alacritty/issues/2155
       };
-
-      draw_bold_text_with_bright_colors = false;
-
-      cursor = {
-        style = {
-	      shape = "Block";
-	    };
-        blinking = "On";
-        vi_mode_style = "Beam";
-        blink_interval = 750;
-        unfocused_hollow = true;
-        thickness = 0.15;
-      };
-
-     colors = colors; 
-
-    key_bindings = [ 
-	    {
-	      key = "N";
-	      mods = "Control|Shift";
-	      action = "SpawnNewInstance";
-	    }
-    ];
-      # TODO: Because I set tmux as my login shell and then run zsh as a subshell,
-      # creating a new window will not open the with working directory the same as the previous window
-      # See https://github.com/alacritty/alacritty/issues/2155
     };
-  };
 
-  fzf = { enable = true;
-    # Fzf keybinds (ctrl-r history, ctrl-t file paths, alt-c cd to dir)	
-    enableZshIntegration = true;
-  };
+    fzf = {
+      enable = true;
+      # Fzf keybinds (ctrl-r history, ctrl-t file paths, alt-c cd to dir)  
+      enableZshIntegration = true;
+    };
 
-  vscode = {
+    vscode = {
       enable = true;
       extensions = with pkgs.vscode-extensions; [
       ];
@@ -343,17 +434,17 @@
   };
 
 
-    home.sessionVariables = {
-      GIT_DISCOVERY_ACROSS_FILESYSTEM = "1"; 
+  home.sessionVariables = {
+    GIT_DISCOVERY_ACROSS_FILESYSTEM = "1";
 
-      XDG_CONFIG_HOME = "/home/agaia/.config";
-      XDG_CACHE_HOME = "/home/agaia/.cache";
+    XDG_CONFIG_HOME = "/home/agaia/.config";
+    XDG_CACHE_HOME = "/home/agaia/.cache";
 
-      EDITOR = "vim";
-      PAGER = "less";
-      LESS = "-RF --LONG-PROMPT --mouse --wheel-lines=5";
-      RIPGREP_CONFIG_PATH = "/home/agaia/.config/ripgrep/config";
-      PYTHONSTARTUP = "/home/agaia/.config/python/pythonrc.py";
+    EDITOR = "vim";
+    PAGER = "less";
+    LESS = "-RF --LONG-PROMPT --mouse --wheel-lines=5";
+    RIPGREP_CONFIG_PATH = "/home/agaia/.config/ripgrep/config";
+    PYTHONSTARTUP = "/home/agaia/.config/python/pythonrc.py";
 
     # Heads up: Colors are mapped to the Pywal Monokai scheme
     # TODO: checkout color heading from https://github.com/dylanaraps/pure-sh-bible#get-the-directory-name-of-a-file-path
@@ -384,14 +475,14 @@
     LESS_TERMCAP_ZV = "$(tput rsubm)";
     LESS_TERMCAP_ZO = "$(tput ssupm)";
     LESS_TERMCAP_ZW = "$(tput rsupm)";
-   GROFF_NO_SGR = "1"; # For Konsole and Gnome-terminal
+    GROFF_NO_SGR = "1"; # For Konsole and Gnome-terminal
   };
 
   nixpkgs.config.allowUnfree = true;
 
   home.packages = with pkgs; [
     docker-compose
-    bat	
+    bat
     rustc
     cargo
     rust-analyzer
@@ -443,17 +534,17 @@
     antibody
     sumneko-lua-language-server
     htmlq
-    nixpkgs-fmt 
+    nixpkgs-fmt
     shellcheck
   ];
 
   # TODO: note said not to forget this
   #environment.pathsToLink = [ "/share/zsh" ];
-      
+
   xdg = {
-    enable = true; 
-  configFile = {
-    # Symlink dotfiles until I get around to nixifying them
+    enable = true;
+    configFile = {
+      # Symlink dotfiles until I get around to nixifying them
       #nvim = {
       #  source = ../../dotfiles/nvim;
       #  recursive = true;
@@ -478,10 +569,6 @@
         source = ../../dotfiles/vivid;
         recursive = true;
       };
-      tmux = {
-        source = ../../dotfiles/tmux;
-        recursive = true;
-      };
       starship = {
         source = ../../dotfiles/starship/starship.toml;
         target = "starship.toml";
@@ -491,8 +578,8 @@
         target = "zsh/functions.zsh";
       };
       git = {
-       source = ../../dotfiles/git;
-      recursive = true;
+        source = ../../dotfiles/git;
+        recursive = true;
       };
     };
   };

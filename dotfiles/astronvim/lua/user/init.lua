@@ -98,6 +98,9 @@ local config = {
       --   end,
       -- },
       {
+        "LnL7/vim-nix"
+      },
+      {
         "sainnhe/sonokai"
       },
       {

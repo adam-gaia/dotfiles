@@ -460,7 +460,7 @@ in {
     BLUE = "\\033[34m";
     BLACK = "\\033[90m";
     PURPLE = "\\033[35m";
-    CYAN = "\\033[35m";
+    CYAN = "\\033[36m";
     END_COLOR = "\\033[m";
     UNDERLINE_ON = "\\033[4m";
     UNDERLINE_OFF = "\\033[24m";

@@ -183,6 +183,12 @@ in {
       };
     };
 
+    direnv = {
+      enable = true;
+      enableZshIntegration = true;
+      nix-direnv.enable = true;
+    };
+
     tmux = {
       enable = true;
       extraConfig = ''

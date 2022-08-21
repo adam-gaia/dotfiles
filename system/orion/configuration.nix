@@ -206,6 +206,19 @@
           ];
           autoStart = true;
         };
+        
+        "shsh-jc-cyl" = {
+          image = "shsh-jc-cyl:latest";
+          # Work shsh-jc-cyl container. Should be pre-bulit locally
+          autoStart = true;
+          extraOptions = [
+            "--hostname"
+            "agaia-sharper"
+            "--cap-add"
+            "SYS_ADMIN"
+            "--volume=/sys/fs/cgroup/sys/fs/cgroup:ro"
+          ];
+        };
       };
     };
   };

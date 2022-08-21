@@ -179,7 +179,10 @@ in {
         ifconfig = "colorify ifconfig";
 
         tree = "lsd --tree --color=always";
-        cat = "bat";
+
+        # Let 'cat' invoke bat with only syntax highlighting.
+        # I'll get in the habit of running 'bat' when I want a pager
+        cat = "bat --plain --pager=never";
       };
     };
 

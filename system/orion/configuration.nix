@@ -184,8 +184,31 @@
   #  enableSSHSupport = true;
   #};
 
-  virtualisation.docker.enable = true;
-  virtualisation.podman.enable = true;
+  virtualisation = {
+    docker.enable = true;
+    podman.enable = true;
+
+    oci-containers = {
+      backend = "podman";
+      containers = {
+        "gitea" = {
+          image = "docker.io/library/gitea/gitea:1.17.1";
+          environment = {
+            USER_ID = "1000";
+            USER_GUID = "1000";
+          };
+          ports = [
+            "3000:3000"
+            "2222:22"
+          ];
+          volumes = [
+            "/home/agaia/Data/gitea:/data"
+          ];
+          autoStart = true;
+        };
+      };
+    };
+  };
 
   # XDG standard - improces communication between bundled flatpak apps and Wayland
   xdg = {

@@ -192,7 +192,7 @@
       backend = "podman";
       containers = {
         "gitea" = {
-          image = "docker.io/library/gitea/gitea:1.17.1";
+          image = "docker.io/gitea/gitea:1.17.1";
           environment = {
             USER_ID = "1000";
             USER_GUID = "1000";

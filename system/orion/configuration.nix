@@ -200,16 +200,27 @@
     oci-containers = {
       backend = "podman";
       containers = {
-        "registry" = {
-            image = "docker.io/library/registry:2.8.1";
-            ports = [
-              "127.0.0.1:5000:5000"
-            ];
-            autoStart = true;
+        # TODO: set a variable for the local registry '127.0.0.1:5000'
+        # Troubleshooting:
+        #   * If host-side volume mount does not exist, registry will fail
+        #   * TODO: how can we create these directories as part of nixos configuration?
+        "registry" = { 
+          image = "docker.io/library/registry:2.8.1";
+          ports = [
+            "127.0.0.1:5000:5000"
+          ];
+          autoStart = true;
+          volumes = [
+            "/home/agaia/Data/registry:/var/lib/registry"
+          ];
         };
 
         "reg" = {
-          image = "localhost:5000/reg-docker-server:latest";
+          # Troubleshooting:
+          #  * Is the registry running? (sudo systemctl status podman.registry)
+          #  * Does the registry have an image for reg?
+          #  * Registry is insecure. The address must match /etc/containers/registries.conf. If 'localhost' here, then cant be '127.0.0.1' in that file
+          image = "127.0.0.1:5000/reg-docker-server:latest";
           #ports = [ 
           #  "127.0.0.1:5001:8080"
           #];

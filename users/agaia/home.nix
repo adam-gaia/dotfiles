@@ -3,10 +3,13 @@
 let
   term = "xterm-256color";
 in {
+
+ imports = [../../modules/dconf.nix];
+
   programs = {
     # Let home manager install and enable itself
     home-manager.enable = true;
- 
+  
     zsh = {
       enable = true;
       enableAutosuggestions = true;

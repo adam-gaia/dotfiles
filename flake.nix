@@ -6,9 +6,11 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager.url = "github:nix-community/home-manager/release-22.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-  };
+    flake-utils.url = "github:numtide/flake-utils";
+    #pretty-print.url = "github.com/shell-lib/pretty-print";
+ };
 
-  outputs = { nixpkgs, home-manager, nixos-hardware, ... }:
+  outputs = { nixpkgs, flake-utils, home-manager, nixos-hardware, ... }:
   let
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -17,7 +19,7 @@
     };
     lib = nixpkgs.lib;
 
-  in {
+  in rec {
     homeManagerConfigurations = {
       agaia = home-manager.lib.homeManagerConfiguration {
         inherit system pkgs;
@@ -37,13 +39,21 @@
           ./system/nixbox/configuration.nix
         ];
       };
-    orion = lib.nixosSystem {
+      orion = lib.nixosSystem {
         inherit system;
         modules = [
           ./system/orion/configuration.nix
         ];
       };
-
     };
+    devShells.${system}.default = pkgs.mkShell {
+      buildInputs =
+        [
+          pkgs.shellcheck
+          pkgs.shfmt
+          pkgs.dconf2nix
+        ];
+    };
+
   };
 }

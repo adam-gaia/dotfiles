@@ -8,3 +8,5 @@ fi
 
 sudo nixos-rebuild switch --flake .#
 
+systemctl -t service --state=running --no-legend --no-pager | grep -E --color=never 'podman|docker'
+

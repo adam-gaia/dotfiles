@@ -52,3 +52,8 @@ gsettings reset org.gnome.desktop.input-sources sources
 ```
 
 and logout+login
+
+## Notes
+
+- dconf2nix (gnome settings)
+  - https://github.com/gvolpe/dconf2nix

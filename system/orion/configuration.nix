@@ -49,15 +49,28 @@
   };
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  services.xserver = {
+    enable = true;
 
-  # Configure keymap in X11
-  services.xserver.layout = "us";
-  services.xserver.xkbOptions = "caps:escape"; # map caps to escape.
+    # Configure keymap in X11
+    layout = "us";
+    xkbOptions = "caps:escape"; # map caps to escape.
 
-  # Enable Gnome, but exclude some apps
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+    # Enable Gnome, but exclude some apps
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+  
+    # Enable touchpad support (enabled default in most desktopManager).
+    libinput.enable = true;
+  };
+
+  # dconf and gnome-settings-daemon needed to set settings with home manager's dconf module
+  services.dbus.packages = [ pkgs.dconf ];
+  services.udev.packages = [ pkgs.gnome3.gnome-settings-daemon ];
+
+
+
+
   environment.gnome.excludePackages = (with pkgs; [
     gnome-photos
     gnome-tour
@@ -82,11 +95,7 @@
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = true;
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
-
-
+ 
   # Persist network settings and nixos configuration
   environment.etc = {
     nixos.source = "/persist/etc/nixos";
@@ -191,6 +200,27 @@
     oci-containers = {
       backend = "podman";
       containers = {
+        "registry" = {
+            image = "docker.io/library/registry:2.8.1";
+            ports = [
+              "127.0.0.1:5000:5000"
+            ];
+            autoStart = true;
+        };
+
+        "reg" = {
+          image = "localhost:5000/reg-docker-server:latest";
+          #ports = [ 
+          #  "127.0.0.1:5001:8080"
+          #];
+          # Had to use host network to point the --registry option to the host to get the registry.
+          # Couldn't figure out podman's equlivalent of docker's '--add-host=host.docker.internal:host-gateway' (172.x.y.z)
+          extraOptions = [ "--network=host" ];
+          autoStart = true;
+          dependsOn = [ "registry" ];
+          cmd = [ "reg" "server" "--listen-address" "127.0.0.1" "--port" "5001" "--registry" "localhost:5000" "--force-non-ssl" ];
+        };
+
         "gitea" = {
           image = "docker.io/gitea/gitea:1.17.1";
           environment = {
@@ -198,8 +228,8 @@
             USER_GUID = "1000";
           };
           ports = [
-            "3000:3000"
-            "2222:22"
+            "127.0.0.1:3000:3000"
+            "127.0.0.1:2222:22"
           ];
           volumes = [
             "/home/agaia/Data/gitea:/data"
@@ -208,8 +238,9 @@
         };
         
         "shsh-jc-cyl" = {
-          image = "shsh-jc-cyl:latest";
-          # Work shsh-jc-cyl container. Should be pre-bulit locally
+          # Work shsh-jc-cyl container
+          image = "shsh-jc-cyl:latest"; 
+          dependsOn = [ "registry" ];
           autoStart = true;
           extraOptions = [
             "--hostname"

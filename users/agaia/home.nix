@@ -496,7 +496,6 @@ in {
     cargo
     rust-analyzer
     neovim
-    #make
     neomutt
     starship
     python3

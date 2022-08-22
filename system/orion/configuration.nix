@@ -250,7 +250,11 @@
         
         "shsh-jc-cyl" = {
           # Work shsh-jc-cyl container
-          image = "shsh-jc-cyl:latest"; 
+          # Troubleshooting:
+          #  * Is the registry running? (sudo systemctl status podman.registry)
+          #  * Does the registry have an image for reg?
+          #  * Registry is insecure. The address must match /etc/containers/registries.conf. If 'localhost' here, then cant be '127.0.0.1' in that file 
+          image = "127.0.0.1:5000/shsh-jc-cyl:latest"; 
           dependsOn = [ "registry" ];
           autoStart = true;
           extraOptions = [

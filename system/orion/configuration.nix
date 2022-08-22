@@ -197,7 +197,11 @@
     docker.enable = true;
     podman.enable = true;
 
+    # TODO: need to figure out where to configure /etc/containers/registries.conf
+
     oci-containers = {
+      # After trying to set up services from containers on a local registry which is also a service declared here,
+      # I see why side effects are bad
       backend = "podman";
       containers = {
         # TODO: set a variable for the local registry '127.0.0.1:5000'
@@ -262,7 +266,19 @@
             "agaia-sharper"
             "--cap-add"
             "SYS_ADMIN"
-            "--volume=/sys/fs/cgroup/sys/fs/cgroup:ro"
+            "--volume"
+            "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+          ];
+        };
+
+        "homer" = {
+          image = "docker.io/b4bz/homer:v22.07.2";
+          autoStart = true;
+          ports = [
+            "127.0.0.1:8080:8080"
+          ];
+          volumes = [
+            "/home/agaia/Data/homer:/www/assets"
           ];
         };
       };

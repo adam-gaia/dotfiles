@@ -37,6 +37,7 @@
     { device = "/dev/disk/by-uuid/0c8b946b-9f52-49f1-ac47-065774e09fa6";
       fsType = "btrfs";
       options = [ "subvol=persist" "compress=zstd" "noatime" ];
+      neededForBoot = true;
     };
 
   fileSystems."/var/log" =

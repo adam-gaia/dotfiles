@@ -68,9 +68,6 @@
   services.dbus.packages = [ pkgs.dconf ];
   services.udev.packages = [ pkgs.gnome3.gnome-settings-daemon ];
 
-
-
-
   environment.gnome.excludePackages = (with pkgs; [
     gnome-photos
     gnome-tour
@@ -88,7 +85,6 @@
     atomix # puzzle game
   ]);
   
-
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
@@ -152,9 +148,8 @@
     "L /var/lib/NetworkManager/seen-bssids - - - - /persist/var/lib/NetworkManager/seen-bssids"
     "L /var/lib/NetworkManager/timestamps - - - - /persist/var/lib/NetworkManager/timestamps"
     "L /var/lib/docker - - - - /persist/var/lib/docker"
-    "L /var/lib/docker-registry - - - - /persist/var/lib/docker-registry"
-  ]; 
-  
+  ];
+ 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.agaia = {
     description = "Adam Gaia";
@@ -183,6 +178,7 @@
     parted
     neovim
     firefox
+    hello
   ];
 
 
@@ -200,6 +196,7 @@
     enableGarbageCollect = true;
     listenAddress = "127.0.0.1";
     port = 5000;
+    storagePath = "/persist/var/lib/docker-registry";
   };
 
   virtualisation = {

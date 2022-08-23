@@ -148,6 +148,8 @@
     "L /var/lib/NetworkManager/seen-bssids - - - - /persist/var/lib/NetworkManager/seen-bssids"
     "L /var/lib/NetworkManager/timestamps - - - - /persist/var/lib/NetworkManager/timestamps"
     "L /var/lib/docker - - - - /persist/var/lib/docker"
+    # TODO: Unable to set "/var/lib/docker-registry - - - - /persist/var/lib/docker".
+    # Not sure why. Spend too long debugging. Ended up just settings services.docker.registry.storagePath=/persis/var/lib/docker-registry
   ];
  
   # Define a user account. Don't forget to set a password with ‘passwd’.

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Taken from https://mt-caret.github.io/blog/posts/2020-06-29-optin-state.html
-set -euo pipefail
+set -Eeuo pipefail
+set -x
 
 OLD_TRANSID=$(sudo btrfs subvolume find-new /mnt/root-blank 9999999)
 OLD_TRANSID=${OLD_TRANSID#transid marker was }

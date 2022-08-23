@@ -7,8 +7,7 @@
     home-manager.url = "github:nix-community/home-manager/release-22.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
-    #pretty-print.url = "github.com/shell-lib/pretty-print";
- };
+  };
 
   outputs = { nixpkgs, flake-utils, home-manager, nixos-hardware, ... }:
   let

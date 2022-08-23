@@ -152,6 +152,7 @@
     "L /var/lib/NetworkManager/seen-bssids - - - - /persist/var/lib/NetworkManager/seen-bssids"
     "L /var/lib/NetworkManager/timestamps - - - - /persist/var/lib/NetworkManager/timestamps"
     "L /var/lib/docker - - - - /persist/var/lib/docker"
+    "L /var/lib/docker-registry - - - - /persist/var/lib/docker-registry"
   ]; 
   
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -193,6 +194,14 @@
   #  enableSSHSupport = true;
   #};
 
+  services.dockerRegistry = {
+    enable = true;
+    enableDelete = true;
+    enableGarbageCollect = true;
+    listenAddress = "127.0.0.1";
+    port = 5000;
+  };
+
   virtualisation = {
     docker.enable = true;
     podman.enable = true;
@@ -208,16 +217,16 @@
         # Troubleshooting:
         #   * If host-side volume mount does not exist, registry will fail
         #   * TODO: how can we create these directories as part of nixos configuration?
-        "registry" = { 
-          image = "docker.io/library/registry:2.8.1";
-          ports = [
-            "127.0.0.1:5000:5000"
-          ];
-          autoStart = true;
-          volumes = [
-            "/home/agaia/Data/registry:/var/lib/registry"
-          ];
-        };
+        #"registry" = { 
+        #  image = "docker.io/library/registry:2.8.1";
+        #  ports = [
+        #    "127.0.0.1:5000:5000"
+        #  ];
+        #  autoStart = true;
+        #  volumes = [
+        #    "/home/agaia/Data/registry:/var/lib/registry"
+        #  ];
+        #};
 
         "reg" = {
           # Troubleshooting:
@@ -232,7 +241,7 @@
           # Couldn't figure out podman's equlivalent of docker's '--add-host=host.docker.internal:host-gateway' (172.x.y.z)
           extraOptions = [ "--network=host" ];
           autoStart = true;
-          dependsOn = [ "registry" ];
+          #dependsOn = [ "registry" ];
           cmd = [ "reg" "server" "--listen-address" "127.0.0.1" "--port" "5001" "--registry" "localhost:5000" "--force-non-ssl" ];
         };
 
@@ -252,24 +261,24 @@
           autoStart = true;
         };
         
-        "shsh-jc-cyl" = {
-          # Work shsh-jc-cyl container
-          # Troubleshooting:
-          #  * Is the registry running? (sudo systemctl status podman.registry)
-          #  * Does the registry have an image for reg?
-          #  * Registry is insecure. The address must match /etc/containers/registries.conf. If 'localhost' here, then cant be '127.0.0.1' in that file 
-          image = "127.0.0.1:5000/shsh-jc-cyl:latest"; 
-          dependsOn = [ "registry" ];
-          autoStart = true;
-          extraOptions = [
-            "--hostname"
-            "agaia-sharper"
-            "--cap-add"
-            "SYS_ADMIN"
-            "--volume"
-            "/sys/fs/cgroup:/sys/fs/cgroup:ro"
-          ];
-        };
+        #"shsh-jc-cyl" = {
+        #  # Work shsh-jc-cyl container
+        #  # Troubleshooting:
+        #  #  * Is the registry running? (sudo systemctl status podman.registry)
+        #  #  * Does the registry have an image for reg?
+        #  #  * Registry is insecure. The address must match /etc/containers/registries.conf. If 'localhost' here, then cant be '127.0.0.1' in that file 
+        #  image = "127.0.0.1:5000/shsh-jc-cyl:latest"; 
+        #  dependsOn = [ "registry" ];
+        #  autoStart = true;
+        #  extraOptions = [
+        #    "--hostname"
+        #    "agaia-sharper"
+        #    "--cap-add"
+        #    "SYS_ADMIN"
+        #    "--volume"
+        #    "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+        #  ];
+        #};
 
         "homer" = {
           image = "docker.io/b4bz/homer:v22.07.2";

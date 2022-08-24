@@ -15,7 +15,7 @@
 --hidden
 # but ignore git and direnv files
 --glob=!.git/*
---glog=!.direnv/*
+--glob=!.direnv/*
 
 
 # Show line numbers

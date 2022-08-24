@@ -17,9 +17,6 @@
 --glob=!.git/*
 --glob=!.direnv/*
 
-
 # Show line numbers
 --line-number
 
-# Search ignore files (.gitignore, .dockerignore, etc)
---no-ignore

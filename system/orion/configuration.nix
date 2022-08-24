@@ -180,7 +180,6 @@
     parted
     neovim
     firefox
-    hello
   ];
 
 

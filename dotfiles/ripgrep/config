@@ -1,6 +1,3 @@
-# Ignore git dir
---glob=!git/*
-
 # Color
 --color=always
 --colors=match:fg:red
@@ -16,6 +13,10 @@
 
 # Search hidden files
 --hidden
+# but ignore git and direnv files
+--glob=!.git/*
+--glog=!.direnv/*
+
 
 # Show line numbers
 --line-number

@@ -495,9 +495,9 @@ in {
   home.packages = with pkgs; [
     docker-compose
     bat
-    rustc
-    cargo
-    rust-analyzer
+    #rustc
+    #cargo
+    #rust-analyzer
     neovim
     neomutt
     starship

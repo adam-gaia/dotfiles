@@ -7,7 +7,7 @@ colors: # in 'RRGGBB' format
   cyan: "76cce0"
   green: "9ed072"
   orange: "f39660"
-  symlink-cyan: "A1EFE"
+  symlink-cyan: "a1efe4"
 
   # Others
   white: "e2e2e3"

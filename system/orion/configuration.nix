@@ -181,6 +181,7 @@
     neovim
     firefox
     file
+    watch
   ];
 
 

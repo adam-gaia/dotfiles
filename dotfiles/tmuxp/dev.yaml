@@ -1,11 +1,10 @@
 session_name: dev
-start_directory: ./
+before_script: clear
 windows:
   - window_name: dev
     layout: main-horizontal
     focus: true
     panes:
+      - shell: /usr/bin/env nvim .
       - focus: true
-        shell_command:
-          - vim .
-      - blank
+        shell_command: ""

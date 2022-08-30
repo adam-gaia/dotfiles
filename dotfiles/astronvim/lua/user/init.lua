@@ -51,10 +51,10 @@ local config = {
   default_theme = {
     diagnostics_style = { italic = true },
     -- Modify the color table
-    colors = {
-      fg = "#F8F8F2",
-      bg = "#272822",
-    },
+    --colors = {
+      --fg = "#F8F8F2",
+      --bg = "#272822",
+    --},
     plugins = { -- enable or disable extra plugin highlighting
       aerial = true,
       beacon = false,
@@ -100,6 +100,14 @@ local config = {
       -- },
       {
         "LnL7/vim-nix"
+      },
+      {
+        "simrat39/inlay-hints.nvim",
+        config = function()
+          require("inlay-hints").setup(
+          { eol = {right_alight = true}}
+          )
+        end
       },
       {
         -- Vim Monokai scheme

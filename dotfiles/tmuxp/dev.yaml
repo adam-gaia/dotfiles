@@ -1,0 +1,11 @@
+session_name: dev
+start_directory: ./
+windows:
+  - window_name: dev
+    layout: main-horizontal
+    focus: true
+    panes:
+      - focus: true
+        shell_command:
+          - vim .
+      - blank

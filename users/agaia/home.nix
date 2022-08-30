@@ -197,6 +197,7 @@ in {
 
     tmux = {
       enable = true;
+      tmuxp.enable = true; # https://github.com/tmux-python/tmuxp
       extraConfig = ''
         # Set prefix to ctrl-space
         # unbind C-b
@@ -279,7 +280,6 @@ in {
         bind-key j run-shell '/home/sarcos/repo/scripts/tmux-popup.sh'
       '';
     };
-
 
     #[filter "lfs"]
     #  clean = git-lfs clean -- %f
@@ -590,6 +590,10 @@ in {
       };
       git = {
         source = ../../dotfiles/git;
+        recursive = true;
+      };
+      tmuxp = {
+        source = ../../dotfiles/tmuxp;
         recursive = true;
       };
     };

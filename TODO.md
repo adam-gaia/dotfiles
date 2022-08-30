@@ -1,5 +1,7 @@
 # TODO
 
+## General
+
 - [ ] Make nixos config modular
 - [ ] Enable [Clair](https://github.com/quay/clair) in locally hosted [reg](https://github.com/genuinetools/reg) server for static analysis
 
@@ -21,3 +23,8 @@
 ## Create a nix package for
 
 - [ ] [Homer](https://github.com/bastienwirtz/homer)
+
+## Create a nix home-manager thing for
+
+- [ ] [Vivid](https://github.com/sharkdp/vivid)
+  - I think I can look at the [bat entry](https://github.com/nix-community/home-manager/blob/master/modules/programs/bat.nix) as an example

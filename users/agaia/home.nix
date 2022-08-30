@@ -62,7 +62,7 @@ in {
 
         if command -v vivid &>/dev/null; then
           # Set file colors based on type
-          export LS_COLORS="$(vivid generate monokai)" # TODO: we should only generate once when provisioning the machine and set to that output in here
+          export LS_COLORS="$(vivid --database ~/.config/vivid/filetypes.yml generate ~/.config/vivid/sonokai-theme.yml)" # TODO: we should only generate once when provisioning the machine and set to that output in here
         fi
 
         # Install antibody (plugin manager)
@@ -359,7 +359,7 @@ in {
 
     alacritty = {
       enable = true;
-      settings = with import ../../modules/colors/Monokai_Dark.nix { }; {
+      settings = with import ../../modules/colors/Sonokai.nix { }; {
         env = {
           TERM = "${term}"; # Defaults to 'alacritty' which breaks tmux's handling of color codes
         };

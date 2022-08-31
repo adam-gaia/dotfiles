@@ -100,7 +100,7 @@ in {
       initExtra = "source \${XDG_CONFIG_HOME}/zsh/functions.zsh";
 
 
-      loginExtra = "fortune | cowsay";
+      #loginExtra = "fortune | cowsay";
       logoutExtra = "[ $SHLVL = 1 ] && [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q || clear";
 
 
@@ -198,6 +198,24 @@ in {
     tmux = {
       enable = true;
       tmuxp.enable = true; # https://github.com/tmux-python/tmuxp
+      plugins = with pkgs; [
+        tmuxPlugins.sensible
+        {
+          plugin = tmuxPlugins.resurrect;
+          extraConfig = ''
+            set -g @resurrect-strategy-nvim 'session'
+            set -g @resurrect-strategy-vim 'session'
+            set -g @resurrect-capture-pane-contents 'on' 
+            '';
+        }
+        {
+          plugin = tmuxPlugins.continuum;
+          extraConfig = ''
+            set -g @continuum-restore 'on'
+            set -g @continuum-save-interval '60' # minutes
+          '';
+        }
+      ];
       extraConfig = ''
         # Set prefix to ctrl-space
         # unbind C-b

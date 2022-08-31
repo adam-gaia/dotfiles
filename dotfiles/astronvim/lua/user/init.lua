@@ -102,6 +102,11 @@ local config = {
         "LnL7/vim-nix"
       },
       {
+        -- Automatically save (n)vim sessions
+        -- Works with tmux resurrect (https://github.com/tmux-plugins/tmux-resurrect)
+        "tpope/vim-obsession",
+      },
+      {
         "simrat39/inlay-hints.nvim",
         config = function()
           require("inlay-hints").setup(

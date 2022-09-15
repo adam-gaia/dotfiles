@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+THIS_PROGRAM_NAME="$(basename "$0")"
+
+function print_help_message()
+{
+  echo "${THIS_PROGRAM_NAME} <template>"
+}
+
+if [[ "$#" -eq 0 ]]; then
+  print_help_message
+  return 2
+fi
+
+while [[ "$#" -gt 0 ]]; do
+  arg="$1"
+  case "${arg}" in
+  '--help' | '-h')
+    print_help_message
+    exit 0
+    ;;
+
+    *)
+    if [[ "${arg::1}" == '-' ]]; then
+      echo "${THIS_PROGRAM_NAME} error: unknown option '${arg}'.
+      return 2
+    else
+      TEMPLATE="$1"
+      break
+    fi
+    ;;
+
+  esac
+  shift # Move to next arg
+done
+
+nix flake init --template "github:adam-gaia/dotfiles#${TEMPLATE}"

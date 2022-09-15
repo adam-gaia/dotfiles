@@ -54,5 +54,16 @@
         ];
     };
 
+    templates = {}: {
+      rust = {
+        path = "./templates/rust";
+        description = "Rust flake";
+      };
+      python = {
+        path = "./templates/python";
+        description = "Python flake";
+      };
+    };
+
   };
 }

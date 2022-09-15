@@ -345,6 +345,52 @@ in {
           condition = "gitdir:~/repo/personal/";
         }
       ];
+
+      ignores = [
+        # Ignore temporary files
+        "*~"
+
+        # Ignore compiled binaries
+        "*.com"
+        "*.class"
+        "*.dll"
+        "*.exe"
+        "*.o"
+        "*.so"
+
+        # Ignore OS generated files
+        ".DS_Store*"
+        "ehthumbs.db"
+        "Icon?"
+        "Thumbs.db"
+
+        # Ignore compressed files
+        "*.7z"
+        "*.dmg"
+        "*.gz"
+        "*.iso"
+        "*.jar"
+        "*.rar"
+        "*.tar"
+        "*.zip"
+
+        # Ignore compilation database - created by Bear for a Vim complete plugin - https://github.com/rizsotto/Bear
+        "compile_commands.json"
+
+        # Ignore special extension
+        "*.nogit"
+
+        # Ignore databases
+        "*.db"
+
+        # Ignore ssh keys TODO: is there a more standard regex for keys?
+        "id_*"
+        "id_rsa*"
+
+        # Ignore pypirc. It contains api keys
+        "*pypirc*"
+      ];
+
       extraConfig = {
         credential.helper = "${
           pkgs.git.override { withLibsecret = true; }
@@ -372,8 +418,17 @@ in {
         color = {
           ui = "auto";
         };
+
+        hooks = {
+          pre-commit = "~/.config/git/pre-commit-script";
+        }; 
+
       };
     };
+
+    #gl = {
+    #  enable = true;
+    #};
 
     alacritty = {
       enable = true;
@@ -558,6 +613,7 @@ in {
     nodePackages.yaml-language-server
     ansible
     commitizen
+    pre-commit
     xxh
     navi
     antibody
@@ -565,6 +621,7 @@ in {
     htmlq
     nixpkgs-fmt
     shellcheck
+    glab
   ];
 
   # TODO: note said not to forget this

@@ -18,19 +18,24 @@
     };
     lib = nixpkgs.lib;
 
-  in rec {
-    homeManagerConfigurations = {
-      agaia = home-manager.lib.homeManagerConfiguration {
-        inherit system pkgs;
-        username = "agaia";
-        homeDirectory = "/home/agaia";
-        configuration = {
-          imports = [
-            ./users/agaia/home.nix
-          ];
-        };
+    agaia_drv = home-manager.lib.homeManagerConfiguration {
+      inherit system pkgs;
+      username = "agaia";
+      homeDirectory = "/home/agaia";
+      configuration = {
+        imports = [
+          ./users/agaia/home.nix
+        ];
       };
     };
+
+    apply-script = "apply.sh";
+
+  in rec {
+    homeManagerConfigurations = {
+      agaia = agaia_drv;
+    };
+
     nixosConfigurations = {
       nixbox = lib.nixosSystem {
         inherit system;
@@ -54,7 +59,13 @@
         ];
     };
 
-    templates = {}: {
+    packages.${system}.default = pkgs.writeShellApplication {
+      name = "apply";
+      runtimeInputs = [];
+      text = (builtins.readFile ./${apply-script});
+    };
+
+    templates = {
       rust = {
         path = "./templates/rust";
         description = "Rust flake";

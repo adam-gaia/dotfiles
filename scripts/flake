@@ -5,12 +5,14 @@ THIS_PROGRAM_NAME="$(basename "$0")"
 
 function print_help_message()
 {
+  echo "Usage:"
   echo "${THIS_PROGRAM_NAME} <template>"
 }
 
 if [[ "$#" -eq 0 ]]; then
+  echo "Input arg template required"
   print_help_message
-  return 2
+  exit 2
 fi
 
 while [[ "$#" -gt 0 ]]; do
@@ -23,14 +25,13 @@ while [[ "$#" -gt 0 ]]; do
 
     *)
     if [[ "${arg::1}" == '-' ]]; then
-      echo "${THIS_PROGRAM_NAME} error: unknown option '${arg}'.
-      return 2
+      echo "${THIS_PROGRAM_NAME} error: unknown option '${arg}'"
+      exit 2
     else
       TEMPLATE="$1"
       break
     fi
     ;;
-
   esac
   shift # Move to next arg
 done

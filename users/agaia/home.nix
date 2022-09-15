@@ -9,7 +9,7 @@ in {
   programs = {
     # Let home manager install and enable itself
     home-manager.enable = true;
-  
+
     zsh = {
       enable = true;
       enableAutosuggestions = true;
@@ -87,7 +87,7 @@ in {
         setopt HIST_REDUCE_BLANKS      # Remove unnecessary blanks
         setopt INC_APPEND_HISTORY_TIME # Append command to history file immediately after execution
 
-      
+
 
         # --------------------------------------------------------------------------------
         # Starship prompt
@@ -205,7 +205,7 @@ in {
           extraConfig = ''
             set -g @resurrect-strategy-nvim 'session'
             set -g @resurrect-strategy-vim 'session'
-            set -g @resurrect-capture-pane-contents 'on' 
+            set -g @resurrect-capture-pane-contents 'on'
             '';
         }
         {
@@ -307,7 +307,7 @@ in {
 
     #[color "grep"]
     #  linenumber = green
-    #    filename = "magenta" 
+    #    filename = "magenta"
 
     #[color "diff"]
     #  meta = white
@@ -345,6 +345,10 @@ in {
           condition = "gitdir:~/repo/personal/";
         }
       ];
+
+      #hooks = {
+      #  pre-commit = "~/.config/git/pre-commit-script";
+      #};
 
       ignores = [
         # Ignore temporary files
@@ -404,7 +408,7 @@ in {
 
         init = {
           defaultBranch = "main";
-          #TODO templateDir = /home/sarcos/repo/dotfiles/git/git-template-dir;
+          templateDir = "~/.config/git/template-dir";
         };
 
         advice = {
@@ -418,11 +422,6 @@ in {
         color = {
           ui = "auto";
         };
-
-        hooks = {
-          pre-commit = "~/.config/git/pre-commit-script";
-        }; 
-
       };
     };
 
@@ -501,7 +500,7 @@ in {
 
     fzf = {
       enable = true;
-      # Fzf keybinds (ctrl-r history, ctrl-t file paths, alt-c cd to dir)  
+      # Fzf keybinds (ctrl-r history, ctrl-t file paths, alt-c cd to dir)
       enableZshIntegration = true;
     };
 
@@ -634,7 +633,7 @@ in {
       #nvim = {
       #  source = ../../dotfiles/nvim;
       #  recursive = true;
-      #}; 
+      #};
       astronvim = {
         source = ../../dotfiles/astronvim;
         recursive = true;
@@ -674,4 +673,3 @@ in {
     };
   };
 }
-

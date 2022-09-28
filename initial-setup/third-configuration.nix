@@ -1,7 +1,8 @@
 { config, pkgs, ... }:
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
@@ -59,7 +60,7 @@
   ]);
 
 
-# Persist network settings and nixos configuration
+  # Persist network settings and nixos configuration
   environment.etc = {
     nixos.source = "/persist/etc/nixos";
     "NetworkManager/system-connections".source = "/persist/etc/NetworkManager/system-connections";
@@ -70,7 +71,7 @@
   security.sudo.extraConfig = ''
     # rollback results in sudo lectures after each reboot
     Defaults lecture = never
-  '';  
+  '';
 
 
   # Rollback on reboot
@@ -121,7 +122,7 @@
   ];
 
   virtualisation = {
-     docker.enable = true;
+    docker.enable = true;
   };
 
 

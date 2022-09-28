@@ -7,9 +7,12 @@
     home-manager.url = "github:nix-community/home-manager/release-22.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
+
+    git-shim.url ="gitlab:adam_gaia/git-shim";
+    git-shim.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nixpkgs, flake-utils, home-manager, nixos-hardware, ... }:
+  outputs = { nixpkgs, flake-utils, home-manager, nixos-hardware, git-shim, ... }@inputs:
   let
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -20,6 +23,8 @@
 
     agaia_drv = home-manager.lib.homeManagerConfiguration {
       inherit system pkgs;
+      extraSpecialArgs = { inherit inputs git-shim; };
+
       username = "agaia";
       homeDirectory = "/home/agaia";
       configuration = {
@@ -28,8 +33,6 @@
         ];
       };
     };
-
-    apply-script = "apply.sh";
 
   in rec {
     homeManagerConfigurations = {
@@ -57,12 +60,6 @@
           pkgs.shfmt
           pkgs.dconf2nix
         ];
-    };
-
-    packages.${system}.default = pkgs.writeShellApplication {
-      name = "apply";
-      runtimeInputs = [];
-      text = (builtins.readFile ./${apply-script});
     };
 
     templates = {

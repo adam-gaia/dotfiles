@@ -1,4 +1,5 @@
-{{
+{
+  {
   description = "TODO";
 
   inputs = {
@@ -106,4 +107,4 @@
           nativeBuildInputs = toolchain;
         };
       });
-    }
+}

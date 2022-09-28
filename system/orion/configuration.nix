@@ -6,8 +6,9 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix 
+    [
+      # Include the results of the hardware scan.
+      ./hardware-configuration.nix
     ];
 
   # Enable flakes
@@ -29,10 +30,51 @@
   hardware.enableAllFirmware = true;
   nixpkgs.config.allowUnfree = true;
 
-  networking.hostName = "orion"; # Define your hostname.
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking = {
+    hostName = "orion"; # Define your hostname.
+    # Pick only one of the below networking options.
+    # wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+    networkmanager.enable = true; # Easiest to use and most distros use this by default.
+
+    # Open ports in the firewall.
+    # firewall.allowedTCPPorts = [ ... ];
+    firewall.allowedUDPPorts = [ 51820 ]; # Wireguard uses port 51820
+    # Or disable the firewall altogether.
+    firewall.enable = false;
+
+    wireguard.interfaces = {
+      # "wg0" is the network interface name. You can name the interface arbitrarily.
+      wg_sharper = {
+        # Determines the IP address and subnet of the client's end of the tunnel interface.
+        ips = [ "172.28.3.22/32" ];
+        listenPort = 51820; # to match firewall allowedUDPPorts (without this wg uses random port numbers)
+
+        # Path to the private key file.
+        #
+        # Note: The private key can also be included inline via the privateKey option,
+        # but this makes the private key world-readable; thus, using privateKeyFile is
+        # recommended.
+        privateKeyFile = "/home/agaia/repo/personal/dotfiles/modules/wireguard/private_key.key";
+
+        peers = [
+          # For a client configuration, one peer entry for the server will suffice.
+          {
+            # Public key of the server (not a file path).
+            publicKey = "8vmTQMKzPBUiyVY9uEroOCOAd007M5Jft59RjXjBIEQ=";
+
+            # Forward all the traffic via VPN.
+            allowedIPs = [ "172.28.0.0/18" "172.17.200.0/24" "10.6.10.0/24" "10.8.10.0/24" "10.7.10.0/24" "10.2.10.0/24" "10.3.10.0/24" "10.4.10.0/24" "10.5.10.0/24" ];
+
+            # Set this to the server IP and port.
+            endpoint = "18.236.122.199:51820"; # TODO: route to endpoint not automatically configured https://wiki.archlinux.org/index.php/WireGuard#Loop_routing https://discourse.nixos.org/t/solved-minimal-firewall-setup-for-wireguard-client/7577
+
+            # Send keepalives every 25 seconds. Important to keep NAT tables alive.
+            persistentKeepalive = 25;
+          }
+        ];
+      };
+    };
+  };
 
   # Set your time zone.
   time.timeZone = "America/Denver";
@@ -44,7 +86,7 @@
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";
   console = {
-  # font = "Lat2-Terminus16";
+    # font = "Lat2-Terminus16";
     useXkbConfig = true; # use xkbOptions in tty (allows us to have our remap of caps to escape).
   };
 
@@ -59,7 +101,7 @@
     # Enable Gnome, but exclude some apps
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
-  
+
     # Enable touchpad support (enabled default in most desktopManager).
     libinput.enable = true;
   };
@@ -84,14 +126,14 @@
     hitori # sudoku game
     atomix # puzzle game
   ]);
-  
+
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = true;
- 
+
   # Persist network settings and nixos configuration
   environment.etc = {
     nixos.source = "/persist/etc/nixos";
@@ -103,7 +145,7 @@
   security.sudo.extraConfig = ''
     # rollback results in sudo lectures after each reboot
     Defaults lecture = never
-  '';  
+  '';
 
 
   # Rollback on reboot
@@ -151,7 +193,7 @@
     # TODO: Unable to set "/var/lib/docker-registry - - - - /persist/var/lib/docker".
     # Not sure why. Spend too long debugging. Ended up just settings services.docker.registry.storagePath=/persis/var/lib/docker-registry
   ];
- 
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.agaia = {
     description = "Adam Gaia";
@@ -159,7 +201,7 @@
     uid = 1000;
     initialPassword = "agaia";
     shell = pkgs.zsh;
-    extraGroups = [ "wheel" "docker"]; # 'wheel' grants sudoer permission.
+    extraGroups = [ "wheel" "docker" ]; # 'wheel' grants sudoer permission.
   };
   users.mutableUsers = true;
 
@@ -167,7 +209,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     bash
-    vim  
+    vim
     zsh
     tmux
     gnumake
@@ -221,7 +263,7 @@
         # Troubleshooting:
         #   * If host-side volume mount does not exist, registry will fail
         #   * TODO: how can we create these directories as part of nixos configuration?
-        #"registry" = { 
+        #"registry" = {
         #  image = "docker.io/library/registry:2.8.1";
         #  ports = [
         #    "127.0.0.1:5000:5000"
@@ -238,7 +280,7 @@
           #  * Does the registry have an image for reg?
           #  * Registry is insecure. The address must match /etc/containers/registries.conf. If 'localhost' here, then cant be '127.0.0.1' in that file
           image = "127.0.0.1:5000/reg-docker-server:latest";
-          #ports = [ 
+          #ports = [
           #  "127.0.0.1:5001:8080"
           #];
           # Had to use host network to point the --registry option to the host to get the registry.
@@ -264,14 +306,14 @@
           ];
           autoStart = true;
         };
-        
+
         #"shsh-jc-cyl" = {
         #  # Work shsh-jc-cyl container
         #  # Troubleshooting:
         #  #  * Is the registry running? (sudo systemctl status podman.registry)
         #  #  * Does the registry have an image for reg?
-        #  #  * Registry is insecure. The address must match /etc/containers/registries.conf. If 'localhost' here, then cant be '127.0.0.1' in that file 
-        #  image = "127.0.0.1:5000/shsh-jc-cyl:latest"; 
+        #  #  * Registry is insecure. The address must match /etc/containers/registries.conf. If 'localhost' here, then cant be '127.0.0.1' in that file
+        #  image = "127.0.0.1:5000/shsh-jc-cyl:latest";
         #  dependsOn = [ "registry" ];
         #  autoStart = true;
         #  extraOptions = [
@@ -309,20 +351,14 @@
     };
   };
   services.flatpak.enable = true;
-  
+
 
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
   # TODO: I think there is a bug causing systemd to hang on boot with my dell XPS. Need to investigate
   #services.openssh.enable = false; # DO NOT ENABLE
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  networking.firewall.enable = false;
-
+ 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
@@ -332,4 +368,3 @@
   system.stateVersion = "22.05"; # Did you read the comment?
 
 }
-

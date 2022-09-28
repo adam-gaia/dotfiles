@@ -1,3 +1,4 @@
 config-personal filter=git-crypt diff=git-crypt
 config-work filter=git-crypt diff=git-crypt
+*.key filter=git-crypt diff=git-crypt
 

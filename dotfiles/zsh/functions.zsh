@@ -215,18 +215,18 @@ printUnderline()
 
 # --------------------------------------------------------------------------------
 # Override git
-# Git does not allow aliases or user defined sub-commands to overide existing commands
 # ---------------------------------------------------------------------------------
-# function git()
-# {
-#     if [[ "${1}" == "commit" ]]; then
-#         # Use commitizen to make a commit
-#         cz ${@}
-#     else
-#         # Bash/zsh buildin 'command' stops this function from recursively calling itself by only running external commands
-#         command git ${@}
-#     fi
-# }
+function git()
+{
+    if command -v git-shim &>/dev/null; then
+        # Use my git shim if it is installed
+        # https://gitlab.com/adam_gaia/git-shim
+        git-shim "${@}"
+    else
+        echo "[warning] 'git-shim' not found" 1>&2
+        command git "${@}"
+    fi
+}
 
 
 # --------------------------------------------------------------------------------
@@ -443,6 +443,7 @@ printUnderline()
 
 #     done
 # }
+
 
 function barfix()
 {

@@ -1,10 +1,10 @@
-{ config, pkgs, ... }:
+{ config, pkgs, git-shim, ... }:
 
 let
   term = "xterm-256color";
-in {
-
- imports = [../../modules/dconf.nix];
+in
+{
+  imports = [ ../../modules/dconf.nix ];
 
   programs = {
     # Let home manager install and enable itself
@@ -206,7 +206,7 @@ in {
             set -g @resurrect-strategy-nvim 'session'
             set -g @resurrect-strategy-vim 'session'
             set -g @resurrect-capture-pane-contents 'on'
-            '';
+          '';
         }
         {
           plugin = tmuxPlugins.continuum;
@@ -334,6 +334,7 @@ in {
         # Use commitizen to commit
         cz = "!cz commit";
         batch = "!gitbatch";
+        repos = "track-repos"; # Shortcut for my git-track-repos command. https://gitlab.com/adam_gaia/git-track-repos
       };
       includes = [
         {
@@ -520,6 +521,7 @@ in {
 
   home.sessionVariables = {
     GIT_DISCOVERY_ACROSS_FILESYSTEM = "1";
+    PRE_COMMIT_ALLOW_NO_CONFIG="1"; # TODO: can we configure pre-commit with a config instead of setting this?
 
     XDG_CONFIG_HOME = "/home/agaia/.config";
     XDG_CACHE_HOME = "/home/agaia/.cache";
@@ -621,6 +623,7 @@ in {
     nixpkgs-fmt
     shellcheck
     glab
+    git-shim.defaultPackage.${system}
   ];
 
   # TODO: note said not to forget this

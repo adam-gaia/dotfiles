@@ -22,7 +22,7 @@ function rm()
         export TRASHCAN="${HOME}/.trash"
     fi
 
-    
+
     if [[ ! -d "${TRASHCAN}" ]]; then
         mkdir -p "${TRASHCAN}"
     fi
@@ -232,6 +232,45 @@ function git()
 # --------------------------------------------------------------------------------
 # Misc Utilities
 # ---------------------------------------------------------------------------------
+function wireguard()
+{
+  local error_msg=("Usage:" "wireguard <start|stop|status")
+  if [[ "$#" -eq 0 ]]; then
+      sudo systemctl status --no-pager wireguard-wg_sharper
+      return 0
+  elif [[ "$#" -gt 1 ]]; then
+      echo "${error_msg[@]}"
+      return 2
+  fi
+
+  case "$1" in
+      '--help' | 'help')
+          echo "${error_msg[@]}"
+          return 0
+          ;;
+      'start')
+          sudo systemctl start wireguard-wg_sharper.service
+          ;;
+
+      'stop')
+          sudo systemctl stop wireguard-wg_sharper.service
+          ;;
+
+      'status')
+          sudo systemctl status --no-pager wireguard-wg_sharper.service
+          return 0
+          ;;
+
+      *)
+          echo "${error_msg[@]}"
+          return 2
+        ;;
+  esac
+  # Show status after operation
+  sudo systemctl status --no-pager wireguard-wg_sharper
+}
+
+
 # function which()
 # {
 #     # TODO: fix for zsh
@@ -263,7 +302,7 @@ function git()
 #     # Check query using 'type'
 #     # TODO: zsh's type is different than bash's
 #     if ! typesFound=$(type -at "${query}"); then # TODO: there is a bug here
-        
+
 #         # If not found, try to use 'file'
 #         if fileOutput=$(file -E "${query}" 2> /dev/null); then # TODO: 'file' utility on debian seems to always returns 0
 #             echo "${fileOutput}"
@@ -277,9 +316,9 @@ function git()
 #             fi
 
 #             echo "${recursionIndent}'${query}' is not an alias, builtin, executable, keyword or function on the path."
-            
+
 #             quotes=("It looks like the command you're searching for does not exist."
-#                     "Impossible. Perhapses the archives are incomplete?"    
+#                     "Impossible. Perhapses the archives are incomplete?"
 #                     "If an item does not appear in our records it does not exist!")
 #             index="$((RANDOM % 3))"
 #             echo "${recursionIndent}    ${quotes[${index}]}"
@@ -334,7 +373,7 @@ function git()
 #                         recursionCheck="${recursionCheck}:${newQuery}"
 #                     fi
 #                     recursionIndent+='    ' # If you ever change this be sure to change the decrement level as well!
-                    
+
 #                     # Replace any '|' or ';' with spaces. This way, these chars become a part separator and aren't
 #                     newQuery="${newQuery//;/' '}"
 #                     newQuery="${newQuery//\|/' '}"
@@ -359,10 +398,10 @@ function git()
 #                             continue
 #                         fi
 
-#                         which "${q}" "${recursionCheck}" "${recursionIndent}" # Remove whitespace from first arg 
+#                         which "${q}" "${recursionCheck}" "${recursionIndent}" # Remove whitespace from first arg
 #                     done
 
-                    
+
 #                 fi
 #                 # Reset the variables that keep track of recursion
 #                     recursionCheck=''

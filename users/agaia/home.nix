@@ -100,7 +100,7 @@ in
       initExtra = "source \${XDG_CONFIG_HOME}/zsh/functions.zsh";
 
 
-      #loginExtra = "fortune | cowsay";
+      loginExtra = "wireguard stop";
       logoutExtra = "[ $SHLVL = 1 ] && [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q || clear";
 
 
@@ -331,8 +331,6 @@ in
         url = "remote get-url origin";
         visual = "!gitk";
         root = "rev-parse --show-toplevel";
-        # Use commitizen to commit
-        cz = "!cz commit";
         batch = "!gitbatch";
         repos = "track-repos"; # Shortcut for my git-track-repos command. https://gitlab.com/adam_gaia/git-track-repos
       };

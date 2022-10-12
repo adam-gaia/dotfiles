@@ -68,6 +68,7 @@
       };
     };
     devShells.${system}.default = pkgs.mkShell {
+      name = "dev";
       buildInputs =
         [
           pkgs.shellcheck

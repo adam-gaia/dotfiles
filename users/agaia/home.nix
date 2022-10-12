@@ -57,6 +57,46 @@ in
             sha256 = "0za4aiwwrlawnia4f29msk822rj9bgcygw6a8a6iikiwzjjz0g91";
           };
         }
+        {
+          name = "zsh-autosuggestions";
+          file = "zsh-autosuggestions.zsh";
+          src = pkgs.fetchFromGitHub {
+            owner = "zsh-users";
+            repo = "zsh-autosuggestions";
+            rev = "v0.7.0";
+            sha256 = "sha256-KLUYpUu4DHRumQZ3w59m9aTW6TBKMCXl2UcKi4uMd7w=";
+          };
+        }
+        {
+          name = "zsh-syntax-highlighting";
+          file = "zsh-syntax-highlighting.zsh";
+          src = pkgs.fetchFromGitHub {
+            owner = "zsh-users";
+            repo = "zsh-syntax-highlighting";
+            rev = "0.7.1";
+            sha256 = "sha256-gOG0NLlaJfotJfs+SUhGgLTNOnGLjoqnUp54V9aFJg8=";
+          };
+        }
+        {
+          name = "zsh-completions";
+          file = "zsh-completions.plugin.zsh";
+          src = pkgs.fetchFromGitHub {
+            owner = "zsh-users";
+            repo = "zsh-completions";
+            rev = "0.34.0";
+            sha256 = "sha256-qSobM4PRXjfsvoXY6ENqJGI9NEAaFFzlij6MPeTfT0o=";
+          }; 
+        }
+        {
+          name = "zsh-abbr";
+          file = "zsh-abbr.zsh";
+          src = pkgs.fetchFromGitHub {
+            owner = "olets";
+            repo = "zsh-abbr";
+            rev = "v4.8.0";
+            sha256 = "sha256-diitszKbu530zXbJx4xmfOjLsITE9ucmWdsz9VTXsKg=";
+          };
+        }
       ];
 
       initExtraFirst = ''
@@ -98,17 +138,6 @@ in
           # Set file colors based on type
           export LS_COLORS="$(vivid --database ~/.config/vivid/filetypes.yml generate ~/.config/vivid/sonokai-theme.yml)" # TODO: we should only generate once when provisioning the machine and set to that output in here
         fi
-
-        # Install antibody (plugin manager)
-        # curl -sfL git.io/antibody | sh -s - -b /usr/local/bin
-        # Source antibody plugins
-        # TODO: drop antibody and manage plugins manually
-        source <(antibody init)
-        antibody bundle zsh-users/zsh-autosuggestions
-        antibody bundle zsh-users/zsh-syntax-highlighting
-        antibody bundle zsh-users/zsh-completions
-        antibody bundle olets/zsh-abbr # Expands aliases as abbrs instead
-
 
         # Suggestion strategies
         export ZSH_AUTOSUGGEST_STRATEGY=(completion history)
@@ -608,9 +637,8 @@ in
     #cargo
     #rust-analyzer
     neovim
-    neomutt
-    # Pull starship from unstable for latest
-    unstable-pkgs.starship
+    neomutt 
+    unstable-pkgs.starship # Pull starship from unstable for latest
     python3
     jq
     lynx
@@ -655,7 +683,6 @@ in
     pre-commit
     xxh
     navi
-    antibody
     sumneko-lua-language-server
     htmlq
     nixpkgs-fmt

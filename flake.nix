@@ -3,19 +3,33 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-22.05";
+    nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    home-manager.url = "github:nix-community/home-manager/release-22.05";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    flake-utils.url = "github:numtide/flake-utils";
+  
+    home-manager = {
+      url = "github:nix-community/home-manager/release-22.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    git-shim.url ="gitlab:adam_gaia/git-shim";
-    git-shim.inputs.nixpkgs.follows = "nixpkgs";
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    git-shim = {
+      url = "gitlab:adam_gaia/git-shim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { nixpkgs, flake-utils, home-manager, nixos-hardware, git-shim, ... }@inputs:
+  outputs = { nixpkgs, nixpkgs-unstable, flake-utils, home-manager, nixos-hardware, git-shim, ... }@inputs:
   let
     system = "x86_64-linux";
     pkgs = import nixpkgs {
+      inherit system;
+      config = { allowUnfree = true; };
+    };
+    unstable-pkgs = import nixpkgs-unstable {
       inherit system;
       config = { allowUnfree = true; };
     };
@@ -23,7 +37,7 @@
 
     agaia_drv = home-manager.lib.homeManagerConfiguration {
       inherit system pkgs;
-      extraSpecialArgs = { inherit inputs git-shim; };
+      extraSpecialArgs = { inherit inputs unstable-pkgs git-shim; };
 
       username = "agaia";
       homeDirectory = "/home/agaia";

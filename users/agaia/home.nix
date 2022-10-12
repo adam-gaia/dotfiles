@@ -1,4 +1,4 @@
-{ config, pkgs, git-shim, ... }:
+{ config, pkgs, unstable-pkgs, git-shim, ... }:
 
 let
   term = "xterm-256color";
@@ -9,6 +9,26 @@ in
   programs = {
     # Let home manager install and enable itself
     home-manager.enable = true;
+
+    firefox = {
+      enable = true;
+      package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
+        forceWayland = true;
+        extraPolicies = {
+          ExtensionSettings = {};
+        };
+      };
+      profiles.adam = {
+        id = 0;
+        isDefault = true;
+        settings = {
+          #"browser.startup.homepage" = "localhost:8080"; # TODO: use a variable to point to home service in system config
+          "browser.search.region" = "US";
+          "browser.search.isUS" = true;
+          "browser.bookmarks.showMobileBookmarks" = true;
+        };
+      };
+    };
 
     zsh = {
       enable = true;
@@ -24,6 +44,19 @@ in
       history.path = "\${XDG_CACHE_HOME}/zsh/history";
       history.ignoreDups = true;
       history.extended = true;
+
+      plugins = [
+        {
+          name = "zsh-nix-shell";
+          file = "nix-shell.plugin.zsh";
+          src = pkgs.fetchFromGitHub {
+            owner = "chisui";
+            repo = "zsh-nix-shell";
+            rev = "v0.5.0";
+            sha256 = "0za4aiwwrlawnia4f29msk822rj9bgcygw6a8a6iikiwzjjz0g91";
+          };
+        }
+      ];
 
       initExtraFirst = ''
         # --------------------------------------------------
@@ -524,6 +557,9 @@ in
     XDG_CONFIG_HOME = "/home/agaia/.config";
     XDG_CACHE_HOME = "/home/agaia/.cache";
 
+    # Tell firefox to use wayland features
+    MOZ_ENABLE_WAYLAND = 1;
+
     EDITOR = "vim";
     PAGER = "less";
     LESS = "-RF --LONG-PROMPT --mouse --wheel-lines=5";
@@ -572,7 +608,8 @@ in
     #rust-analyzer
     neovim
     neomutt
-    starship
+    # Pull starship from unstable for latest
+    unstable-pkgs.starship
     python3
     jq
     lynx
@@ -593,6 +630,8 @@ in
     git-crypt
     ripgrep
     lsd
+    protonvpn-gui
+    protonvpn-cli
     cowsay
     fortune
     gdb

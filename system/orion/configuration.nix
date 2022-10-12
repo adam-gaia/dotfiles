@@ -371,7 +371,7 @@
   # Enable the OpenSSH daemon.
   # TODO: I think there is a bug causing systemd to hang on boot with my dell XPS. Need to investigate
   #services.openssh.enable = false; # DO NOT ENABLE
- 
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

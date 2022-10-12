@@ -19,10 +19,8 @@ ${line_break}\
 ${shlvl}\
 ${jobs}\
 ${battery}\
-${character}\
-${time}
+${character}
 """
-#right_format = """${time}"""
 
 [nix_shell]
 symbol = "❄️ "

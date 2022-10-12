@@ -24,7 +24,7 @@ ${character}
 
 [nix_shell]
 symbol = "❄️ "
-format = "[${symbol}${state} (${name})](${style}) "
+format = "[${symbol}(${name})](${style}) "
 
 [container]
 style = "bold purple"

@@ -47,6 +47,7 @@ in
 
       plugins = [
         {
+          # This plugin hijacks 'nix-shell' in order to run zsh instead of bash
           name = "zsh-nix-shell";
           file = "nix-shell.plugin.zsh";
           src = pkgs.fetchFromGitHub {

@@ -103,4 +103,3 @@ if [[ "$(command -v grc)" ]]; then # TODO add more checks for commands before us
 fi
 alias tree='lsd --tree --color=always'
 alias cat='bat'
-

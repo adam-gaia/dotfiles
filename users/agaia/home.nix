@@ -2,6 +2,65 @@
 
 let
   term = "xterm-256color";
+  packages = with pkgs; [
+    docker-compose
+    bat
+    neovim
+    neomutt  
+    python3
+    jq
+    lynx
+    m4
+    neofetch
+    tree
+    w3m
+    htop
+    unzip
+    rclone
+    rsync
+    grc
+    pigz
+    git-lfs
+    sshpass
+    nmap
+    clang
+    git-crypt
+    ripgrep
+    lsd
+    protonvpn-gui
+    protonvpn-cli
+    cowsay
+    fortune
+    gdb
+    gzip
+    watch
+    htop
+    rsync
+    nmap
+    bitwarden-cli
+    vivid
+    fd
+    didyoumean
+    du-dust
+    nodejs
+    terraform-ls
+    nodePackages.bash-language-server
+    nodePackages.yaml-language-server
+    ansible
+    commitizen
+    pre-commit
+    xxh
+    navi
+    sumneko-lua-language-server
+    htmlq
+    nixpkgs-fmt
+    shellcheck
+    glab
+    git-shim.defaultPackage.${system}
+    unstable-pkgs.starship
+    unstable-pkgs.ctop
+  ];
+
 in
 {
   imports = [ ../../modules/dconf.nix ];
@@ -163,7 +222,7 @@ in
       initExtra = "source \${XDG_CONFIG_HOME}/zsh/functions.zsh";
 
 
-      loginExtra = "wireguard stop";
+      loginExtra = "";
       logoutExtra = "[ $SHLVL = 1 ] && [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q || clear";
 
 
@@ -493,6 +552,7 @@ in
 
     alacritty = {
       enable = true;
+      package = unstable-pkgs.alacritty;
       settings = with import ../../modules/colors/Sonokai.nix { }; {
         env = {
           TERM = "${term}"; # Defaults to 'alacritty' which breaks tmux's handling of color codes
@@ -529,7 +589,7 @@ in
           };
 
           size = 14;
-          use_thin_strokes = true;
+          #use_thin_strokes = true;
         };
 
         draw_bold_text_with_bright_colors = false;
@@ -630,67 +690,7 @@ in
 
   nixpkgs.config.allowUnfree = true;
 
-  home.packages = with pkgs; [
-    docker-compose
-    bat
-    #rustc
-    #cargo
-    #rust-analyzer
-    neovim
-    neomutt 
-    unstable-pkgs.starship # Pull starship from unstable for latest
-    python3
-    jq
-    lynx
-    m4
-    neofetch
-    tree
-    w3m
-    htop
-    unzip
-    rclone
-    rsync
-    grc
-    pigz
-    git-lfs
-    sshpass
-    nmap
-    clang
-    git-crypt
-    ripgrep
-    lsd
-    protonvpn-gui
-    protonvpn-cli
-    cowsay
-    fortune
-    gdb
-    gzip
-    watch
-    htop
-    rsync
-    nmap
-    bitwarden-cli
-    vivid
-    fd
-    didyoumean
-    du-dust
-    nodejs
-    terraform-ls
-    nodePackages.bash-language-server
-    nodePackages.yaml-language-server
-    ansible
-    commitizen
-    pre-commit
-    xxh
-    navi
-    sumneko-lua-language-server
-    htmlq
-    nixpkgs-fmt
-    shellcheck
-    glab
-    git-shim.defaultPackage.${system}
-  ];
-
+  home.packages = packages;
   # TODO: note said not to forget this
   #environment.pathsToLink = [ "/share/zsh" ];
 

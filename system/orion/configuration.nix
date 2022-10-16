@@ -42,20 +42,20 @@
     # Or disable the firewall altogether.
     firewall.enable = false;
 
-    wireguard.interfaces = {
-      wg0 = {
-        ips = [ "10.2.0.2/32" ];
-        listenPort = 51820;
-        privateKeyFile = "/home/agaia/repo/personal/dotfiles/modules/wireguard/proton-ca.key";
-        peers = [
-          {
-            publicKey = "5YxjJV/w2nIQHnh80py03qkUIWafadRqrnG72NzfMkE=";
-            allowedIPs = [ "0.0.0.0/0" ];
-            endpoint = "37.120.205.82:51820";
-            persistentKeepalive = 25;
-          }
-        ];
-      };
+    #wireguard.interfaces = {
+    #  wg0 = {
+    #    ips = [ "10.2.0.2/32" ];
+    #    listenPort = 51820;
+    #    privateKeyFile = "/home/agaia/repo/personal/dotfiles/modules/wireguard/proton-ca.key";
+    #    peers = [
+    #      {
+    #        publicKey = "5YxjJV/w2nIQHnh80py03qkUIWafadRqrnG72NzfMkE=";
+    #        allowedIPs = [ "0.0.0.0/0" ];
+    #        endpoint = "37.120.205.82:51820";
+    #        persistentKeepalive = 25;
+    #      }
+    #    ];
+    #  };
       # "wg_sharper" is the network interface name. You can name the interface arbitrarily.
       #wg_sharper = {
         # Determines the IP address and subnet of the client's end of the tunnel interface.
@@ -86,7 +86,7 @@
       #    }
       #  ];
       #};
-    };
+    #};
   };
 
   # Set your time zone.

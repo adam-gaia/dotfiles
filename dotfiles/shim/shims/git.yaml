@@ -1,0 +1,45 @@
+shims:
+  - program: git
+    pre: # Nothing yet
+
+    override:
+      - run: |-
+          # Run pre-commit first - it is annoying to type a commit message and then have pre-commit fail
+          pre-commit
+          # Use commitizen to make the commit
+          cz $@
+        on_subcommand: commit
+
+      - run: git track-repos
+        on_subcommand: repos
+
+      # `git info` -> `onefetch`
+      - run: onefetch
+        on_subcommand: info
+
+      - run: cz commit $@
+        on_subcommand: cz
+
+      - run: git remote git-url origin
+        on_subcommand: url
+
+      - run: gitk
+        on_subcommand: visual
+
+      - run: git rev-parse --show-toplevel
+        on_subcommand: root
+
+      - run: gitbatch
+        on_subcommand: batch
+
+    post:
+      - run: track-repos --register
+        on_subcommand: init
+
+      - run: track-repos --register
+        on_subcommand: clone
+
+      - run: track-repos --quiet update
+
+    env:
+      - ASDF=1

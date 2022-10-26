@@ -1,10 +1,10 @@
-{ config, pkgs, unstable-pkgs, git-shim, ... }:
+{ config, pkgs, unstable-pkgs, shim, ... }:
 
 let
   term = "xterm-256color";
   packages = with pkgs; [
     docker-compose
-    bat
+    unstable-pkgs.bat
     neovim
     neomutt  
     python3
@@ -25,8 +25,8 @@ let
     nmap
     clang
     git-crypt
-    ripgrep
-    lsd
+    unstable-pkgs.ripgrep
+    unstable-pkgs.lsd
     protonvpn-gui
     protonvpn-cli
     cowsay
@@ -38,25 +38,27 @@ let
     rsync
     nmap
     bitwarden-cli
-    vivid
-    fd
-    didyoumean
-    du-dust
+    unstable-pkgs.vivid
+    unstable-pkgs.fd
+    unstable-pkgs.didyoumean
+    unstable-pkgs.du-dust
     nodejs
     terraform-ls
     nodePackages.bash-language-server
     nodePackages.yaml-language-server
     ansible
-    commitizen
-    pre-commit
+    unstable-pkgs.commitizen
+    unstable-pkgs.pre-commit
     xxh
-    navi
+    unstable-pkgs.navi
     sumneko-lua-language-server
-    htmlq
+    unstable-pkgs.htmlq
     nixpkgs-fmt
-    shellcheck
-    glab
-    git-shim.defaultPackage.${system}
+    unstable-pkgs.shellcheck
+    unstable-pkgs.glab
+    unstable-pkgs.onefetch
+    unstable-pkgs.tealdeer
+    shim.defaultPackage.${system}
     unstable-pkgs.starship
     unstable-pkgs.ctop
   ];
@@ -449,13 +451,15 @@ in
     git = {
       enable = true;
       lfs.enable = true;
-      aliases = {
-        url = "remote get-url origin";
-        visual = "!gitk";
-        root = "rev-parse --show-toplevel";
-        batch = "!gitbatch";
-        repos = "track-repos"; # Shortcut for my git-track-repos command. https://gitlab.com/adam_gaia/git-track-repos
-      };
+
+      # Aliases moved to 'shim' utility
+      #aliases = {
+      #  url = "remote get-url origin";
+      #  visual = "!gitk";
+      #  root = "rev-parse --show-toplevel";
+      #  batch = "!gitbatch";
+      #  repos = "track-repos"; # Shortcut for my git-track-repos command. https://gitlab.com/adam_gaia/git-track-repos
+      #};
       includes = [
         {
           path = "~/.config/git/config-work";
@@ -736,6 +740,10 @@ in
       };
       tmuxp = {
         source = ../../dotfiles/tmuxp;
+        recursive = true;
+      };
+      shim = {
+        source = ../../dotfiles/shim;
         recursive = true;
       };
     };

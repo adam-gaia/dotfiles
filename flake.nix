@@ -16,13 +16,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    git-shim = {
-      url = "gitlab:adam_gaia/git-shim";
+    shim = {
+      url = "gitlab:adam_gaia/shim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { nixpkgs, nixpkgs-unstable, flake-utils, home-manager, nixos-hardware, git-shim, ... }@inputs:
+  outputs = { nixpkgs, nixpkgs-unstable, flake-utils, home-manager, nixos-hardware, shim, ... }@inputs:
   let
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -37,7 +37,7 @@
 
     agaia_drv = home-manager.lib.homeManagerConfiguration {
       inherit system pkgs;
-      extraSpecialArgs = { inherit inputs unstable-pkgs git-shim; };
+      extraSpecialArgs = { inherit inputs unstable-pkgs shim; };
 
       username = "agaia";
       homeDirectory = "/home/agaia";

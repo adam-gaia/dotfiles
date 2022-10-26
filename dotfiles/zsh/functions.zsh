@@ -212,23 +212,6 @@ printUnderline()
     fi
 }
 
-
-# --------------------------------------------------------------------------------
-# Override git
-# ---------------------------------------------------------------------------------
-function git()
-{
-    if command -v git-shim &>/dev/null; then
-        # Use my git shim if it is installed
-        # https://gitlab.com/adam_gaia/git-shim
-        git-shim "${@}"
-    else
-        echo "[warning] 'git-shim' not found" 1>&2
-        command git "${@}"
-    fi
-}
-
-
 # --------------------------------------------------------------------------------
 # Misc Utilities
 # ---------------------------------------------------------------------------------

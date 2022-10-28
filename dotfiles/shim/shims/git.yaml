@@ -10,7 +10,7 @@ shims:
           cz $@
         on_subcommand: commit
 
-      - run: git track-repos
+      - run: git-track-repos
         on_subcommand: repos
 
       # `git info` -> `onefetch`
@@ -20,7 +20,7 @@ shims:
       - run: cz commit $@
         on_subcommand: cz
 
-      - run: git remote git-url origin
+      - run: git remote get-url origin
         on_subcommand: url
 
       - run: gitk
@@ -33,13 +33,10 @@ shims:
         on_subcommand: batch
 
     post:
-      - run: track-repos --register
+      - run: git-track-repos --register
         on_subcommand: init
 
-      - run: track-repos --register
+      - run: git-track-repos --register
         on_subcommand: clone
 
-      - run: track-repos --quiet update
-
-    env:
-      - ASDF=1
+      - run: git-track-repos --quiet update

@@ -1,4 +1,4 @@
-{ config, pkgs, unstable-pkgs, shim, ... }:
+{ config, pkgs, unstable-pkgs, shim, git-track-repos, ... }:
 
 let
   term = "xterm-256color";
@@ -58,7 +58,8 @@ let
     unstable-pkgs.glab
     unstable-pkgs.onefetch
     unstable-pkgs.tealdeer
-    shim.defaultPackage.${system}
+    git-track-repos.packages.${system}.default
+    shim.packages.${system}.default
     unstable-pkgs.starship
     unstable-pkgs.ctop
   ];
@@ -736,6 +737,10 @@ in
       };
       git = {
         source = ../../dotfiles/git;
+        recursive = true;
+      };
+      pre-commit = {
+        source = ../../dotfiles/pre-commit;
         recursive = true;
       };
       tmuxp = {

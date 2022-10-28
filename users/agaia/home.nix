@@ -644,6 +644,9 @@ in
 
   };
 
+  home.sessionPath = [
+    "$HOME/.local/bin"
+  ];
 
   home.sessionVariables = {
     GIT_DISCOVERY_ACROSS_FILESYSTEM = "1";

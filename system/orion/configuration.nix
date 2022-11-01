@@ -237,6 +237,7 @@
     firefox
     file
     watch
+    sqlite
   ];
 
 

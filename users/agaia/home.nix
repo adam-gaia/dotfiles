@@ -760,6 +760,10 @@ in
         source = ../../dotfiles/offlineimap;
         recursive = true;
       };
+      neomutt = {
+        source = ../../dotfiles/neomutt;
+        recursive = true;
+      };
     };
   };
 }

@@ -756,6 +756,10 @@ in
         source = ../../dotfiles/shim;
         recursive = true;
       };
+      offlineimap = {
+        source = ../../dotfiles/offlineimap;
+        recursive = true;
+      };
     };
   };
 }

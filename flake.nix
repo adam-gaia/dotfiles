@@ -20,6 +20,7 @@
       url = "gitlab:adam_gaia/shim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     git-track-repos = {
       url = "gitlab:adam_gaia/git-track-repos";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -64,6 +65,7 @@
           ./system/nixbox/configuration.nix
         ];
       };
+
       orion = lib.nixosSystem {
         inherit system;
         modules = [
@@ -71,6 +73,7 @@
         ];
       };
     };
+
     devShells.${system}.default = pkgs.mkShell {
       name = "dev";
       buildInputs =

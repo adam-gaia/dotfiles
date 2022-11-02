@@ -6,7 +6,6 @@ let
     docker-compose
     unstable-pkgs.bat
     neovim
-    neomutt  
     python3
     jq
     lynx
@@ -63,14 +62,59 @@ let
     unstable-pkgs.starship
     unstable-pkgs.ctop
   ];
-
 in
 {
   imports = [ ../../modules/dconf.nix ];
 
+  accounts.email = {
+     maildirBasePath = "/home/agaia/mailbox";
+    accounts = {
+      "main" = with import ../../modules/email/main.nix { };
+      #"work" = with import ../../modules/email/work.nix { };
+    };
+  };
+
+  systemd.user.services = {
+    protonmail-bridge = {
+      Unit = {
+        Description = "ProtonMail Bridge";
+        Documentation = ["https://proton.me/mail/bridge"];
+      };
+      Service = {
+        Type = "simple";
+        ExecStart = "${pkgs.protonmail-bridge}/bin/protonmail-bridge --noninteractive";
+        Restart = "always";
+      };
+      Install = {
+        WantedBy = ["offlineimap.service"];
+      };
+    };
+    offlineimap = {
+      Unit = {
+        Description = "Offlineimap";
+        Documentation = ["https://github.com/OfflineIMAP/offlineimap3"];
+        Wants = ["protonmail-bridge.service"];
+        After = ["protonmail-bridge.service"];
+      };
+      Service = {
+        Type = "simple";
+        ExecStart = "${pkgs.offlineimap}/bin/offlineimap";
+        Restart = "always";
+      };
+    };
+  };
+
   programs = {
     # Let home manager install and enable itself
     home-manager.enable = true;
+ 
+    neomutt = {
+      enable = true;
+    };
+    offlineimap = {
+      # 'accounts.email.<name>.offlineimap.enable=true' is not creating the config file. Need to enable here for config. Home-manager bug?
+      enable = true;
+    };
 
     firefox = {
       enable = true;
@@ -231,6 +275,7 @@ in
 
       shellAliases = {
         reload = "exec zsh";
+        mail="neomutt";
 
         # Zsh's 'history' builtin only shows 16 items. This alias shows all history
         history = "fc -l 1";
@@ -756,14 +801,14 @@ in
         source = ../../dotfiles/shim;
         recursive = true;
       };
-      offlineimap = {
-        source = ../../dotfiles/offlineimap;
-        recursive = true;
-      };
-      neomutt = {
-        source = ../../dotfiles/neomutt;
-        recursive = true;
-      };
+      #offlineimap = {
+      #  source = ../../dotfiles/offlineimap;
+      #  recursive = true;
+      #};
+      #neomutt = {
+      #  source = ../../dotfiles/neomutt;
+      #  recursive = true;
+      #};
     };
   };
 }

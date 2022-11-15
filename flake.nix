@@ -16,18 +16,20 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nonstdlib = {
+      url = "gitlab:adam_gaia/nonstdlib/test";
+    };
+
     shim = {
       url = "gitlab:adam_gaia/shim";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     git-track-repos = {
       url = "gitlab:adam_gaia/git-track-repos";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { nixpkgs, nixpkgs-unstable, flake-utils, home-manager, nixos-hardware, shim, git-track-repos, ... }@inputs:
+  outputs = { nixpkgs, nixpkgs-unstable, flake-utils, nonstdlib, home-manager, nixos-hardware, shim, git-track-repos, ... }@inputs:
   let
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -38,6 +40,14 @@
       inherit system;
       config = { allowUnfree = true; };
     };
+
+    toolchain = [
+      nonstdlib.defaultPackage.${system}
+      pkgs.shellcheck
+      pkgs.shfmt
+      pkgs.dconf2nix
+    ];
+
     lib = nixpkgs.lib;
 
     agaia_drv = home-manager.lib.homeManagerConfiguration {
@@ -51,6 +61,12 @@
           ./users/agaia/home.nix
         ];
       };
+    };
+
+    apply_script = pkgs.writeShellApplication {
+      name = "apply-config";
+      runtimeInputs = toolchain;
+      text = (builtins.readFile ./scripts/apply-config);
     };
 
   in rec {
@@ -76,13 +92,10 @@
 
     devShells.${system}.default = pkgs.mkShell {
       name = "dev";
-      buildInputs =
-        [
-          pkgs.shellcheck
-          pkgs.shfmt
-          pkgs.dconf2nix
-        ];
+      buildInputs = toolchain; 
     };
+
+    packages.${system}.default = apply_script;
 
     templates = {
       rust = {

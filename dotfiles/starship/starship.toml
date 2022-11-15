@@ -2,6 +2,7 @@
 add_newline = true
 
 format = """(${status}${cmd_duration}\n)\
+${env_var}\
 ${nix_shell}\
 ${conda}\
 ${container}\
@@ -21,6 +22,11 @@ ${jobs}\
 ${battery}\
 ${character}
 """
+
+[env_var]
+variable = "CONDA"
+style = "bold yellow"
+format = "[CONDA ]($style)"
 
 [nix_shell]
 symbol = "❄️ "

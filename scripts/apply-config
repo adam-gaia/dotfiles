@@ -3,6 +3,14 @@ set -Eeuo pipefail
 
 THIS_PROGRAM_NAME="$(basename "$0")"
 
+pwd
+# shellcheck disable=SC2001
+echo "$PATH" | sed 's/:/\n/g'
+
+# shellcheck source=/dev/null
+source nonstdlib
+log::debug "test"
+
 function print_help_message()
 {
   echo "${THIS_PROGRAM_NAME}"
@@ -42,7 +50,7 @@ function apply_user() {
 
 APPLY_SYSTEM=0
 APPLY_USER=0
-USER_NAME=''
+USER_NAME="$(whoami)"
 
 if [[ "$#" -eq 0 ]]; then
   echo "No args specified, applying user config"
@@ -59,8 +67,7 @@ while [[ "$#" -gt 0 ]]; do
 
     '--user')
       APPLY_USER=1
-      # TODO: take username and hostname as input args
-      USER_NAME="$(whoami)"
+      # TODO: take username and hostname as input args 
       ;;
 
     '--system')

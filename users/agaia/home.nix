@@ -255,8 +255,6 @@ in
           setopt HIST_REDUCE_BLANKS      # Remove unnecessary blanks
           setopt INC_APPEND_HISTORY_TIME # Append command to history file immediately after execution
 
-
-
           # --------------------------------------------------------------------------------
           # Starship prompt
           # --------------------------------------------------------------------------------

@@ -27,9 +27,13 @@
     git-track-repos = {
       url = "gitlab:adam_gaia/git-track-repos";
     };
+
+    conda-flake = {
+      url = "gitlab:adam_gaia/conda-flake";
+    };
   };
 
-  outputs = { nixpkgs, nixpkgs-unstable, flake-utils, nonstdlib, home-manager, nixos-hardware, shim, git-track-repos, ... }@inputs:
+  outputs = { nixpkgs, nixpkgs-unstable, flake-utils, nonstdlib, home-manager, nixos-hardware, shim, git-track-repos, conda-flake, ... }@inputs:
   let
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -52,7 +56,7 @@
 
     agaia_drv = home-manager.lib.homeManagerConfiguration {
       inherit system pkgs;
-      extraSpecialArgs = { inherit inputs unstable-pkgs shim git-track-repos; };
+      extraSpecialArgs = { inherit inputs unstable-pkgs shim git-track-repos conda-flake; };
 
       username = "agaia";
       homeDirectory = "/home/agaia";

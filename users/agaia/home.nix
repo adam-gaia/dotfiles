@@ -1,4 +1,4 @@
-{ config, pkgs, unstable-pkgs, shim, git-track-repos, ... }:
+{ config, pkgs, unstable-pkgs, shim, git-track-repos, conda-flake, ... }:
 
 let
   term = "xterm-256color";
@@ -57,6 +57,7 @@ let
     unstable-pkgs.glab
     unstable-pkgs.onefetch
     unstable-pkgs.tealdeer
+    conda-flake.packages.${system}.default
     git-track-repos.packages.${system}.default
     shim.packages.${system}.default
     unstable-pkgs.starship

@@ -54,11 +54,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1668719189,
-        "narHash": "sha256-5nS9vHPRZoQlVGHpmDFG+y3A9NjKSz6E5dSRKChswSQ=",
+        "lastModified": 1668719558,
+        "narHash": "sha256-1T5gv6euGhS/3Fr3LPa24c/GPEeKb+6vrzFqUnHiWrc=",
         "owner": "adam_gaia",
         "repo": "conda-flake",
-        "rev": "5d27ee6baaf99fcb2803794c75694f377765fb2f",
+        "rev": "59ece5ca5e0ead57ab358925e247a938692b5b0d",
         "type": "gitlab"
       },
       "original": {

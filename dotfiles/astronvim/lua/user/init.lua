@@ -421,14 +421,6 @@ local config = {
       pattern = "plugins.lua",
       command = "source <afile> | PackerSync",
     })
-    -- Start neo-tree on startup
-    vim.cmd[[
-      augroup NEOTREE_AUGROUP
-        autocmd!
-        au VimEnter * lua vim.defer_fn(function() vim.cmd("Neotree show left") end, 10)
-      augroup END
-    ]]
-
     -- Set up custom filetypes
     -- vim.filetype.add {
     --   extension = {

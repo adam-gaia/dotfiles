@@ -4,6 +4,7 @@
 
 - [ ] Make nixos config modular
 - [ ] Enable [Clair](https://github.com/quay/clair) in locally hosted [reg](https://github.com/genuinetools/reg) server for static analysis
+- [ ]
 
 ## Homer Browser landing page
 
@@ -28,3 +29,4 @@
 
 - [ ] [Vivid](https://github.com/sharkdp/vivid)
   - I think I can look at the [bat entry](https://github.com/nix-community/home-manager/blob/master/modules/programs/bat.nix) as an example
+- [ ] [ShinyDir](https://github.com/Unoqwy/shinydir)

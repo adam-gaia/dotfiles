@@ -90,6 +90,14 @@ sudo -i nix-shell -p nix-info --run "nix-info -m"
 
 # TODO: set NIX_PATH in bash/zshrc
 
+# Enable flakes and other nix confit settings
+NIX_CONFIG_FILE="${HOME}/.config/nix.conf"
+mkdir -p $(dirname "${NIX_CONFIG_FILE}")
+touch "${NIX_CONFIG_FILE}"
+echo "experimental-features = nix-command flakes" >> "${NIX_CONFIG_FILE}"
+echo "keep-derivations = true" >> "${NIX_CONFIG_FILE}" # for dir-env later
+echo "keep-outputs = true" >> "${NIX_CONFIG_FILE}" # for dir-env later
+
 
 ## Install nix-darwin
 mkdir -p ~/tmp
@@ -102,9 +110,15 @@ nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer
 # I said no to editing the default bashrc
 # I said yes to the second option, but I'm not really sure what that did
 
-# Make sure it worked
+# Make sure it worked - this also bootstraps nix-darwin which is needed before we can use a nix-darwin flake
 darwin-rebuild switch
 
 popd
 
+
 ```
+
+## Credits
+
+Some code and ideas were ~~stolen~~ borrowed from [Kennan LeJeune's system config](https://github.com/kclejeune/system), which I stumbled uppon
+while looking for way to merge NixOS and Darwin configs into the same flake. Note `LICENSE.md` (MIT) which attributes the original license of code I've copied.

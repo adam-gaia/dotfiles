@@ -3,10 +3,6 @@ set -Eeuo pipefail
 
 THIS_PROGRAM_NAME="$(basename "$0")"
 
-pwd
-# shellcheck disable=SC2001
-echo "$PATH" | sed 's/:/\n/g'
-
 # shellcheck source=/dev/null
 source nonstdlib
 log::debug "test"
@@ -31,7 +27,7 @@ function apply_system() {
 
 function apply_user() {
   user="$1"
-  nix build ".#homeManagerConfigurations.${user}.activationPackage"
+  home-manager build --flake ".#${user}"
   ./result/activate
 
   ## Install things not yet in Nixpkgs

@@ -174,6 +174,7 @@
           default = pkgs.devshell.mkShell {
             packages = with pkgs; [
               nonstdlib.defaultPackage.${system}
+              git-crypt
               nixfmt
               pre-commit
               shellcheck

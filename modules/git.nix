@@ -93,11 +93,11 @@
       "id_*"
       "id_rsa*"
 
-      # Ignore pypirc. It contains api keys
-      "*pypirc*"
+      # Ignore other keys
+      "*.key"
 
-      # Ignore keys
-      *.key
+      # Ignore pypirc. It contains api keys
+      "*pypirc*" 
     ];
 
     extraConfig = {

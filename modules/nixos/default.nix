@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, home-manager, ... }:
 {
 
   imports = [
@@ -16,7 +16,6 @@
   console = {
     # font = "Lat2-Terminus16";
     useXkbConfig = true; # use xkbOptions in tty (allows us to have our remap of caps to escape).
-    keyMap = "us";
   };
 
 

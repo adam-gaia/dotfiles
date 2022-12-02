@@ -43,7 +43,8 @@
   };
 
   # Bootstrap home-manager using system config
-  hm = import ./home-manager;
+  #hm = import ./home-manager; # TODO: do we need to do this?
+  # See https://github.com/kclejeune/system
 
   # Let nix manage home-manager profiles and use global nixpkgs
   home-manager = {

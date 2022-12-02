@@ -95,6 +95,9 @@
 
       # Ignore pypirc. It contains api keys
       "*pypirc*"
+
+      # Ignore keys
+      *.key
     ];
 
     extraConfig = {

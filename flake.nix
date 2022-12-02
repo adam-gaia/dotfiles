@@ -92,7 +92,7 @@
 
       mkHomeConfig =
         { username
-        , system ? "x86_64-linux"
+        , system
         , term ? "xterm-256color"
         , nixpkgs ? inputs.nixpkgs 
         , nixpkgs-unstable ? inputs.nixpkgs-unstable
@@ -157,8 +157,19 @@
       };
 
       homeConfigurations = {
-        "agaia" = mkHomeConfig {
+        # TODO: figure out how to inherit system here so we dont have to have the duplicate
+        "agaia-linux" = mkHomeConfig {
           username = "agaia";
+          system = "x86_64-linux";
+          extraModules = [
+            ./users/agaia
+            ./modules/systemd-user-services.nix
+            ./modules/proton-packages.nix
+          ];
+        };
+	"agaia-darwin" = mkHomeConfig {
+          username = "agaia";
+          system = "x86_64-darwin";
           extraModules = [./users/agaia];
         };
       };

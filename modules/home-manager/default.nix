@@ -1,5 +1,10 @@
-{ self, inputs, config, pkgs, ...}:
 {
+  self,
+  inputs,
+  config,
+  pkgs,
+  ...
+}: {
   nixpkgs.config = {
     allowUnfree = true;
   };
@@ -13,7 +18,7 @@
     # the Home Manager release notes for a list of state version
     # changes in each release.
     stateVersion = "22.05";
-    sessionVariables = {  
+    sessionVariables = {
       # Tell firefox to use wayland features
       MOZ_ENASBLE_WAYLAND = 1;
     };

@@ -1,23 +1,22 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, ... }:
-
 {
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
-
+  config,
+  pkgs,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.supportedFilesystems = [ "btrfs" ];
+  boot.supportedFilesystems = ["btrfs"];
   hardware.enableAllFirmware = true;
   nixpkgs.config.allowUnfree = true;
 
@@ -29,7 +28,7 @@
 
     # Open ports in the firewall.
     # firewall.allowedTCPPorts = [ ... ];
-    firewall.allowedUDPPorts = [ 51820 ]; # Wireguard uses port 51820
+    firewall.allowedUDPPorts = [51820]; # Wireguard uses port 51820
     # Or disable the firewall altogether.
     firewall.enable = false;
 
@@ -47,36 +46,36 @@
     #      }
     #    ];
     #  };
-      # "wg_sharper" is the network interface name. You can name the interface arbitrarily.
-      #wg_sharper = {
-        # Determines the IP address and subnet of the client's end of the tunnel interface.
-      #  ips = [ "172.28.3.22/32" ];
-      #  listenPort = 51820; # to match firewall allowedUDPPorts (without this wg uses random port numbers)
+    # "wg_sharper" is the network interface name. You can name the interface arbitrarily.
+    #wg_sharper = {
+    # Determines the IP address and subnet of the client's end of the tunnel interface.
+    #  ips = [ "172.28.3.22/32" ];
+    #  listenPort = 51820; # to match firewall allowedUDPPorts (without this wg uses random port numbers)
 
-        # Path to the private key file.
-        #
-        # Note: The private key can also be included inline via the privateKey option,
-        # but this makes the private key world-readable; thus, using privateKeyFile is
-        # recommended.
-      #  privateKeyFile = "/home/agaia/repo/personal/dotfiles/modules/wireguard/private_key.key";
+    # Path to the private key file.
+    #
+    # Note: The private key can also be included inline via the privateKey option,
+    # but this makes the private key world-readable; thus, using privateKeyFile is
+    # recommended.
+    #  privateKeyFile = "/home/agaia/repo/personal/dotfiles/modules/wireguard/private_key.key";
 
-      #  peers = [
-          # For a client configuration, one peer entry for the server will suffice.
-      #    {
-            # Public key of the server (not a file path).
-      #      publicKey = "8vmTQMKzPBUiyVY9uEroOCOAd007M5Jft59RjXjBIEQ=";
+    #  peers = [
+    # For a client configuration, one peer entry for the server will suffice.
+    #    {
+    # Public key of the server (not a file path).
+    #      publicKey = "8vmTQMKzPBUiyVY9uEroOCOAd007M5Jft59RjXjBIEQ=";
 
-            # Forward all the traffic via VPN.
-      #      allowedIPs = [ "172.28.0.0/18" "172.17.200.0/24" "10.6.10.0/24" "10.8.10.0/24" "10.7.10.0/24" "10.2.10.0/24" "10.3.10.0/24" "10.4.10.0/24" "10.5.10.0/24" ];
+    # Forward all the traffic via VPN.
+    #      allowedIPs = [ "172.28.0.0/18" "172.17.200.0/24" "10.6.10.0/24" "10.8.10.0/24" "10.7.10.0/24" "10.2.10.0/24" "10.3.10.0/24" "10.4.10.0/24" "10.5.10.0/24" ];
 
-            # Set this to the server IP and port.
-      #      endpoint = "18.236.122.199:51820"; # TODO: route to endpoint not automatically configured https://wiki.archlinux.org/index.php/WireGuard#Loop_routing https://discourse.nixos.org/t/solved-minimal-firewall-setup-for-wireguard-client/7577
+    # Set this to the server IP and port.
+    #      endpoint = "18.236.122.199:51820"; # TODO: route to endpoint not automatically configured https://wiki.archlinux.org/index.php/WireGuard#Loop_routing https://discourse.nixos.org/t/solved-minimal-firewall-setup-for-wireguard-client/7577
 
-            # Send keepalives every 25 seconds. Important to keep NAT tables alive.
-      #      persistentKeepalive = 25;
-      #    }
-      #  ];
-      #};
+    # Send keepalives every 25 seconds. Important to keep NAT tables alive.
+    #      persistentKeepalive = 25;
+    #    }
+    #  ];
+    #};
     #};
   };
 
@@ -87,7 +86,7 @@
   services.xserver = {
     # Enable touchpad support (enabled default in most desktopManager).
     libinput.enable = true;
-  }; 
+  };
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
@@ -140,19 +139,19 @@
         #};
 
         #"reg" = {
-          # Troubleshooting:
-          #  * Is the registry running? (sudo systemctl status podman.registry)
-          #  * Does the registry have an image for reg?
-          #  * Registry is insecure. The address must match /etc/containers/registries.conf. If 'localhost' here, then cant be '127.0.0.1' in that file
+        # Troubleshooting:
+        #  * Is the registry running? (sudo systemctl status podman.registry)
+        #  * Does the registry have an image for reg?
+        #  * Registry is insecure. The address must match /etc/containers/registries.conf. If 'localhost' here, then cant be '127.0.0.1' in that file
         #  image = "127.0.0.1:5000/reg-docker-server:latest";
-          #ports = [
-          #  "127.0.0.1:5001:8080"
-          #];
-          # Had to use host network to point the --registry option to the host to get the registry.
-          # Couldn't figure out podman's equlivalent of docker's '--add-host=host.docker.internal:host-gateway' (172.x.y.z)
+        #ports = [
+        #  "127.0.0.1:5001:8080"
+        #];
+        # Had to use host network to point the --registry option to the host to get the registry.
+        # Couldn't figure out podman's equlivalent of docker's '--add-host=host.docker.internal:host-gateway' (172.x.y.z)
         #  extraOptions = [ "--network=host" ];
         #  autoStart = true;
-          #dependsOn = [ "registry" ];
+        #dependsOn = [ "registry" ];
         #  cmd = [ "reg" "server" "--listen-address" "127.0.0.1" "--port" "5001" "--registry" "localhost:5000" "--force-non-ssl" ];
         #};
 
@@ -228,5 +227,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "22.05"; # Did you read the comment?
-
 }

@@ -1,5 +1,5 @@
 # Scraped from https://github.com/alacritty/alacritty/wiki/Color-schemes
-{ ... }: {
+{...}: {
   # The "GNOME Dark" theme from GNOME terminal.
   colors = {
     primary = {

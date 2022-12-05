@@ -8,19 +8,19 @@
   nixpkgs-unstable,
   term,
   ...
-}: let  
-  homeDir = config.home.homeDirectory; 
+}: let
+  homeDir = config.home.homeDirectory;
 in {
   imports = [
     ../../modules/alacritty.nix
     ../../modules/bat.nix
     ../../modules/direnv.nix
     ../../modules/tmux.nix
-    ../../modules/git.nix 
+    ../../modules/git.nix
     ../../modules/neomutt.nix
     ../../modules/fzf.nix
     #../../modules/vscode.nix  # TODO: reenable - only works on linux
-    ../../modules/zsh.nix 
+    ../../modules/zsh.nix
   ];
 
   accounts.email = {
@@ -30,7 +30,7 @@ in {
     };
   };
 
-  home = { 
+  home = {
     sessionVariables = {
       GIT_DISCOVERY_ACROSS_FILESYSTEM = "1";
       PRE_COMMIT_ALLOW_NO_CONFIG = "1"; # TODO: can we configure pre-commit with a config instead of setting this?
@@ -80,61 +80,63 @@ in {
     };
 
     packages = with pkgs; [
-     docker-compose
-     neovim
-     python3
-     jq
-     lynx
-     m4
-     neofetch
-     tree
-     w3m
-     unzip
-     rclone
-     rsync
-     grc
-     pigz
-     git-lfs
-     sshpass
-     nmap
-     clang
-     git-crypt
-     ripgrep
-     lsd
-     cowsay
-     fortune
-     gdb
-     gzip
-     watch
-     htop
-     nmap
-     bitwarden-cli
-     vivid
-     fd
-     didyoumean
-     du-dust
-     nodejs
-     terraform-ls
-     nodePackages.bash-language-server
-     nodePackages.yaml-language-server
-     #ansible # Unable to compile a dependency of ansible on mac, which is under python 3.10
-     commitizen
-     pre-commit
-     xxh
-     navi
-     sumneko-lua-language-server
-     htmlq
-     nixpkgs-fmt
-     nixfmt # TODO: which nix formatter should I use?
-     shellcheck
-     glab
-     onefetch
-     tealdeer 
-     starship
-     ctop
-    ]; 
+      docker-compose
+      neovim
+      python3
+      jq
+      lynx
+      m4
+      neofetch
+      tree
+      w3m
+      unzip
+      rclone
+      rsync
+      grc
+      pigz
+      git-lfs
+      sshpass
+      nmap
+      clang
+      git-crypt
+      ripgrep
+      lsd
+      cowsay
+      fortune
+      gdb
+      gzip
+      watch
+      htop
+      nmap
+      bitwarden-cli
+      vivid
+      fd
+      didyoumean
+      du-dust
+      nodejs
+      terraform-ls
+      nodePackages.bash-language-server
+      nodePackages.yaml-language-server
+      #ansible # Unable to compile a dependency of ansible on mac, which is under python 3.10
+      commitizen
+      pre-commit
+      xxh
+      navi
+      sumneko-lua-language-server
+      htmlq
+      nixpkgs-fmt
+      nixfmt # TODO: which nix formatter should I use?
+      alejandra # Another nix formatter - I think I like this one
+      treefmt
+      shellcheck
+      glab
+      onefetch
+      tealdeer
+      starship
+      ctop
+    ];
   };
- 
+
   xdg = {
     enable = true;
     configFile = {
@@ -142,7 +144,7 @@ in {
       astronvim = {
         source = ../../dotfiles/astronvim;
         recursive = true;
-      }; 
+      };
       lsd = {
         source = ../../dotfiles/lsd;
         recursive = true;
@@ -201,5 +203,4 @@ in {
     #  enable = true;
     #};
   };
-
 }

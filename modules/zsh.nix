@@ -1,5 +1,9 @@
-{config, pkgs, lib, ...}:
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   programs.zsh = {
     enable = true;
     enableAutosuggestions = true;
@@ -130,10 +134,8 @@
 
     initExtra = "source \${XDG_CONFIG_HOME}/zsh/functions.zsh";
 
-
     loginExtra = "";
     logoutExtra = "[ $SHLVL = 1 ] && [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q || clear";
-
 
     shellAliases = {
       reload = "exec zsh";

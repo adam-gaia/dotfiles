@@ -1,12 +1,9 @@
 # Generated via dconf2nix: https://github.com/gvolpe/dconf2nix
-{ lib, ... }:
-
-with lib.hm.gvariant;
-
-{
+{lib, ...}:
+with lib.hm.gvariant; {
   dconf.settings = {
     "apps/seahorse/listing" = {
-      keyrings-selected = [ "secret-service:///org/freedesktop/secrets/collection/login" ];
+      keyrings-selected = ["secret-service:///org/freedesktop/secrets/collection/login"];
     };
 
     "apps/seahorse/windows/key-manager" = {
@@ -20,22 +17,22 @@ with lib.hm.gvariant;
 
     "org/gnome/control-center" = {
       last-panel = "mouse";
-      window-state = mkTuple [ 980 640 ];
+      window-state = mkTuple [980 640];
     };
 
     "org/gnome/desktop/app-folders" = {
-      folder-children = [ "Utilities" "YaST" ];
+      folder-children = ["Utilities" "YaST"];
     };
 
     "org/gnome/desktop/app-folders/folders/Utilities" = {
-      apps = [ "gnome-abrt.desktop" "gnome-system-log.desktop" "nm-connection-editor.desktop" "org.gnome.baobab.desktop" "org.gnome.Connections.desktop" "org.gnome.DejaDup.desktop" "org.gnome.Dictionary.desktop" "org.gnome.DiskUtility.desktop" "org.gnome.eog.desktop" "org.gnome.Evince.desktop" "org.gnome.FileRoller.desktop" "org.gnome.fonts.desktop" "org.gnome.seahorse.Application.desktop" "org.gnome.tweaks.desktop" "org.gnome.Usage.desktop" "vinagre.desktop" ];
-      categories = [ "X-GNOME-Utilities" ];
+      apps = ["gnome-abrt.desktop" "gnome-system-log.desktop" "nm-connection-editor.desktop" "org.gnome.baobab.desktop" "org.gnome.Connections.desktop" "org.gnome.DejaDup.desktop" "org.gnome.Dictionary.desktop" "org.gnome.DiskUtility.desktop" "org.gnome.eog.desktop" "org.gnome.Evince.desktop" "org.gnome.FileRoller.desktop" "org.gnome.fonts.desktop" "org.gnome.seahorse.Application.desktop" "org.gnome.tweaks.desktop" "org.gnome.Usage.desktop" "vinagre.desktop"];
+      categories = ["X-GNOME-Utilities"];
       name = "X-GNOME-Utilities.directory";
       translate = true;
     };
 
     "org/gnome/desktop/app-folders/folders/YaST" = {
-      categories = [ "X-SuSE-YaST" ];
+      categories = ["X-SuSE-YaST"];
       name = "suse-yast.directory";
       translate = true;
     };
@@ -50,8 +47,8 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/desktop/input-sources" = {
-      sources = [ (mkTuple [ "xkb" "us" ]) ];
-      xkb-options = [ "caps:escape" ];
+      sources = [(mkTuple ["xkb" "us"])];
+      xkb-options = ["caps:escape"];
     };
 
     "org/gnome/desktop/interface" = {
@@ -59,7 +56,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/desktop/notifications" = {
-      application-children = [ "org-gnome-console" "gnome-power-panel" "brave-browser" ];
+      application-children = ["org-gnome-console" "gnome-power-panel" "brave-browser"];
     };
 
     "org/gnome/desktop/notifications/application/brave-browser" = {
@@ -115,7 +112,7 @@ with lib.hm.gvariant;
 
     "org/gnome/shell" = {
       disable-user-extensions = true;
-      favorite-apps = [ "org.gnome.Calendar.desktop" "org.gnome.Nautilus.desktop" "Alacritty.desktop" "brave-browser.desktop" ];
+      favorite-apps = ["org.gnome.Calendar.desktop" "org.gnome.Nautilus.desktop" "Alacritty.desktop" "brave-browser.desktop"];
       welcome-dialog-last-shown-version = "42.3.1";
     };
 
@@ -136,7 +133,7 @@ with lib.hm.gvariant;
 
     "org/gnome/terminal/legacy/profiles:" = {
       default = "5ddfe964-7ee6-4131-b449-26bdd97518f7";
-      list = [ "5ddfe964-7ee6-4131-b449-26bdd97518f7" ];
+      list = ["5ddfe964-7ee6-4131-b449-26bdd97518f7"];
     };
 
     "org/gnome/terminal/legacy/profiles:/:5ddfe964-7ee6-4131-b449-26bdd97518f7" = {
@@ -169,8 +166,7 @@ with lib.hm.gvariant;
       sort-directories-first = false;
       sort-order = "ascending";
       type-format = "category";
-      window-size = mkTuple [ 888 374 ];
+      window-size = mkTuple [888 374];
     };
-
   };
 }

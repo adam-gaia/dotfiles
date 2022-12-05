@@ -1,13 +1,15 @@
-{ config, pkgs, ... }:
 {
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  config,
+  pkgs,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.supportedFilesystems = [ "btrfs" ];
+  boot.supportedFilesystems = ["btrfs"];
   hardware.enableAllFirmware = true;
   nixpkgs.config.allowUnfree = true;
 
@@ -21,7 +23,7 @@
   # Define a user account. Don't forget to update password with ‘passwd’.
   users.users.agaia = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Wheel group grants sudo permissions.
+    extraGroups = ["wheel"]; # Wheel group grants sudo permissions.
     initialPassword = "agaia";
   };
 
@@ -41,23 +43,24 @@
   services.xserver.enable = true;
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-  environment.gnome.excludePackages = (with pkgs; [
-    gnome-photos
-    gnome-tour
-  ]) ++ (with pkgs.gnome; [
-    cheese # webcam tool
-    gnome-music
-    gedit # text editor
-    epiphany # web browser
-    geary # email reader
-    gnome-characters
-    totem # video player
-    tali # poker game
-    iagno # go game
-    hitori # sudoku game
-    atomix # puzzle game
-  ]);
-
+  environment.gnome.excludePackages =
+    (with pkgs; [
+      gnome-photos
+      gnome-tour
+    ])
+    ++ (with pkgs.gnome; [
+      cheese # webcam tool
+      gnome-music
+      gedit # text editor
+      epiphany # web browser
+      geary # email reader
+      gnome-characters
+      totem # video player
+      tali # poker game
+      iagno # go game
+      hitori # sudoku game
+      atomix # puzzle game
+    ]);
 
   #services.openssh.enable = true;
 

@@ -1,6 +1,11 @@
-{ self, inputs, config, lib, pkgs, ...}:
 {
-
+  self,
+  inputs,
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   imports = [
     ./nixpkgs.nix
   ];
@@ -8,7 +13,7 @@
   nixpkgs.overlays = builtins.attrValues self.overlays;
   nixpkgs = {
     config = {
-      allowUnsupportedSystem = true;
+      allowUnsupportedSystem = false;
       allowUnfree = true;
       allowBroken = false;
     };
@@ -37,7 +42,6 @@
       file
       watch
       sqlite
-      gnome.gnome-tweaks # Move this to modules/gnome?
     ];
     etc = {
       home-manager.source = "${inputs.home-manager}";
@@ -69,8 +73,7 @@
   fonts = {
     fontDir.enable = true;
     fonts = with pkgs; [
-      (nerdfonts.override { fonts = [ "FiraCode" ]; })
+      (nerdfonts.override {fonts = ["FiraCode"];})
     ];
   };
-
 }

@@ -1,5 +1,5 @@
 # Scraped from https://github.com/alacritty/alacritty/wiki/Color-schemes
-{ ... }: {
+{...}: {
   # Colors (Monokai Dark)
   colors = {
     # Default colors

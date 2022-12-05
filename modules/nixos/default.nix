@@ -1,6 +1,9 @@
-{ config, pkgs, home-manager, ... }:
 {
-
+  config,
+  pkgs,
+  home-manager,
+  ...
+}: {
   imports = [
     ../common.nix
   ];
@@ -8,7 +11,7 @@
   # Enable flakes
   nix.extraOptions = ''
     experimental-features = nix-command flakes
-  ''; 
+  '';
 
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";
@@ -16,7 +19,6 @@
     # font = "Lat2-Terminus16";
     useXkbConfig = true; # use xkbOptions in tty (allows us to have our remap of caps to escape).
   };
-
 
   # Enable the X11 windowing system.
   services.xserver = {
@@ -36,11 +38,10 @@
     uid = 1000;
     initialPassword = "agaia";
     shell = pkgs.zsh;
-    extraGroups = [ "wheel" "docker" ]; # 'wheel' grants sudoer permission.
+    extraGroups = ["wheel" "docker"]; # 'wheel' grants sudoer permission.
   };
   users.mutableUsers = true;
- 
- 
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

@@ -15,8 +15,6 @@ for line in map(str.rstrip, sys.stdin):
     tokens = line.split()
     firstCommand = tokens[0]
 
-
-
     for x in tokens:
-        print(x, end=' ')
-    print('========')
+        print(x, end=" ")
+    print("========")

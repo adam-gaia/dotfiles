@@ -1,5 +1,9 @@
-{config, pkgs, lib, ...}:
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   programs.chromium = {
     enable = true;
     package = pkgs.brave;

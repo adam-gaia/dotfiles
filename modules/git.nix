@@ -1,5 +1,9 @@
-{config, pkgs, lib, ...}:
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   #[filter "lfs"]
   #  clean = git-lfs clean -- %f
   #  smudge = git-lfs smudge -- %f
@@ -97,13 +101,13 @@
       "*.key"
 
       # Ignore pypirc. It contains api keys
-      "*pypirc*" 
+      "*pypirc*"
     ];
 
     extraConfig = {
       credential.helper = "${
-      pkgs.git.override { withLibsecret = true; }
-    }/bin/git-credential-libsecret";
+        pkgs.git.override {withLibsecret = true;}
+      }/bin/git-credential-libsecret";
 
       core = {
         editor = "vim";

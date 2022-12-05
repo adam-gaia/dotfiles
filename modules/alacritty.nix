@@ -1,9 +1,14 @@
-{config, pkgs, lib, term, ...}:
 {
+  config,
+  pkgs,
+  lib,
+  term,
+  ...
+}: {
   programs.alacritty = {
     enable = true;
     package = pkgs.alacritty;
-    settings = with import ./colors/Sonokai.nix { }; {
+    settings = with import ./colors/Sonokai.nix {}; {
       env = {
         TERM = "${term}"; # Defaults to 'alacritty' which breaks tmux's handling of color codes
       };

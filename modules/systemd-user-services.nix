@@ -1,10 +1,14 @@
-{config, pkgs, lib, ...}:
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   systemd.user.services = {
     protonmail-bridge = {
       Unit = {
         Description = "ProtonMail Bridge";
-        Documentation = [ "https://proton.me/mail/bridge" ];
+        Documentation = ["https://proton.me/mail/bridge"];
       };
       Service = {
         Type = "simple";
@@ -12,15 +16,15 @@
         Restart = "always";
       };
       Install = {
-        WantedBy = [ "offlineimap.service" ];
+        WantedBy = ["offlineimap.service"];
       };
     };
     offlineimap = {
       Unit = {
         Description = "Offlineimap";
-        Documentation = [ "https://github.com/OfflineIMAP/offlineimap3" ];
-        Wants = [ "protonmail-bridge.service" ];
-        After = [ "protonmail-bridge.service" ];
+        Documentation = ["https://github.com/OfflineIMAP/offlineimap3"];
+        Wants = ["protonmail-bridge.service"];
+        After = ["protonmail-bridge.service"];
       };
       Service = {
         Type = "simple";
@@ -28,5 +32,5 @@
         Restart = "always";
       };
     };
-  }; 
+  };
 }

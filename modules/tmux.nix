@@ -1,4 +1,10 @@
-{config, pkgs, lib, term, ...}: {
+{
+  config,
+  pkgs,
+  lib,
+  term,
+  ...
+}: {
   programs.tmux = {
     enable = true;
     tmuxp.enable = true; # https://github.com/tmux-python/tmuxp

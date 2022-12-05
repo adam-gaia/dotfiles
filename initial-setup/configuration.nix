@@ -1,13 +1,15 @@
-{ config, pkgs, ... }:
 {
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  config,
+  pkgs,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.supportedFilesystems = [ "btrfs" ];
+  boot.supportedFilesystems = ["btrfs"];
   hardware.enableAllFirmware = true;
   nixpkgs.config.allowUnfree = true;
 
@@ -21,7 +23,7 @@
   # Define a user account. Don't forget to update password with ‘passwd’.
   users.users.agaia = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" ]; # Wheel group grants sudo permissions.
+    extraGroups = ["wheel" "docker"]; # Wheel group grants sudo permissions.
     initialPassword = "agaia";
   };
   users.mutableUsers = true;
@@ -42,23 +44,24 @@
   services.xserver.enable = true;
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-  environment.gnome.excludePackages = (with pkgs; [
-    gnome-photos
-    gnome-tour
-  ]) ++ (with pkgs.gnome; [
-    cheese # webcam tool
-    gnome-music
-    gedit # text editor
-    epiphany # web browser
-    geary # email reader
-    gnome-characters
-    totem # video player
-    tali # poker game
-    iagno # go game
-    hitori # sudoku game
-    atomix # puzzle game
-  ]);
-
+  environment.gnome.excludePackages =
+    (with pkgs; [
+      gnome-photos
+      gnome-tour
+    ])
+    ++ (with pkgs.gnome; [
+      cheese # webcam tool
+      gnome-music
+      gedit # text editor
+      epiphany # web browser
+      geary # email reader
+      gnome-characters
+      totem # video player
+      tali # poker game
+      iagno # go game
+      hitori # sudoku game
+      atomix # puzzle game
+    ]);
 
   # Persist network settings and nixos configuration
   environment.etc = {
@@ -72,7 +75,6 @@
     # rollback results in sudo lectures after each reboot
     Defaults lecture = never
   '';
-
 
   # Rollback on reboot
   # Note `lib.mkBefore` is used instead of `lib.mkAfter` here.
@@ -125,7 +127,6 @@
   virtualisation = {
     docker.enable = true;
   };
-
 
   system.stateVersion = "22.05";
 }

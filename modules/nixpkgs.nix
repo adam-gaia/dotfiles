@@ -1,6 +1,11 @@
-{ inputs, config, lib, pkgs, ...}:
 {
-  nixpkgs = {config = import ./nix-config.nix; };
+  inputs,
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  nixpkgs = {config = import ./nix-config.nix;};
 
   nix = {
     package = pkgs.nix;
@@ -15,13 +20,15 @@
     };
 
     readOnlyStore = true;
-    nixPath = builtins.map (
+    nixPath =
+      builtins.map
+      (
         source: "${source}=/etc/${config.environment.etc.${source}.target}"
       ) [
-      "home-manager"
-      "nixpkgs"
-      "stable"
-    ];
+        "home-manager"
+        "nixpkgs"
+        "stable"
+      ];
 
     registry = {
       nixpkgs = {

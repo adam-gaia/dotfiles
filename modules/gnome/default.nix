@@ -34,7 +34,7 @@
         hitori # sudoku game
         atomix # puzzle game
       ]);
-    systemPackages = [
+    systemPackages = with pkgs; [
       gnome.gnome-tweaks
     ];
   };

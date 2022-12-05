@@ -86,7 +86,7 @@
       nixpkgs ? inputs.nixpkgs,
       stable ? inputs.stable,
       baseModules ? [
-        home-manager.nixosModules.home-manager
+        home-manager.darwinModules.home-manager
         ./modules/darwin
       ],
       extraModules ? [],

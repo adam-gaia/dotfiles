@@ -1,11 +1,15 @@
 {
   description = "My system configs";
+  
+  nixConfig = {
+    allowUnfree = true;
+  };
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-22.05";
-    nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
-    nixpkgs-small.url = "github:nixos/nixpkgs/nixos-unstable-small";
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    stable.url = "github:nixos/nixpkgs/nixos-22.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    small.url = "github:nixos/nixpkgs/nixos-unstable-small";
+    nixos-hardware.url = "github:nixos/nixos-hardware/master";
 
     darwin = {
       url = "github:LnL7/nix-darwin";
@@ -13,7 +17,7 @@
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-22.05";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -35,8 +39,8 @@
 
   outputs =
     inputs@{ self
-    , nixpkgs
-    , nixpkgs-unstable
+    #, nixpkgs
+    #, nixpkgs-unstable
     , darwin
     , home-manager
     , flake-utils
@@ -53,13 +57,17 @@
       isDarwin = system:
         (builtins.elem system inputs.nixpkgs.lib.platforms.darwin);
       homePrefix = system: if isDarwin system then "/Users" else "/home";
-      defaultSystems =
-        [ "x86_64-linux" "x86_64-linux" "aarch64-linux" "aarch64-darwin" ];
+      defaultSystems = [
+        "x86_64-linux"
+        "x86_64-darwin"
+        "aarch64-linux"
+        "aarch64-darwin"
+       ];
 
       mkDarwinConfig =
         { system ? "x86_64-darwin"
         , nixpkgs ? inputs.nixpkgs
-        , nixpkgs-unstable ? inputs.nixpkgs-unstable
+        , stable ? inputs.stable
         , baseModules ? [
             home-manager.nixosModules.home-manager
             ./modules/darwin
@@ -76,7 +84,7 @@
       mkNixosConfig =
         { system ? "x86_64-linux"
         , nixpkgs ? inputs.nixpkgs
-        , nixpkgs-unstable ? inputs.nixpkgs-unstable
+        , stable ? inputs.stable
         , baseModules ? [
             home-manager.nixosModules.home-manager
             ./modules/nixos
@@ -95,33 +103,39 @@
         , system
         , term ? "xterm-256color"
         , nixpkgs ? inputs.nixpkgs 
-        , nixpkgs-unstable ? inputs.nixpkgs-unstable
-        , unstable-pkgs ? import nixpkgs-unstable { inherit system; config = {allowUnfree = true;};}
-        , baseModules ? [ ]
+        , stable ? inputs.stable
+        , baseModules ? [
+          ./modules/home-manager
+          {
+            home = {
+              inherit username;
+              homeDirectory = "${homePrefix system}/${username}";
+              sessionVariables = {
+                NIX_PATH = "nixpkgs=${nixpkgs}:stable=${stable}\${NIX_PATH:+:}$NIX_PATH";
+              };
+            };
+          }
+        ]
         , extraModules ? [ ]
         ,
         }:
           inputs.home-manager.lib.homeManagerConfiguration rec {
-          inherit system;
-          inherit username;
-          homeDirectory = "${homePrefix system}/${username}";
-          pkgs = import nixpkgs {
-            inherit system;
-            config = {allowUnfree = true;};
-            overlays = builtins.attrValues self.overlays;
-          };
-          extraSpecialArgs = { inherit self inputs system term pkgs unstable-pkgs nixpkgs nixpkgs-unstable shim git-track-repos conda-flake; };
-          configuration = {
-            imports = baseModules ++ extraModules;
-          }; 
-        };
+            pkgs = import nixpkgs {
+              inherit system;
+              #config = { allowUnfree = true; }; # TODO: remove - set elsewhere?
+              overlays = builtins.attrValues self.overlays;
+            };
+            extraSpecialArgs = { inherit self inputs nixpkgs system term shim git-track-repos conda-flake; };
+              modules = baseModules ++ extraModules;
+            };
 
       mkChecks = { arch, os, username ? "agaia", }: {
         "${arch}-${os}" = {
           "${username}_${os}" = (if os == "darwin" then
             self.darwinConfigurations
           else
-            self.nixosConfigurations)."${username}@${arch}-${os}".config.system.build.toplevel;
+            self.nixosConfigurations)
+            ."${username}@${arch}-${os}".config.system.build.toplevel;
           "${username}_home" =
             self.homeConfigurations."${username}@${arch}-${os}".activationPackage;
           devShell = self.devShells."${arch}-${os}".default;
@@ -129,45 +143,59 @@
       };
     in
     {
-    #  checks = { } // (mkChecks {
-    #    arch = "aarch64";
-    #    os = "darwin";
-    #  }) // (mkChecks {
-    #    arch = "x86_64";
-    #    os = "darwin";
-    #  }) // (mkChecks {
-    #    arch = "aarch64";
-    #    os = "linux";
-    #  }) // (mkChecks {
-    #    arch = "x86_64";
-    #    os = "linux";
-    #  });
+      checks = { } // (mkChecks {
+        arch = "x86_64";
+        os = "darwin";
+      }) // (mkChecks {
+        arch = "x86_64";
+        os = "linux";
+      });
+
+      #// (mkChecks {
+      #  arch = "aarch64";
+      #  os = "darwin";
+      #}) // (mkChecks {
+      #  arch = "aarch64";
+      #  os = "linux";
+      #}) 
 
       nixosConfigurations = {
-        "orion" = mkNixosConfig {
+        "agaia@x86_64-linux" = mkNixosConfig {
+          system = "x86_64-linux";
           extraModules = [ ./system/orion ./modules/persistence ./modules/gnome ];
         };
-        "nixbox" = mkNixosConfig {
-          extraModules = [ ./system/nixbox ./modules/persistence ./modules/gnome ];
-        };
+        #"nixbox@x86_64-linux" = mkNixosConfig {
+        #  system = "x86_64-linux";
+        #  extraModules = [ ./system/nixbox ./modules/persistence ./modules/gnome ];
+        #};
       };
 
       darwinConfigurations = {
-        "helix" = mkDarwinConfig { extraModules = [ ./system/helix ]; };
+        "agaia@x86_64-darwin" = mkDarwinConfig {
+          system = "x86_64-darwin";
+          extraModules = [ ./system/helix ];
+        };
       };
 
       homeConfigurations = {
         # TODO: figure out how to inherit system here so we dont have to have the duplicate
-        "agaia-linux" = mkHomeConfig {
+        "agaia@x86_64-linux" = mkHomeConfig {
           username = "agaia";
           system = "x86_64-linux";
           extraModules = [
             ./users/agaia
             ./modules/systemd-user-services.nix
             ./modules/proton-packages.nix
+            ./modules/conda-flake.nix
+            ./modules/git-track-repos.nix
+            ./modules/shim.nix
+            ./modules/firefox.nix
+            ./modules/chromium.nix
+            ./modules/offlineimap.nix
+            ./modules/dconf.nix
           ];
         };
-	"agaia-darwin" = mkHomeConfig {
+        "agaia@x86_64-darwin" = mkHomeConfig {
           username = "agaia";
           system = "x86_64-darwin";
           extraModules = [./users/agaia];
@@ -207,8 +235,7 @@
             inherit system;
             overlays = builtins.attrValues self.overlays;
           };
-        in
-        rec {
+        in rec {
           sysdo = pkgs.writeShellApplication {
             name = "sysdo";
             text = (builtins.readFile ./scripts/sysdo);
@@ -226,9 +253,8 @@
       overlays = {
         channels = final: prev: {
           # Expose other channels via overlays
-          nixpkgs-unstable =
-            import inputs.nixpkgs-unstable { system = prev.system; };
-          nixpkgs-small = import inputs.nixpkgs-small { system = prev.system; };
+          stable = import inputs.stable { system=prev.system; };
+          small = import inputs.small { system = prev.system; };
         };
         extraPackages = final: prev: {
           sysdo = self.packages.${prev.system}.sysdo;

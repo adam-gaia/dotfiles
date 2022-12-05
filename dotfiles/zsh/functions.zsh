@@ -40,7 +40,8 @@ function rm()
                 original="${arg}"
                 new="${TRASHCAN}/$(basename "${original}")_${timestamp}"
                 echo "Moving trash can..."
-                $(which mv) --no-clobber "${original}" "${new}"
+		# '-n' flag is mac and linux compatible and stops clobbering
+                $(which mv) -n "${original}" "${new}"
                 ;;
         esac
         shift

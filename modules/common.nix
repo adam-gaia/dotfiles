@@ -1,5 +1,10 @@
 { self, inputs, config, lib, pkgs, ...}:
 {
+
+  imports = [
+    ./nixpkgs.nix
+  ];
+
   nixpkgs.overlays = builtins.attrValues self.overlays;
   nixpkgs = {
     config = {
@@ -37,6 +42,7 @@
     etc = {
       home-manager.source = "${inputs.home-manager}";
       nixpkgs.source = "${inputs.nixpkgs}";
+      stable.source = "${inputs.stable}";
     };
     # Shells for /etc/shells
     shells = with pkgs; [bash zsh];

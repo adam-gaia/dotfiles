@@ -3,7 +3,7 @@
   programs.firefox = {
     enable = true;
     package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
-      forceWayland = true;
+      #forceWayland = true; // Commented out for mac. Might need to reenable for linux
       extraPolicies = {
         ExtensionSettings = { };
       };

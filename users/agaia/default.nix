@@ -3,14 +3,10 @@
   inputs,
   config,
   pkgs,
-  unstable-pkgs,
   system,
   nixpkgs,
   nixpkgs-unstable,
   term,
-  shim,
-  git-track-repos,
-  conda-flake,
   ...
 }: let  
   homeDir = config.home.homeDirectory; 
@@ -20,41 +16,22 @@ in {
     ../../modules/bat.nix
     ../../modules/direnv.nix
     ../../modules/tmux.nix
-    ../../modules/git.nix
-    ../../modules/firefox.nix
-    ../../modules/offlineimap.nix
+    ../../modules/git.nix 
     ../../modules/neomutt.nix
     ../../modules/fzf.nix
-    ../../modules/vscode.nix
-    ../../modules/chromium.nix
-    ../../modules/zsh.nix
-    ../../modules/dconf.nix
+    #../../modules/vscode.nix  # TODO: reenable - only works on linux
+    ../../modules/zsh.nix 
   ];
-
-  nixpkgs.config = {
-    allowUnfree = true;
-  };
 
   accounts.email = {
     maildirBasePath = "/${homeDir}/mailbox";
     accounts = with import ../../modules/email/main.nix {}; {
       "main" = main;
-      };
     };
+  };
 
-  home = {
-    # This value determines the Home Manager release that your
-    # configuration is compatible with. This helps avoid breakage
-    # when a new Home Manager release introduces backwards
-    # incompatible changes.
-    #
-    # You can update Home Manager without changing this value. See
-    # the Home Manager release notes for a list of state version
-    # changes in each release.
-    #stateVersion = "22.05"; # TODO: this is set somewhere else and causes a conflict. Remove it there and enable here 
-    
+  home = { 
     sessionVariables = {
-      NIX_PATH = "nixpkgs=${nixpkgs}:unstable=${nixpkgs-unstable}\${NIX_PATH:+:}$NIX_PATH"; # TODO: move this into a home-manager base-module
       GIT_DISCOVERY_ACROSS_FILESYSTEM = "1";
       PRE_COMMIT_ALLOW_NO_CONFIG = "1"; # TODO: can we configure pre-commit with a config instead of setting this?
 
@@ -102,69 +79,60 @@ in {
       GROFF_NO_SGR = "1"; # For Konsole and Gnome-terminal
     };
 
-    # Add ~/.local/bin to the path
-    sessionPath = ["$HOME/.local/bin"];
-
     packages = with pkgs; [
-      docker-compose
-      neovim
-      python3
-      jq
-      lynx
-      m4
-      neofetch
-      tree
-      w3m
-      htop
-      unzip
-      rclone
-      rsync
-      grc
-      pigz
-      git-lfs
-      sshpass
-      nmap
-      clang
-      git-crypt
-      unstable-pkgs.ripgrep
-      unstable-pkgs.lsd
-      protonvpn-cli
-      cowsay
-      fortune
-      gdb
-      gzip
-      watch
-      htop
-      rsync
-      nmap
-      bitwarden-cli
-      unstable-pkgs.vivid
-      unstable-pkgs.fd
-      unstable-pkgs.didyoumean
-      unstable-pkgs.du-dust
-      nodejs
-      terraform-ls
-      nodePackages.bash-language-server
-      nodePackages.yaml-language-server
-      ansible
-      unstable-pkgs.commitizen
-      unstable-pkgs.pre-commit
-      xxh
-      unstable-pkgs.navi
-      sumneko-lua-language-server
-      unstable-pkgs.htmlq
-      nixpkgs-fmt
-      unstable-pkgs.shellcheck
-      unstable-pkgs.glab
-      unstable-pkgs.onefetch
-      unstable-pkgs.tealdeer
-      conda-flake.packages.${system}.default
-      git-track-repos.packages.${system}.default
-      shim.packages.${system}.default
-      unstable-pkgs.starship
-      unstable-pkgs.ctop
+     docker-compose
+     neovim
+     python3
+     jq
+     lynx
+     m4
+     neofetch
+     tree
+     w3m
+     unzip
+     rclone
+     rsync
+     grc
+     pigz
+     git-lfs
+     sshpass
+     nmap
+     clang
+     git-crypt
+     ripgrep
+     lsd
+     cowsay
+     fortune
+     gdb
+     gzip
+     watch
+     htop
+     nmap
+     bitwarden-cli
+     vivid
+     fd
+     didyoumean
+     du-dust
+     nodejs
+     terraform-ls
+     nodePackages.bash-language-server
+     nodePackages.yaml-language-server
+     #ansible # Unable to compile a dependency of ansible on mac, which is under python 3.10
+     commitizen
+     pre-commit
+     xxh
+     navi
+     sumneko-lua-language-server
+     htmlq
+     nixpkgs-fmt
+     nixfmt # TODO: which nix formatter should I use?
+     shellcheck
+     glab
+     onefetch
+     tealdeer 
+     starship
+     ctop
     ]; 
-
   };
  
   xdg = {
@@ -225,10 +193,6 @@ in {
   #environment.pathsToLink = ["/share/zsh"]; # TODO: figure out where this goes
 
   programs = {
-    home-manager = {
-      # Let home-manager install and enable itself
-      enable = true;
-    };
     command-not-found.enable = true;
     htop.enable = true;
     jq.enable = true;

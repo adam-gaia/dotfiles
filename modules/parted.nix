@@ -3,5 +3,5 @@
   pkgs,
   ...
 }: {
-  environment.systemPackages = with pkgs; [ parted ];
+  environment.systemPackages = with pkgs; [parted];
 }

@@ -36,9 +36,7 @@
       less
       curl
       wget
-      parted
       neovim
-      firefox
       file
       watch
       sqlite

@@ -188,7 +188,7 @@
     nixosConfigurations = {
       "agaia@x86_64-linux" = mkNixosConfig {
         system = "x86_64-linux";
-        extraModules = [./system/orion ./modules/persistence ./modules/gnome];
+        extraModules = [./system/orion ./modules/persistence ./modules/gnome ./modules/parted.nix];
       };
       #"nixbox@x86_64-linux" = mkNixosConfig {
       #  system = "x86_64-linux";

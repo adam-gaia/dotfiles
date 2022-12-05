@@ -39,8 +39,6 @@
 
   outputs =
     inputs@{ self
-    #, nixpkgs
-    #, nixpkgs-unstable
     , darwin
     , home-manager
     , flake-utils
@@ -193,6 +191,7 @@
             ./modules/chromium.nix
             ./modules/offlineimap.nix
             ./modules/dconf.nix
+	    ./modules/ansible.nix
           ];
         };
         "agaia@x86_64-darwin" = mkHomeConfig {

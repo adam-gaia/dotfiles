@@ -2,5 +2,5 @@
 {
   homebrew = {
     enable = true;
-  }
+  };
 }

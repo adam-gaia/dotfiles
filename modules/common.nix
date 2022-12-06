@@ -8,6 +8,7 @@
 }: {
   imports = [
     ./nixpkgs.nix
+    ./syncthing
   ];
 
   nixpkgs.overlays = builtins.attrValues self.overlays;

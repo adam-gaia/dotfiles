@@ -134,6 +134,7 @@ in {
       tealdeer
       starship
       ctop
+      ranger # TUI file navigator
     ];
   };
 

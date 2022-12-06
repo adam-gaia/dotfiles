@@ -199,7 +199,11 @@
     darwinConfigurations = {
       "agaia@x86_64-darwin" = mkDarwinConfig {
         system = "x86_64-darwin";
-        extraModules = [./system/helix];
+        extraModules = [
+	  ./system/helix
+	  ./modules/homebrew.nix
+	  ./modules/syncthing/helix.nix
+	];
       };
     };
 
@@ -220,6 +224,7 @@
           ./modules/offlineimap.nix
           ./modules/dconf.nix
           ./modules/ansible.nix
+	  ./modules/syncthing/orion.nix
         ];
       };
       "agaia@x86_64-darwin" = mkHomeConfig {

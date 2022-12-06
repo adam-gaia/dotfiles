@@ -8,8 +8,6 @@
   services.nix-daemon.enable = true;
   # nix.package = pkgs.nix;
 
-  imports = [ ../../modules/syncthing/helix.nix ];
-
   environment = {
     etc = {
       darwin.source = "${inputs.darwin}";

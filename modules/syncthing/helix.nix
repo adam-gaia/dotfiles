@@ -1,6 +1,6 @@
 {
   devices = {
-    "orion" = { id = (builtins.readFile ./orion.nix); };
+    "orion" = { id = (builtins.readFile ./orion.id); };
   };
 
   # Share these folder from this machine to the specified devices

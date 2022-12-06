@@ -4,8 +4,8 @@ set -Eeuo pipefail
 THIS_PROGRAM_NAME="$(basename "$0")"
 
 # shellcheck source=/dev/null
-source nonstdlib
-log::debug "test"
+#source nonstdlib
+#log::debug "test"
 
 function print_help_message()
 {

@@ -44,8 +44,8 @@ in {
       EDITOR = "vim";
       PAGER = "less";
       LESS = "-RF --LONG-PROMPT --mouse --wheel-lines=5";
-      RIPGREP_CONFIG_PATH = "\${XDG_CONFIG_DIR}/ripgrep/config";
-      PYTHONSTARTUP = "\${XDG_CONFIG_DIR}/python/pythonrc.py";
+      RIPGREP_CONFIG_PATH = "${homeDir}/.config/ripgrep/config";
+      PYTHONSTARTUP = "${homeDir}/python/pythonrc.py";
 
       # Heads up: Colors are mapped to the Pywal Monokai scheme
       # TODO: checkout color heading from https://github.com/dylanaraps/pure-sh-bible#get-the-directory-name-of-a-file-path

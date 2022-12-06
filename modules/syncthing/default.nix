@@ -16,9 +16,5 @@
     # Override options set through the web UI. This config should be the only source of truth
     overrideDevices = true;
     overrideFolders = true;
-  };
-
-  # Open ports for syncthing
-  networking.firewall.allowedTCPPorts = [8384 22000];
-  networking.firewall.allowedUDPPorts = [22000 21027];
+  }; 
 }

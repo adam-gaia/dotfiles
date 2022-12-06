@@ -188,7 +188,9 @@
     nixosConfigurations = {
       "agaia@x86_64-linux" = mkNixosConfig {
         system = "x86_64-linux";
-        extraModules = [./system/orion ./modules/persistence ./modules/gnome ./modules/parted.nix];
+        extraModules = [
+          ./system/orion ./modules/persistence ./modules/gnome ./modules/parted.nix ./modules/syncthing/orion.nix
+        ];
       };
       #"nixbox@x86_64-linux" = mkNixosConfig {
       #  system = "x86_64-linux";
@@ -200,9 +202,9 @@
       "agaia@x86_64-darwin" = mkDarwinConfig {
         system = "x86_64-darwin";
         extraModules = [
-	  ./system/helix
-	  ./modules/homebrew.nix
-	  ./modules/syncthing/helix.nix
+	        ./system/helix
+	        ./modules/homebrew.nix
+	        ./modules/syncthing/helix.nix
 	];
       };
     };
@@ -223,8 +225,7 @@
           ./modules/chromium.nix
           ./modules/offlineimap.nix
           ./modules/dconf.nix
-          ./modules/ansible.nix
-	  ./modules/syncthing/orion.nix
+          ./modules/ansible.nix 
         ];
       };
       "agaia@x86_64-darwin" = mkHomeConfig {

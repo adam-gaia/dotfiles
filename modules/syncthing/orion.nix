@@ -4,12 +4,15 @@
     enable = true;
     guiAddress = "localhost:8384";
 
-    datadir = "/home/agaia/Documents";
+    dataDir = "/home/agaia/Documents";
     # TODO: the config dir must persist or this device will regen an ID. Find a way to do that better
     configDir = "/home/agaia/.config/syncthing";
 
+    user = "agaia";
+    group = "users";
+
     # Ignore settings set in the web UI - this file is the only source of truth
-    overrideDevice = true; 
+    overrideDevices = true; 
     overrideFolders = true;
 
     devices = {

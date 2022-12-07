@@ -38,6 +38,14 @@
         path = "/home/agaia/repo";
         ignorePerms = false;
         devices = ["helix"];
+        versioning = {
+          # See https://wes.today/nixos-syncthing/ for notes on staggered versioning
+          type = "staggered";
+          params = {
+            cleanInterval = "3600"; # 1 hour
+            maxAge = "15552000"; # 180 days in seconds
+          };
+        };
       };
     };
   };

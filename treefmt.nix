@@ -3,7 +3,7 @@
   programs = {
     alejandra.enable = true;
     black.enable = true;
-    shellcheck.enable = false;
+    shellcheck.enable = true;
     shfmt.enable = true;
     stylua.enable = true;
   };

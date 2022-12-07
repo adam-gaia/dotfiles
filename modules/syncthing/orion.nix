@@ -16,13 +16,26 @@
     overrideFolders = true;
 
     devices = {
-      helix = { id = (builtins.readFile ./helix.id); };
+      "helix" = {
+        name = "helix";
+        id = (lib.strings.removeSuffix "\n" (builtins.readFile ./helix.id));
+        autoAcceptFolders = true; # Auto accept folders from this device
+      };
     };
 
-    # Take these folders on the host and put them 
     folders = {
       "Documents" = {
         path = "/home/agaia/Documents";
+        ignorePerms = false;
+        devices = ["helix"];
+      };
+      "Desktop" = {
+        path = "/home/agaia/Desktop";
+        ignorePerms = false;
+        devices = ["helix"];
+      };
+      "repo" = {
+        path = "/home/agaia/repo";
         ignorePerms = false;
         devices = ["helix"];
       };

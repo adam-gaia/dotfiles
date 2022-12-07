@@ -21,6 +21,7 @@ in {
     ../../modules/fzf.nix
     #../../modules/vscode.nix  # TODO: reenable - only works on linux
     ../../modules/zsh.nix
+    ../../modules/taskwarrior.nix
   ];
 
   accounts.email = {

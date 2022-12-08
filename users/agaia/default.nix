@@ -136,6 +136,7 @@ in {
       starship
       ctop
       ranger # TUI file navigator
+      tasksh # Repl for taskwarrior
     ];
   };
 

@@ -47,6 +47,10 @@
       url = "gitlab:adam_gaia/conda-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    new-stow = {
+      url = "github:adam-gaia/new-stow";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
@@ -64,6 +68,7 @@
     shim,
     git-track-repos,
     conda-flake,
+    new-stow,
     treefmt-nix,
     ...
   }: let
@@ -139,7 +144,7 @@
           #config = { allowUnfree = true; }; # TODO: remove - set elsewhere?
           overlays = builtins.attrValues self.overlays;
         };
-        extraSpecialArgs = {inherit self inputs nixpkgs system term shim git-track-repos conda-flake;};
+        extraSpecialArgs = {inherit self inputs nixpkgs system term shim git-track-repos new-stow conda-flake;};
         modules = baseModules ++ extraModules;
       };
 
@@ -221,6 +226,7 @@
           ./modules/conda-flake.nix
           ./modules/git-track-repos.nix
           ./modules/shim.nix
+          ./modules/new-stow.nix
           ./modules/firefox.nix
           ./modules/chromium.nix
           ./modules/offlineimap.nix

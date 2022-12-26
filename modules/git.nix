@@ -50,6 +50,12 @@
         path = "~/.config/git/config-personal";
         condition = "gitdir:~/repo/personal/";
       }
+      {
+        # I backup taskwarrior data with a git repo. Because my personal config is exclusive to ~/repo/personal,
+        # I have to add sections for other repo locations. TODO: do something better
+        path = "~/.config/git/config-personal";
+        condition = "gitdir:~/.local/share/task";
+      }
     ];
 
     #hooks = {

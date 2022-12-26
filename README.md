@@ -8,7 +8,22 @@ KEY_FILE="~/repo/personal/git-crypt-private-key.key"
 git-crypt unlock "${KEY_FILE}"
 ```
 
-## Usage
+## Setup taskwarrior repo
+
+```bash
+KEY_FILE="${HOME}/repo/git-crypt-taskwarrior-data-key.key"
+
+XDG_DATA_HOME="${HOME}/.local/share"
+mkdir -p "${XDG_DATA_HOME}"
+DATA_DIR="${XDG_DATA_HOME}/task"
+git clone https://github.com/adam-gaia/taskwarrior-data.git "${DATA_DIR}"
+
+pushd "${DATA_DIR}"
+git-crypt unlock "${KEY_FILE}"
+popd
+```
+
+## apply-system script
 
 ```bash
 # Apply system configuration

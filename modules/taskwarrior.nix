@@ -9,4 +9,13 @@
     enable = true;
     colorTheme = "dark-256";
   };
+  home.packages = with pkgs; [
+    taskopen
+  ];
+  xdg.configFile = {
+    taskopen = {
+      source = ../dotfiles/taskopen;
+      recursive = true;
+    };
+  };
 }

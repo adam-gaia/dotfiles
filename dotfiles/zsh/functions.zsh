@@ -540,9 +540,6 @@ function ascii()
 # Overide cd
 function cd()
 {
-    # Use zoxide an auto-jump style cd replacement
-    # https://github.com/ajeetdsouza/zoxide
-    #__zoxide_z "$@" # No actually dont do that I keep jumping into random places and not realizing
     if [[ "$#" -eq '0' ]]; then
         builtin cd
     else

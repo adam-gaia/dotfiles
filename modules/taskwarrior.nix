@@ -11,7 +11,10 @@
   };
   home.packages = with pkgs; [
     taskopen
+    taskwarrior-tui
+    timewarrior
   ];
+  # TODO: backup timewarrior data like how taskwarrior data is backedup
   xdg.configFile = {
     taskopen = {
       source = ../dotfiles/taskopen;

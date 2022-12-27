@@ -147,7 +147,7 @@
       grep = "grep --color=always";
       fd = "fd --color=always";
 
-      ls = "lsd -alh --color=always"; # TODO: figure out how to use 'ind' with lsd while keeping the info we want from lsd # The only way I could get the indentation to work. If ls was already an alias, it would lose color with ind.
+      ls = "ind -- lsd -alh --color=always"; 
 
       vim = "nvim";
       vi = "vim";

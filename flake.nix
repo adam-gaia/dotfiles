@@ -51,6 +51,10 @@
       url = "github:adam-gaia/new-stow";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    ind = {
+      url = "gitlab:adam_gaia/ind";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
@@ -69,6 +73,7 @@
     git-track-repos,
     conda-flake,
     new-stow,
+    ind,
     treefmt-nix,
     ...
   }: let
@@ -144,7 +149,7 @@
           #config = { allowUnfree = true; }; # TODO: remove - set elsewhere?
           overlays = builtins.attrValues self.overlays;
         };
-        extraSpecialArgs = {inherit self inputs nixpkgs system term shim git-track-repos new-stow conda-flake;};
+        extraSpecialArgs = {inherit self inputs nixpkgs system term shim git-track-repos new-stow ind conda-flake;};
         modules = baseModules ++ extraModules;
       };
 
@@ -225,6 +230,7 @@
           ./modules/proton-packages.nix
           ./modules/conda-flake.nix
           ./modules/git-track-repos.nix
+          ./modules/ind.nix
           ./modules/shim.nix
           ./modules/new-stow.nix
           ./modules/firefox.nix

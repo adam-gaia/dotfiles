@@ -543,7 +543,7 @@ function cd()
     if [[ "$#" -eq '0' ]]; then
         builtin cd
     else
-        builtin cd "$*" && lsd --color=always
+        builtin cd "$*" && ind -- sh -c 'lsd | column' # TODO: figure out why lsd ran under 'ind' is not automatically doing its own columns
     fi
 }
 

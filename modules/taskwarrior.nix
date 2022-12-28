@@ -13,6 +13,7 @@
     taskopen
     taskwarrior-tui
     timewarrior
+    python310Packages.bugwarrior
   ];
   # TODO: backup timewarrior data like how taskwarrior data is backedup
   xdg.configFile = {

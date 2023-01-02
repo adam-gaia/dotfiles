@@ -1,5 +1,9 @@
-{ config, pkgs, lib, ...}:
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   services.syncthing = {
     enable = true;
     guiAddress = "localhost:8384";
@@ -12,13 +16,13 @@
     group = "users";
 
     # Ignore settings set in the web UI - this file is the only source of truth
-    overrideDevices = true; 
+    overrideDevices = true;
     overrideFolders = true;
 
     devices = {
       "helix" = {
         name = "helix";
-        id = (lib.strings.removeSuffix "\n" (builtins.readFile ./helix.id));
+        id = lib.strings.removeSuffix "\n" (builtins.readFile ./helix.id);
         autoAcceptFolders = true; # Auto accept folders from this device
       };
     };
@@ -51,6 +55,6 @@
   };
 
   # Open ports for syncthing
-  networking.firewall.allowedTCPPorts = [ 8384 22000 ];
-  networking.firewall.allowedUDPPorts = [ 22000 21027 ];
+  networking.firewall.allowedTCPPorts = [8384 22000];
+  networking.firewall.allowedUDPPorts = [22000 21027];
 }

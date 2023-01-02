@@ -147,7 +147,7 @@
       grep = "grep --color=always";
       fd = "fd --color=always";
 
-      ls = "ind -- lsd -alh --color=always"; 
+      ls = "ind -- lsd -alh --color=always";
 
       vim = "nvim";
       vi = "vim";

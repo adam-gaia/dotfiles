@@ -1,0 +1,7 @@
+shims:
+  - program: task
+
+    override:
+      - run: taskwarrior-filter-projects-to-git-repo $@
+        on_subcommand: list
+      - run: taskwarrior-filter-projects-to-git-repo

@@ -10,7 +10,7 @@ shims:
           cz $@
         on_subcommand: commit
 
-      - run: git-track-repos
+      - run: ind -- git-track-repos
         on_subcommand: repos
 
       # `git info` -> `onefetch`

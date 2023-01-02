@@ -655,3 +655,22 @@ function uz()
     esac
 }
 alias extract='uz'
+
+
+# ---------------
+# Shims
+# ---------------
+function git(){
+    # Shim for git
+    # Created automatically by /home/agaia/repo/personal/org/shim/target/debug/shim
+    #    from config file /home/agaia/.config/shim/shims/git.yaml
+    #    at 2023-01-01 10:11:27
+    shim exec -- git "$@"
+}
+function task(){
+    # Shim for task
+    # Created automatically by /home/agaia/repo/personal/org/shim/target/debug/shim
+    #    from config file /home/agaia/.config/shim/shims/task.yaml
+    #    at 2023-01-01 10:11:27
+    shim exec -- task "$@"
+}

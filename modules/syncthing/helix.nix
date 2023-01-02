@@ -1,5 +1,9 @@
-{ config, pkgs, lib, ...}:
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   homebrew.brews = [
     {
       name = "syncthing";

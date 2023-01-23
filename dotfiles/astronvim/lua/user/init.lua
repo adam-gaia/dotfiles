@@ -40,10 +40,13 @@ local config = {
             relativenumber = true, -- sets vim.opt.relativenumber
         },
         g = {
-            mapleader = " ", -- sets vim.g.mapleader
+            mapleader = " ", -- sets vim.g.mapleader to space
             tmux_navigator_no_mappings = 1,
             tmux_navigator_save_on_switch = 2, -- sutosave when leaving vim buffer
             sonokai_style = "default",
+            -- Vimwiki settings
+            vimwiki_list = { { path = "~/vimwiki/", syntax = "markdown", ext = ".md" } },
+            vimwiki_global_ext = 0,
         },
     },
 
@@ -102,6 +105,9 @@ local config = {
                 "LnL7/vim-nix",
             },
             {
+                "tools-life/taskwiki",
+            },
+            {
                 -- Automatically save (n)vim sessions
                 -- Works with tmux resurrect (https://github.com/tmux-plugins/tmux-resurrect)
                 "tpope/vim-obsession",
@@ -111,6 +117,9 @@ local config = {
                 config = function()
                     require("inlay-hints").setup({ eol = { right_alight = true } })
                 end,
+            },
+            {
+                "vimwiki/vimwiki"
             },
             {
                 -- Vim Monokai scheme

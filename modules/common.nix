@@ -36,7 +36,6 @@
       less
       curl
       wget
-      neovim
       file
       watch
       sqlite

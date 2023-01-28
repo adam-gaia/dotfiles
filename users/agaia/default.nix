@@ -12,6 +12,7 @@
   homeDir = config.home.homeDirectory;
 in {
   imports = [
+    ../../modules/neovim.nix
     ../../modules/alacritty.nix
     ../../modules/bat.nix
     ../../modules/direnv.nix
@@ -82,7 +83,6 @@ in {
 
     packages = with pkgs; [
       docker-compose
-      neovim
       python3
       jq
       lynx

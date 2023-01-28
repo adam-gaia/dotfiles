@@ -119,7 +119,7 @@ local config = {
                 end,
             },
             {
-                "vimwiki/vimwiki"
+                "vimwiki/vimwiki",
             },
             {
                 -- Vim Monokai scheme

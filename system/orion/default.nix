@@ -20,6 +20,9 @@
   hardware.enableAllFirmware = true;
   nixpkgs.config.allowUnfree = true;
 
+  # Emulate arm for cross compiling raspberry pi ISO
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
   networking = {
     hostName = "orion"; # Define your hostname.
     # Pick only one of the below networking options.

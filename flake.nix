@@ -10,27 +10,22 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     small.url = "github:nixos/nixpkgs/nixos-unstable-small";
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
-
     darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     flake-utils = {
       url = "github:numtide/flake-utils";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     devshell = {
       url = "github:numtide/devshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     nonstdlib = {
       url = "gitlab:adam_gaia/nonstdlib/test";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -55,7 +50,12 @@
       url = "github:adam-gaia/ind";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
+    build-img = {
+      url = "github:adam-gaia/nixos-docker-sd-image-builder";
+    };
+    nixops = {
+      url = "github:nixos/nixops";
+    };
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -74,6 +74,8 @@
     conda-flake,
     new-stow,
     ind,
+    build-img,
+    nixops,
     treefmt-nix,
     ...
   }: let
@@ -259,13 +261,15 @@
     in {
       default = pkgs.devshell.mkShell {
         packages = with pkgs; [
-          nonstdlib.defaultPackage.${system}
+          nonstdlib.defaultPackage."${system}"
           git-crypt
           nixfmt
           pre-commit
           shellcheck
           shfmt
           dconf2nix
+          build-img.defaultPackage."${system}"
+          nixops.defaultPackage."${system}"
           (treefmt-nix.lib.mkWrapper pkgs (import ./treefmt.nix))
         ];
         commands = [

@@ -21,7 +21,7 @@
   nixpkgs.config.allowUnfree = true;
 
   # Emulate arm for cross compiling raspberry pi ISO
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
   networking = {
     hostName = "orion"; # Define your hostname.
@@ -116,7 +116,10 @@
   };
 
   virtualisation = {
-    docker.enable = true;
+    docker = {
+      enable = true;
+      storageDriver = "btrfs";
+    };
     podman.enable = true;
 
     # TODO: need to figure out where to configure /etc/containers/registries.conf

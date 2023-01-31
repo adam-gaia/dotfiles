@@ -48,6 +48,10 @@
       }
       {
         path = "~/.config/git/config-personal";
+        condition = "gitdir:~/repo/git-clones/";
+      }
+      {
+        path = "~/.config/git/config-personal";
         condition = "gitdir:~/repo/personal/";
       }
     ];

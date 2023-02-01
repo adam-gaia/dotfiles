@@ -20,35 +20,27 @@
     };
     flake-utils = {
       url = "github:numtide/flake-utils";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     devshell = {
       url = "github:numtide/devshell";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     nonstdlib = {
       url = "gitlab:adam_gaia/nonstdlib/test";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     shim = {
       url = "github:adam-gaia/shim";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     git-track-repos = {
       url = "gitlab:adam_gaia/git-track-repos";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     conda-flake = {
       url = "gitlab:adam_gaia/conda-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     new-stow = {
       url = "github:adam-gaia/new-stow";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     ind = {
       url = "github:adam-gaia/ind";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     build-img = {
       url = "github:adam-gaia/nixos-docker-sd-image-builder";
@@ -58,12 +50,12 @@
     };
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
   outputs = inputs @ {
     self,
+    nixpkgs,
     darwin,
     home-manager,
     flake-utils,
@@ -268,6 +260,7 @@
           shellcheck
           shfmt
           dconf2nix
+          rpi-imager
           build-img.defaultPackage."${system}"
           nixops.defaultPackage."${system}"
           (treefmt-nix.lib.mkWrapper pkgs (import ./treefmt.nix))
@@ -313,6 +306,16 @@
         sysdo = self.packages.${prev.system}.sysdo;
       };
       devshell = inputs.devshell.overlay;
+    };
+
+    nixopsConfigurations.default = {
+      inherit nixpkgs;
+      network.storage.legacy.databasefile = "./.nixops/deployments.nixops";
+      network.description = "picluster";
+      #rpi01 = import ./system/picluster/rpi02/default.nix;
+      #rpi02 = import ./system/picluster/rpi02/default.nix;
+      rpi03 = import ./system/picluster/rpi03/default.nix;
+      #rpi04 = import ./system/picluster/rpi04/default.nix;
     };
   };
 }

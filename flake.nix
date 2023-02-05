@@ -45,12 +45,11 @@
     build-img = {
       url = "github:adam-gaia/nixos-docker-sd-image-builder";
     };
-    nixops = {
-      url = "github:nixos/nixops";
-    };
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
     };
+    deploy-rs.url = "github:serokell/deploy-rs";
+    nix-serve-ng.url = "github:aristanetworks/nix-serve-ng";
   };
 
   outputs = inputs @ {
@@ -67,130 +66,45 @@
     new-stow,
     ind,
     build-img,
-    nixops,
+    deploy-rs,
     treefmt-nix,
     ...
   }: let
     inherit (flake-utils.lib) eachSystemMap;
 
-    isDarwin = system: (builtins.elem system inputs.nixpkgs.lib.platforms.darwin);
+    util = import ./util {
+      inherit
+        self
+        inputs
+        nixpkgs
+        home-manager
+        homePrefix
+        shim
+        git-track-repos
+        new-stow
+        ind
+        conda-flake
+        deploy-rs
+        ;
+    };
+
     homePrefix = system:
-      if isDarwin system
+      if util.isDarwin system
       then "/Users"
       else "/home";
+
     defaultSystems = [
       "x86_64-linux"
       "x86_64-darwin"
       "aarch64-linux"
       "aarch64-darwin"
     ];
-
-    mkDarwinConfig = {
-      system ? "x86_64-darwin",
-      nixpkgs ? inputs.nixpkgs,
-      stable ? inputs.stable,
-      baseModules ? [
-        home-manager.darwinModules.home-manager
-        ./modules/darwin
-      ],
-      extraModules ? [],
-    }:
-      inputs.darwin.lib.darwinSystem {
-        inherit system;
-        modules = baseModules ++ extraModules;
-        specialArgs = {inherit self inputs nixpkgs;};
-      };
-
-    mkNixosConfig = {
-      system ? "x86_64-linux",
-      nixpkgs ? inputs.nixpkgs,
-      stable ? inputs.stable,
-      baseModules ? [
-        home-manager.nixosModules.home-manager
-        ./modules/nixos
-      ],
-      extraModules ? [],
-    }:
-      nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = baseModules ++ extraModules;
-        specialArgs = {inherit self inputs nixpkgs;};
-      };
-
-    mkHomeConfig = {
-      username,
-      system,
-      term ? "xterm-256color",
-      nixpkgs ? inputs.nixpkgs,
-      stable ? inputs.stable,
-      baseModules ? [
-        ./modules/home-manager
-        {
-          home = {
-            inherit username;
-            homeDirectory = "${homePrefix system}/${username}";
-            sessionVariables = {
-              NIX_PATH = "nixpkgs=${nixpkgs}:stable=${stable}\${NIX_PATH:+:}$NIX_PATH";
-            };
-          };
-        }
-      ],
-      extraModules ? [],
-    }:
-      inputs.home-manager.lib.homeManagerConfiguration rec {
-        pkgs = import nixpkgs {
-          inherit system;
-          #config = { allowUnfree = true; }; # TODO: remove - set elsewhere?
-          overlays = builtins.attrValues self.overlays;
-        };
-        extraSpecialArgs = {inherit self inputs nixpkgs system term shim git-track-repos new-stow ind conda-flake;};
-        modules = baseModules ++ extraModules;
-      };
-
-    mkChecks = {
-      arch,
-      os,
-      username ? "agaia",
-    }: {
-      "${arch}-${os}" = {
-        "${username}_${os}" =
-          (
-            if os == "darwin"
-            then self.darwinConfigurations
-            else self.nixosConfigurations
-          )
-          ."${username}@${arch}-${os}"
-          .config
-          .system
-          .build
-          .toplevel;
-        "${username}_home" =
-          self.homeConfigurations."${username}@${arch}-${os}".activationPackage;
-        devShell = self.devShells."${arch}-${os}".default;
-      };
-    };
   in {
-    checks =
-      {}
-      // (mkChecks {
-        arch = "x86_64";
-        os = "darwin";
-      })
-      // (mkChecks {
-        arch = "x86_64";
-        os = "linux";
-      });
-
-    #// (mkChecks {
-    #  arch = "aarch64";
-    #  os = "darwin";
-    #}) // (mkChecks {
-    #  arch = "aarch64";
-    #  os = "linux";
-    #})
+    # Checks taken from deploy-rs docs
+    checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
 
     nixosConfigurations = {
-      "agaia@x86_64-linux" = mkNixosConfig {
+      "orion" = util.mkNixosConfig {
         system = "x86_64-linux";
         extraModules = [
           ./system/orion
@@ -200,14 +114,42 @@
           ./modules/syncthing/orion.nix
         ];
       };
-      #"nixbox@x86_64-linux" = mkNixosConfig {
-      #  system = "x86_64-linux";
-      #  extraModules = [ ./system/nixbox ./modules/persistence ./modules/gnome ];
-      #};
+      "rpi01" = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        modules = [
+          ./system/picluster
+          ./system/picluster/rpi01
+        ];
+      };
+      "rpi02" = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        modules = [
+          ./system/picluster
+          ./system/picluster/rpi02
+        ];
+      };
+      "rpi03" = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        modules = [
+          ./system/picluster
+          ./system/picluster/rpi03
+        ];
+      };
+      "rpi04" = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        modules = [
+          ./system/picluster
+          ./system/picluster/rpi04
+        ];
+      };
+      "nixbox" = util.mkNixosConfig {
+        system = "x86_64-linux";
+        extraModules = [./system/nixbox ./modules/persistence ./modules/gnome];
+      };
     };
 
     darwinConfigurations = {
-      "agaia@x86_64-darwin" = mkDarwinConfig {
+      "helix" = util.mkDarwinConfig {
         system = "x86_64-darwin";
         extraModules = [
           ./system/helix
@@ -219,7 +161,7 @@
 
     homeConfigurations = {
       # TODO: figure out how to inherit system here so we dont have to have the duplicate
-      "agaia@x86_64-linux" = mkHomeConfig {
+      "agaia@x86_64-linux" = util.mkHomeConfig {
         username = "agaia";
         system = "x86_64-linux";
         extraModules = [
@@ -238,10 +180,15 @@
           ./modules/ansible.nix
         ];
       };
-      "agaia@x86_64-darwin" = mkHomeConfig {
+      "agaia@x86_64-darwin" = util.mkHomeConfig {
         username = "agaia";
         system = "x86_64-darwin";
         extraModules = [./users/agaia];
+      };
+      "agaia-rpi" = util.mkHomeConfig {
+        username = "agaia";
+        system = "aarch64-linux";
+        extraModules = [./users/agaia-rpi];
       };
     };
 
@@ -260,9 +207,11 @@
           shellcheck
           shfmt
           dconf2nix
-          rpi-imager
+          #rpi-imager
+          deploy-rs
+          kubectl
           build-img.defaultPackage."${system}"
-          nixops.defaultPackage."${system}"
+          deploy-rs.defaultPackage."${system}"
           (treefmt-nix.lib.mkWrapper pkgs (import ./treefmt.nix))
         ];
         commands = [
@@ -308,14 +257,14 @@
       devshell = inputs.devshell.overlay;
     };
 
-    nixopsConfigurations.default = {
-      inherit nixpkgs;
-      network.storage.legacy.databasefile = "./.nixops/deployments.nixops";
-      network.description = "picluster";
-      #rpi01 = import ./system/picluster/rpi02/default.nix;
-      #rpi02 = import ./system/picluster/rpi02/default.nix;
-      rpi03 = import ./system/picluster/rpi03/default.nix;
-      #rpi04 = import ./system/picluster/rpi04/default.nix;
+    deploy = {
+      nodes = {
+        #orion = util.mkDeployNode "orion" "x86_64-linux" "localhost";
+        rpi01 = util.mkDeployNode "rpi01" "aarch64-linux" "192.168.1.226";
+        rpi02 = util.mkDeployNode "rpi02" "aarch64-linux" "192.168.1.136";
+        rpi03 = util.mkDeployNode "rpi03" "aarch64-linux" "192.168.1.156";
+        rpi04 = util.mkDeployNode "rpi04" "aarch64-linux" "192.168.1.144";
+      };
     };
   };
 }

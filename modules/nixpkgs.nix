@@ -19,7 +19,6 @@
       options = "--delete-older-than 14d";
     };
 
-    readOnlyStore = true;
     nixPath =
       builtins.map
       (

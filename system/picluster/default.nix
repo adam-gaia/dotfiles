@@ -8,20 +8,10 @@
 
   imports = [
     ./ssh.nix
+    ./networking.nix
+    ./boot.nix
+    ./security.nix
   ];
-
-  security = {
-    sudo = {
-      # Enabling passwordless sudo for nixops to work as non-root.
-      # Not sure a better way to do this without enabling ssh as root
-      wheelNeedsPassword = false;
-
-      # Sudo lecture message killed initial nixops run. Disabling to prevent in the future
-      extraConfig = ''
-        Defaults lecture = never
-      '';
-    };
-  };
 
   nix.settings.trusted-users = ["root" "agaia"];
 
@@ -29,20 +19,6 @@
     docker = {
       enable = true;
     };
-  };
-
-  # Use the extlinux boot loader. (NixOS wants to enable GRUB by default)
-  boot.loader.grub.enable = false;
-  # Enables the generation of /boot/extlinux/extlinux.conf
-  boot.loader.generic-extlinux-compatible.enable = true;
-
-  networking = {
-    firewall = {
-      enable = true;
-      allowPing = true;
-      allowedTCPPorts = [22]; # ssh
-    };
-    networkmanager.enable = true;
   };
 
   time.timeZone = "America/Denver";
@@ -80,6 +56,7 @@
     enable = true;
     enableCompletion = true;
     enableBashCompletion = true;
+    autosuggestions.enable = true;
   };
 
   # This value determines the NixOS release from which the default

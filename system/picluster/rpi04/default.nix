@@ -1,15 +1,11 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{...}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../defaut.nix
+    ../k3s/agent.nix
   ];
 
   networking = {
-    hostName = "rpi04"; # Define your hostname.
+    hostName = "rpi04";
   };
 }

@@ -10,6 +10,8 @@
     ./nixpkgs.nix
   ];
 
+  boot.readOnlyNixStore = true;
+
   nixpkgs.overlays = builtins.attrValues self.overlays;
   nixpkgs = {
     config = {

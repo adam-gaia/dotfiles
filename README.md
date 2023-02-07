@@ -133,6 +133,69 @@ popd
 
 ```
 
+## Homelab
+
+### Load balencing via
+
+K3s high-avalibility (HA) requires at least 3 server (master) nodes. I've got 4 rpis, so rpi01, rpi02, rpi03 are our servers and rpi04 is the only agent.
+I picked my vip arbitraily. TODO: make sure this isn't in router's DHCP
+`VIP=192.168.1.227`
+K3s needs this value on startup (see references for explination)
+
+```
+# server.nix
+extraFlags = "--tls-san ${VIP} ..."
+```
+
+- Set up the first node
+
+```bash
+deploy .#rpi01
+ssh rpi01
+```
+
+TODO: Add a note here about grabbing the first node's key?
+The first node is all we need to start running services on our "cluster".
+Thus we can add the load balencer, kube-vip, manifests and have the first node pick it up.
+Once more nodes are added the kubernetes will do its thing and propigate.
+TODO: nix/terraform/ansible these steps
+
+```bash
+# Grab the first manifest
+sudo mkdir -p /var/lib/rancher/k3s/server/manifests
+curl -s https://kube-vip.io/manifests/rbac.yaml > /var/lib/rancher/k3s/server/manifests/kube-vip-rbac.yaml
+export INTERFACE=end0 # ethernet interface from `ip a`
+export KV_VERSION=v0.5.8
+# Also export VIP from earlier
+alias kube-vip="docker run --network host --rm ghcr.io/kube-vip/kube-vip:$KVVERSION"
+
+# Running kube-vip in a docker container (with these specific flags) will generate the other manfest
+kube-vip manifest daemonset \
+                  --arp \
+                  --interface $INTERFACE \
+                  --address $VIP \
+                  --controlplane \
+                  --leaderElection \
+                  --taint \
+                  --inCluster | sudo tee /var/lib/rancher/k3s/server/manifests/kube-vip.yaml
+
+ping $VIP # Validation
+```
+
+- Set up other nodes
+
+```bash
+deploy .#rpi02
+deploy .#rpi03
+deploy .#rpi04
+```
+
+### Refrences
+
+- https://kube-vip.io/docs/installation/daemonset/
+- https://devopstales.github.io/kubernetes/k3s-etcd-kube-vip/
+- https://github.com/ebrianne/k3s-at-home/blob/master/docs/theeasyway.md
+
 ## Credits
 
 Some code and ideas were ~~stolen~~ borrowed from [Kennan LeJeune's system config](https://github.com/kclejeune/system), which I stumbled uppon

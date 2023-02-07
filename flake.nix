@@ -210,6 +210,7 @@
           #rpi-imager
           deploy-rs
           kubectl
+          kubernetes-helm-wrapped
           build-img.defaultPackage."${system}"
           deploy-rs.defaultPackage."${system}"
           (treefmt-nix.lib.mkWrapper pkgs (import ./treefmt.nix))

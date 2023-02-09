@@ -2,7 +2,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../k3s/server.nix
+    ../k3s/agent.nix
   ];
 
   networking = {

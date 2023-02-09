@@ -137,7 +137,6 @@ popd
 
 ### Load balencing via
 
-K3s high-avalibility (HA) requires at least 3 server (master) nodes. I've got 4 rpis, so rpi01, rpi02, rpi03 are our servers and rpi04 is the only agent.
 I picked my vip arbitraily. TODO: make sure this isn't in router's DHCP
 `VIP=192.168.1.227`
 K3s needs this value on startup (see references for explination)
@@ -171,12 +170,13 @@ alias kube-vip="docker run --network host --rm ghcr.io/kube-vip/kube-vip:$KVVERS
 
 # Running kube-vip in a docker container (with these specific flags) will generate the other manfest
 kube-vip manifest daemonset \
-                  --arp \
                   --interface $INTERFACE \
                   --address $VIP \
-                  --controlplane \
-                  --leaderElection \
                   --taint \
+                  --controlplane \
+                  --services \
+                  --arp \
+                  --leaderElection \
                   --inCluster | sudo tee /var/lib/rancher/k3s/server/manifests/kube-vip.yaml
 
 ping $VIP # Validation
@@ -189,6 +189,15 @@ deploy .#rpi02
 deploy .#rpi03
 deploy .#rpi04
 ```
+
+- Update kubectl settings
+  Edit `~/.kube/config` and set the cluster's server address to the VIP
+
+```
+  server: https://<VIP>:6443
+```
+
+- More setup. TODO: better document
 
 ### Refrences
 

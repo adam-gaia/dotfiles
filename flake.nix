@@ -112,6 +112,7 @@
           ./modules/gnome
           ./modules/parted.nix
           ./modules/syncthing/orion.nix
+          ./modules/wireguard
         ];
       };
       "rpi01" = nixpkgs.lib.nixosSystem {

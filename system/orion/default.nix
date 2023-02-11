@@ -11,6 +11,12 @@
     ./hardware-configuration.nix
   ];
 
+  environment = {
+    systemPackages = with pkgs; [
+      wireguard-tools
+    ];
+  };
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -33,53 +39,7 @@
     # firewall.allowedTCPPorts = [ ... ];
     firewall.allowedUDPPorts = [51820]; # Wireguard uses port 51820
     # Or disable the firewall altogether.
-    firewall.enable = false;
-
-    #wireguard.interfaces = {
-    #  wg0 = {
-    #    ips = [ "10.2.0.2/32" ];
-    #    listenPort = 51820;
-    #    privateKeyFile = "/home/agaia/repo/personal/dotfiles/modules/wireguard/proton-ca.key";
-    #    peers = [
-    #      {
-    #        publicKey = "5YxjJV/w2nIQHnh80py03qkUIWafadRqrnG72NzfMkE=";
-    #        allowedIPs = [ "0.0.0.0/0" ];
-    #        endpoint = "37.120.205.82:51820";
-    #        persistentKeepalive = 25;
-    #      }
-    #    ];
-    #  };
-    # "wg_sharper" is the network interface name. You can name the interface arbitrarily.
-    #wg_sharper = {
-    # Determines the IP address and subnet of the client's end of the tunnel interface.
-    #  ips = [ "172.28.3.22/32" ];
-    #  listenPort = 51820; # to match firewall allowedUDPPorts (without this wg uses random port numbers)
-
-    # Path to the private key file.
-    #
-    # Note: The private key can also be included inline via the privateKey option,
-    # but this makes the private key world-readable; thus, using privateKeyFile is
-    # recommended.
-    #  privateKeyFile = "/home/agaia/repo/personal/dotfiles/modules/wireguard/private_key.key";
-
-    #  peers = [
-    # For a client configuration, one peer entry for the server will suffice.
-    #    {
-    # Public key of the server (not a file path).
-    #      publicKey = "8vmTQMKzPBUiyVY9uEroOCOAd007M5Jft59RjXjBIEQ=";
-
-    # Forward all the traffic via VPN.
-    #      allowedIPs = [ "172.28.0.0/18" "172.17.200.0/24" "10.6.10.0/24" "10.8.10.0/24" "10.7.10.0/24" "10.2.10.0/24" "10.3.10.0/24" "10.4.10.0/24" "10.5.10.0/24" ];
-
-    # Set this to the server IP and port.
-    #      endpoint = "18.236.122.199:51820"; # TODO: route to endpoint not automatically configured https://wiki.archlinux.org/index.php/WireGuard#Loop_routing https://discourse.nixos.org/t/solved-minimal-firewall-setup-for-wireguard-client/7577
-
-    # Send keepalives every 25 seconds. Important to keep NAT tables alive.
-    #      persistentKeepalive = 25;
-    #    }
-    #  ];
-    #};
-    #};
+    firewall.enable = true; 
   };
 
   # Configure network proxy if necessary

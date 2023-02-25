@@ -124,6 +124,9 @@
       setopt HIST_REDUCE_BLANKS      # Remove unnecessary blanks
       setopt INC_APPEND_HISTORY_TIME # Append command to history file immediately after execution
 
+      # Disable 'r' builtin. I have an exec that is also called 'r'
+      disable r
+
       # --------------------------------------------------------------------------------
       # Starship prompt
       # --------------------------------------------------------------------------------

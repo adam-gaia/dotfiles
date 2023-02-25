@@ -2,11 +2,11 @@
   config,
   pkgs,
   lib,
-  ind,
+  cbtr,
   system,
   ...
 }: {
   home.packages = [
-    ind.packages.${system}.default
+    cbtr.packages.${system}.default
   ];
 }

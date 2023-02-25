@@ -4,10 +4,11 @@
   nixpkgs,
   home-manager,
   homePrefix,
-  shim,
+  #shim,
   git-track-repos,
   new-stow,
   ind,
+  cbtr,
   conda-flake,
   deploy-rs,
   ...
@@ -93,7 +94,7 @@
         #config = { allowUnfree = true; }; # TODO: remove - set elsewhere?
         overlays = builtins.attrValues self.overlays;
       };
-      extraSpecialArgs = {inherit self inputs nixpkgs system term shim git-track-repos new-stow ind conda-flake;};
+      extraSpecialArgs = {inherit self inputs nixpkgs system term git-track-repos new-stow ind cbtr conda-flake;}; # TODO: add back 'shim'
       modules = baseModules ++ extraModules;
     };
 }

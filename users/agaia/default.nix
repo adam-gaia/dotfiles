@@ -149,6 +149,10 @@ in {
         source = ../../dotfiles/astronvim;
         recursive = true;
       };
+      cbtr = {
+        source = ../../dotfiles/cbtr;
+        recursive = true;
+      };
       lsd = {
         source = ../../dotfiles/lsd;
         recursive = true;

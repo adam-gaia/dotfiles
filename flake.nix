@@ -27,9 +27,9 @@
     nonstdlib = {
       url = "gitlab:adam_gaia/nonstdlib/test";
     };
-    shim = {
-      url = "github:adam-gaia/shim";
-    };
+    #shim = {
+    #  url = "github:adam-gaia/shim";
+    #};
     git-track-repos = {
       url = "gitlab:adam_gaia/git-track-repos";
     };
@@ -41,6 +41,9 @@
     };
     ind = {
       url = "github:adam-gaia/ind";
+    };
+    cbtr = {
+      url = "github:adam-gaia/cbtr";
     };
     build-img = {
       url = "github:adam-gaia/nixos-docker-sd-image-builder";
@@ -60,11 +63,12 @@
     flake-utils,
     nonstdlib,
     nixos-hardware,
-    shim,
+    #shim,
     git-track-repos,
     conda-flake,
     new-stow,
     ind,
+    cbtr,
     build-img,
     deploy-rs,
     treefmt-nix,
@@ -79,10 +83,11 @@
         nixpkgs
         home-manager
         homePrefix
-        shim
+        #shim
         git-track-repos
         new-stow
         ind
+        cbtr
         conda-flake
         deploy-rs
         ;
@@ -172,7 +177,8 @@
           ./modules/conda-flake.nix
           ./modules/git-track-repos.nix
           ./modules/ind.nix
-          ./modules/shim.nix
+          ./modules/cbtr.nix
+          #./modules/shim.nix
           ./modules/new-stow.nix
           ./modules/firefox.nix
           ./modules/chromium.nix

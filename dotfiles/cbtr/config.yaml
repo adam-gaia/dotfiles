@@ -33,6 +33,7 @@ targets:
       - cargo fmt # No cargo-limit version
       - cargo lcheck
       - cargo lclippy
+      - cargo audit
     build:
       - cargo lbuild
     test:

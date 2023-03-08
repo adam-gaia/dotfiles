@@ -27,9 +27,9 @@
       }
     ];
     extraConfig = ''
-      # Set prefix to ctrl-space
-      # unbind C-b
-      # set-option -g prefix C-Space
+      # Reload tmux config with <prefix> r
+      unbind r
+      bind r source-file ~/.config/tmux/tmux.conf # TODO: set path relative to XDG_CONFIG_HOME
 
       # Enable scrolling by default
       set -g mouse on
@@ -45,7 +45,6 @@
       set -g focus-events on
       set-option -sa terminal-overrides ',xterm-256color:RGB'
 
-
       # Highlight color
       set -g mode-style 'reverse' # TODO: alacritty's highlight inverts foreground and background color. Can this be done in tmux?
 
@@ -56,15 +55,18 @@
       # Status bar on
       set -g status
 
-      # Pane border status on too
-      set -g pane-border-status  # TODO: change the info to something better
+      # Keep status bar on bottom
+      set -g status-position bottom
+
+      # Pane border status on
+      #set -g pane-border-status  # TODO: change the info to something better
 
       # Grey status bar
-      set -g status-bg colour8
+      #set -g status-bg colour8
 
       # Set status bar info display
-      set -g status-left '[#S] '
-      set -g status-right "#{?pane_synchronized,--SYNCED--,} #(is-online) #(battery -t -g black)  #(date '+%a %b%d %I:%M') "
+      #set -g status-left '[#S] '
+      #set -g status-right "#{?pane_synchronized,--SYNCED--,} #(is-online) #(battery -t -g black)  #(date '+%a %b%d %I:%M') "
 
 
       # --------------------------------------------------------------
@@ -105,7 +107,7 @@
       # --------------------------------------------------------------
       # Key binds
       # --------------------------------------------------------------
-      bind-key j run-shell '/home/sarcos/repo/scripts/tmux-popup.sh'
+      #bind-key j run-shell '/home/sarcos/repo/scripts/tmux-popup.sh' # TODO: where did I put this script?
     '';
   };
 }

@@ -39,7 +39,7 @@
     # firewall.allowedTCPPorts = [ ... ];
     firewall.allowedUDPPorts = [51820]; # Wireguard uses port 51820
     # Or disable the firewall altogether.
-    firewall.enable = true; 
+    firewall.enable = true;
   };
 
   # Configure network proxy if necessary

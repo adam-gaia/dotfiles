@@ -84,6 +84,7 @@
         home-manager
         homePrefix
         #shim
+        
         git-track-repos
         new-stow
         ind

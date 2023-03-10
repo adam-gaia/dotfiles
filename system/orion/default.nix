@@ -14,6 +14,7 @@
   environment = {
     systemPackages = with pkgs; [
       wireguard-tools
+      wl-clipboard
     ];
   };
 

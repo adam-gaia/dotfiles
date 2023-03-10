@@ -4,7 +4,7 @@
   lib,
   term,
   ...
-}: { 
+}: {
   programs.tmux = {
     enable = true;
     tmuxp.enable = true; # https://github.com/tmux-python/tmuxp

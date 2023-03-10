@@ -83,7 +83,7 @@
       fi
 
       # Tmux sets $SHLVL somehow.
-      # Tricks like 'exec env SHLVL=0 tmux' (from https://stackoverflow.com/a/22869763) do not work 
+      # Tricks like 'exec env SHLVL=0 tmux' (from https://stackoverflow.com/a/22869763) do not work
       # To get around this, check if we are the first shell (spawned by tmux) and set SHLVL manually
       if [[ -z ''${FIX_SHLVL+unset} ]]; then
         export FIX_SHLVL=1

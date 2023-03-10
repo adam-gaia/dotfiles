@@ -4,7 +4,7 @@
   lib,
   term,
   ...
-}: {
+}: { 
   programs.tmux = {
     enable = true;
     tmuxp.enable = true; # https://github.com/tmux-python/tmuxp
@@ -23,6 +23,12 @@
         extraConfig = ''
           set -g @continuum-restore 'on'
           set -g @continuum-save-interval '60' # minutes
+        '';
+      }
+      {
+        plugin = tmuxPlugins.power-theme;
+        extraConfig = ''
+          set -g @tmux_power_theme '#e7c664'
         '';
       }
     ];
@@ -53,10 +59,10 @@
       set -g pane-active-border-style fg=blue
 
       # Status bar on
-      set -g status
+      #set -g status
 
       # Keep status bar on bottom
-      set -g status-position bottom
+      #set -g status-position bottom
 
       # Pane border status on
       #set -g pane-border-status  # TODO: change the info to something better

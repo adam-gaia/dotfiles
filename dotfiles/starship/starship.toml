@@ -50,8 +50,8 @@ error_symbol = "[>](bold)"
 vicmd_symbol = "[<](bold green)"
 
 [username]
-style_user = "bold green"
-style_root = "bold red"
+style_user = "bold green" # "fg:bold bg:green"
+style_root = "red"
 show_always = true
 format = "[$user](${style})"
 

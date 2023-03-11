@@ -1,13 +1,13 @@
-{
-  config,
-  pkgs,
-  lib,
-  term,
-  ...
+{ config
+, pkgs
+, lib
+, term
+, ...
 }: {
   programs.tmux = {
     enable = true;
     tmuxp.enable = true; # https://github.com/tmux-python/tmuxp
+    keyMode = "vi"; # Vim-style key bindings
     plugins = with pkgs; [
       tmuxPlugins.sensible
       #{ # TODO: reenable - this broke tmux

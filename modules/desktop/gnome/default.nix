@@ -6,7 +6,6 @@
   # Enable the X11 windowing system with gnome.
   services.xserver = {
     # Enable Gnome
-    displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
   };
 

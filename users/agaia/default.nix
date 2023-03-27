@@ -1,16 +1,17 @@
-{
-  self,
-  inputs,
-  config,
-  pkgs,
-  system,
-  nixpkgs,
-  nixpkgs-unstable,
-  term,
-  ...
-}: let
+{ self
+, inputs
+, config
+, pkgs
+, system
+, nixpkgs
+, nixpkgs-unstable
+, term
+, ...
+}:
+let
   homeDir = config.home.homeDirectory;
-in {
+in
+{
   imports = [
     ../../modules/neovim.nix
     ../../modules/alacritty.nix
@@ -28,7 +29,7 @@ in {
 
   accounts.email = {
     maildirBasePath = "/${homeDir}/mailbox";
-    accounts = with import ../../modules/email/main.nix {}; {
+    accounts = with import ../../modules/email/main.nix { }; {
       "main" = main;
     };
   };
@@ -147,6 +148,10 @@ in {
       # Symlink dotfiles until I get around to nixifying them
       astronvim = {
         source = ../../dotfiles/astronvim;
+        recursive = true;
+      };
+      sway = {
+        source = ../../dotfiles/sway;
         recursive = true;
       };
       cbtr = {

@@ -48,6 +48,7 @@ in
       EDITOR = "vim";
       PAGER = "less";
       LESS = "-RF --LONG-PROMPT --mouse --wheel-lines=5";
+      RUSTC_WRAPPER = "sccache";
       RIPGREP_CONFIG_PATH = "${homeDir}/.config/ripgrep/config";
       PYTHONSTARTUP = "${homeDir}/python/pythonrc.py";
 
@@ -139,6 +140,7 @@ in
       ctop
       ranger # TUI file navigator
       tasksh # Repl for taskwarrior
+      sccache # Rust compiler cache
     ];
   };
 

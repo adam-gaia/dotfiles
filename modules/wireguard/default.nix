@@ -7,7 +7,19 @@
   environment.systemPackages = with pkgs; [ protonvpn-gui ];
 
   networking.wg-quick.interfaces = {
-    # "proton-ca" is the network interface name. You can name the interface arbitrarily.
+    # "proton-us" is the network interface name. You can name the interface arbitrarily.
+    proton-us = {
+      address = [ "10.2.0.2/32" ];
+      privateKeyFile = "/home/agaia/repo/personal/dotfiles/modules/wireguard/proton-us.key"; # TODO: relative paths for string?
+      peers = [
+        {
+          # peer0
+          publicKey = "fM5t18SNQhPw5zXr/6crLPu9KseB3/BeDF+McXoclmg=";
+          allowedIPs = [ "0.0.0.0/0" ];
+          endpoint = "107.181.245.74:51820";
+        }
+      ];
+    };
     #proton-ca = {
     #  address = [ "10.2.0.2/32" ];
     #  privateKeyFile = "/home/agaia/repo/personal/dotfiles/modules/wireguard/proton-ca.key"; # TODO: relative paths for string?

@@ -26,6 +26,21 @@ targets:
     run:
       - make run
 
+  - name: trunk
+    detect:
+      - Trunk.toml
+    check:
+      - cargo fmt # No cargo-limit version
+      - cargo lcheck
+      - cargo lclippy
+      - cargo audit
+    build:
+      - trunk build
+    test:
+      - cargo ltest
+    run:
+      - trunk serve
+
   - name: cargo
     detect:
       - Cargo.toml

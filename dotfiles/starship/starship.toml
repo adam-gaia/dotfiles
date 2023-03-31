@@ -1,5 +1,7 @@
-# Inserts a blank line between shell prompts
-add_newline = true
+# Do not add a newline between prompts
+# We use zsh's 'precmd' function to add a newline instead
+# This way, there is not a newline with the first prompt
+add_newline = false
 
 format = """(${status}${cmd_duration}\n)\
 ${env_var}\

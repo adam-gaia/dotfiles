@@ -656,6 +656,28 @@ function uz()
 }
 alias extract='uz'
 
+# ---------------
+# Zsh Hooks
+# https://zsh.sourceforge.io/Doc/Release/Functions.html#Special-Functions
+# ---------------
+function precmd() {
+    # Echo a newline after every command, before the next prompt is rendered
+    # By defining this function withing this function, the very first prompt will not have a pre-pended newline
+    function precmd() { 
+        echo ''
+    }
+}
+
+function clear() { 
+    # This discusting function is needed to prevend a newline before the prompt immediatly after the screen is cleared
+    function precmd () {
+        function precmd() {
+            # Echo a newline after every command, before the next prompt is rendered
+            echo ''
+        }
+    }
+    command clear
+}
 
 # ---------------
 # Shims

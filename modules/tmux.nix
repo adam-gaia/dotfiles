@@ -114,6 +114,11 @@
       # Key binds
       # --------------------------------------------------------------
       #bind-key j run-shell '/home/sarcos/repo/scripts/tmux-popup.sh' # TODO: where did I put this script?
+
+      # Make new panes open in the last working directory instead of the home dir
+      bind '%' split-window -h -c '#{pane_current_path}'  # Split panes horizontal
+      bind '"' split-window -v -c '#{pane_current_path}'  # Split panes vertically
+
     '';
   };
 }

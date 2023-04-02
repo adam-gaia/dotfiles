@@ -188,6 +188,7 @@
             ./modules/offlineimap.nix
             ./modules/dconf.nix
             ./modules/ansible.nix
+            ./modules/rofi.nix
           ];
         };
         "agaia@x86_64-darwin" = util.mkHomeConfig {

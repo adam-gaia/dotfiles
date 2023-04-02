@@ -78,9 +78,9 @@
       # Tmux
       # --------------------------------------------------
       # Check if we are running an interactive session and not already in tmux (or screen)
-      if command -v tmux &> /dev/null && [[ -n "$PS1" ]] && [[ ! "$TERM" =~ screen\|tmux ]] && [[ -z "$TMUX" ]]; then
-        exec tmux
-      fi
+      #if command -v tmux &> /dev/null && [[ -n "$PS1" ]] && [[ ! "$TERM" =~ screen\|tmux ]] && [[ -z "$TMUX" ]]; then
+      #  exec tmux
+      #fi
 
       # Tmux sets $SHLVL somehow.
       # Tricks like 'exec env SHLVL=0 tmux' (from https://stackoverflow.com/a/22869763) do not work

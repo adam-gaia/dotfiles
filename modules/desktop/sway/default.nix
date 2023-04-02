@@ -53,6 +53,7 @@ in
     mako # notification system developed by swaywm maintainer
     waybar
     bemenu # Wayland dmenu replacement
+    rofi-wayland
   ];
 
   # xdg-desktop-portal works by exposing a series of D-Bus interfaces

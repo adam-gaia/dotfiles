@@ -7,6 +7,7 @@
   programs.tmux = {
     enable = true;
     tmuxp.enable = true; # https://github.com/tmux-python/tmuxp
+    tmuxinator.enable = true;
     keyMode = "vi"; # Vim-style key bindings
     plugins = with pkgs; [
       tmuxPlugins.sensible

@@ -1,9 +1,10 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ config
-, pkgs
-, ...
+{
+  config,
+  pkgs,
+  ...
 }: {
   imports = [
     # Include the results of the hardware scan.
@@ -23,12 +24,12 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.supportedFilesystems = [ "btrfs" ];
+  boot.supportedFilesystems = ["btrfs"];
   hardware.enableAllFirmware = true;
   nixpkgs.config.allowUnfree = true;
 
   # Emulate arm for cross compiling raspberry pi ISO
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
   networking = {
     hostName = "orion"; # Define your hostname.
@@ -38,7 +39,7 @@
 
     # Open ports in the firewall.
     # firewall.allowedTCPPorts = [ ... ];
-    firewall.allowedUDPPorts = [ 51820 ]; # Wireguard uses port 51820
+    firewall.allowedUDPPorts = [51820]; # Wireguard uses port 51820
     # Or disable the firewall altogether.
     firewall.enable = true;
   };

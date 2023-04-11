@@ -1,17 +1,10 @@
-{ self
-, inputs
-, config
-, pkgs
-, system
-, nixpkgs
-, nixpkgs-unstable
-, term
-, ...
-}:
-let
-  homeDir = config.home.homeDirectory;
-in
 {
+  config,
+  pkgs,
+  ...
+}: let
+  homeDir = config.home.homeDirectory;
+in {
   imports = [
     ../../modules/neovim.nix
     ../../modules/alacritty.nix
@@ -29,7 +22,7 @@ in
 
   accounts.email = {
     maildirBasePath = "/${homeDir}/mailbox";
-    accounts = with import ../../modules/email/main.nix { }; {
+    accounts = with import ../../modules/email/main.nix {}; {
       "main" = main;
     };
   };

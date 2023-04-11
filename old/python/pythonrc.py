@@ -5,6 +5,7 @@ import atexit
 import os
 import sys
 
+
 # Prompt
 class Colors:
     HEADER = "\033[95m"
@@ -43,6 +44,7 @@ class Prompt:
 
 sys.ps1 = Prompt()
 
+
 # Exit with 'exit' or 'quit' instead of 'exit()'
 class exit(object):
     exit = exit  # original object
@@ -53,6 +55,7 @@ class exit(object):
 
 
 quit = exit = exit()
+
 
 # Clear with 'clear'
 class clear(object):

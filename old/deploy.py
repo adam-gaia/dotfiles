@@ -46,10 +46,8 @@ def link(source_path: Path, target_path: Path):
 
         # Check if target already exists
         if target_path.exists():
-
             # Check if target is a link
             if target_path.is_symlink():
-
                 # If the link points to source_path we don't need to do any work
                 if target_path.resolve() == source_path.resolve():
                     logging.info(

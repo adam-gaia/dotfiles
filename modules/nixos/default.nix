@@ -1,8 +1,4 @@
-{ config
-, pkgs
-, home-manager
-, ...
-}: {
+{pkgs, ...}: {
   imports = [
     ../common.nix
   ];
@@ -37,7 +33,7 @@
     uid = 1000;
     initialPassword = "agaia";
     shell = pkgs.zsh;
-    extraGroups = [ "wheel" "docker" "libvirtd" ]; # 'wheel' grants sudoer permission.
+    extraGroups = ["wheel" "docker" "libvirtd"]; # 'wheel' grants sudoer permission.
   };
   users.mutableUsers = true;
 

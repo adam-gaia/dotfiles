@@ -14,6 +14,7 @@
     systemPackages = with pkgs; [
       wireguard-tools
       wl-clipboard
+      virt-manager
     ];
   };
 
@@ -81,6 +82,8 @@
       storageDriver = "btrfs";
     };
     podman.enable = true;
+
+    libvirtd.enable = true;
 
     # TODO: need to figure out where to configure /etc/containers/registries.conf
 

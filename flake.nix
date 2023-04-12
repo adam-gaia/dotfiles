@@ -184,6 +184,7 @@
           ./modules/dconf.nix
           ./modules/ansible.nix
           ./modules/rofi.nix
+          ./modules/navi.nix
         ];
       };
       "agaia@x86_64-darwin" = util.mkHomeConfig {

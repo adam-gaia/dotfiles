@@ -118,7 +118,6 @@ in {
       commitizen
       pre-commit
       xxh
-      navi
       sumneko-lua-language-server
       htmlq
       nixpkgs-fmt

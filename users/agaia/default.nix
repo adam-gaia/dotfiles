@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  fortune-quotes,
   ...
 }: let
   homeDir = config.home.homeDirectory;
@@ -99,7 +100,6 @@ in {
       ripgrep
       lsd
       cowsay
-      fortune
       gdb
       gzip
       watch
@@ -133,6 +133,7 @@ in {
       ranger # TUI file navigator
       tasksh # Repl for taskwarrior
       sccache # Rust compiler cache
+      fortune-quotes.defaultPackage.${system}
     ];
   };
 

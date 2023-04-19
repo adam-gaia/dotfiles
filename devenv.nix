@@ -22,7 +22,7 @@
       black.enable = true;
       shellcheck.enable = true;
       alejandra.enable = true; # nix formatter
-      deadnix.enable = true;
+      #deadnix.enable = true;
       shfmt.enable = true;
       stylua.enable = true;
       yamllint.enable = true;

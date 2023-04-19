@@ -48,6 +48,9 @@
     build-img = {
       url = "github:adam-gaia/nixos-docker-sd-image-builder";
     };
+    fortune-quotes = {
+      url = "git+https://github.com/adam-gaia/fortune-quotes.git";
+    };
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
     };
@@ -65,6 +68,7 @@
     git-track-repos,
     conda-flake,
     new-stow,
+    fortune-quotes,
     ind,
     cbtr,
     deploy-rs,
@@ -82,6 +86,7 @@
         homePrefix
         #shim
         
+        fortune-quotes
         git-track-repos
         new-stow
         ind

@@ -5,6 +5,7 @@
   home-manager,
   homePrefix,
   #shim,
+  fortune-quotes,
   git-track-repos,
   new-stow,
   ind,
@@ -39,7 +40,6 @@
   mkDarwinConfig = {
     system ? "x86_64-darwin",
     nixpkgs ? inputs.nixpkgs,
-    stable ? inputs.stable,
     baseModules ? [
       home-manager.darwinModules.home-manager
       ../modules/darwin
@@ -55,7 +55,6 @@
   mkNixosConfig = {
     system ? "x86_64-linux",
     nixpkgs ? inputs.nixpkgs,
-    stable ? inputs.stable,
     baseModules ? [
       home-manager.nixosModules.home-manager
       ../modules/nixos
@@ -94,7 +93,7 @@
         #config = { allowUnfree = true; }; # TODO: remove - set elsewhere?
         overlays = builtins.attrValues self.overlays;
       };
-      extraSpecialArgs = {inherit self inputs nixpkgs system term git-track-repos new-stow ind cbtr conda-flake;}; # TODO: add back 'shim'
+      extraSpecialArgs = {inherit self inputs nixpkgs system term git-track-repos new-stow ind cbtr conda-flake fortune-quotes;}; # TODO: add back 'shim'
       modules = baseModules ++ extraModules;
     };
 }

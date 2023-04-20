@@ -130,6 +130,7 @@ in {
       tealdeer
       starship
       ctop
+      stylua
       ranger # TUI file navigator
       tasksh # Repl for taskwarrior
       sccache # Rust compiler cache

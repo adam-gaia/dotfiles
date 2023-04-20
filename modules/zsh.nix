@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: {
+{pkgs, ...}: {
   programs.zsh = {
     enable = true;
     enableAutosuggestions = true;
@@ -159,6 +154,7 @@
     shellAliases = {
       reload = "exec zsh";
       mail = "neomutt";
+      wiki = "nvim +VimwikiIndex";
 
       # Zsh's 'history' builtin only shows 16 items. This alias shows all history
       history = "fc -l 1";

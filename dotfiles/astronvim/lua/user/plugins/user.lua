@@ -15,6 +15,10 @@ return {
 	{
 		"tools-life/taskwiki",
 		lazy = false, -- Always load on start up
+		init = function()
+			vim.g.taskwiki_taskrc_location = "~/.config/task/taskrc"
+			vim.g.taskwiki_data_location = "~/.local/share/task/"
+		end,
 	},
 	{
 		-- Automatically save (n)vim sessions
@@ -31,6 +35,8 @@ return {
 		"vimwiki/vimwiki",
 		lazy = false, -- Always load on start up
 		init = function()
+			vim.g.vimwiki_global_ext = 0 -- Stop all markdown files from being intrepreted as "temporary wikis"
+			vim.g.vimwiki_folding = "" -- Disable folding
 			vim.g.vimwiki_list = {
 				{
 					path = "~/vimwiki/",

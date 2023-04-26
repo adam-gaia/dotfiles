@@ -40,6 +40,12 @@
       # Enable scrolling by default
       set -g mouse on
 
+      # Start windows and panes at 1 instead of 0. This follows sway's convention
+      set -g base-index 1
+      set -g pane-base-index 1
+      set-window-option -g pane-base-index 1
+      set-option -g renumber-windows on
+
       # Allow vim colors to overrule tmux colors when in vim. Advised to do this to prevent color issues with vim
       set -g default-terminal "screen-256color"
       set -g terminal-overrides 'xterm:colors=256'

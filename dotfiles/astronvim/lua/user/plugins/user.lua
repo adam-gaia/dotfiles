@@ -63,4 +63,8 @@ return {
 			require("lsp_lines").setup()
 		end,
 	},
+	{
+		"NoahTheDuke/vim-just",
+		lazy = false, -- TODO: wasnt loading when opening justfiles so set to always load on startup
+	},
 }

@@ -48,7 +48,8 @@
 
       # Allow vim colors to overrule tmux colors when in vim. Advised to do this to prevent color issues with vim
       set -g default-terminal "screen-256color"
-      set -g terminal-overrides 'xterm:colors=256'
+      set -g terminal-overrides ",xterm*:Tc"
+      #set -g terminal-overrides 'xterm:colors=256'
 
       # Tweaks to fix issue with tmux
       # See https://github.com/neovim/neovim/wiki/FAQ#esc-in-tmux-or-gnu-screen-is-delayed

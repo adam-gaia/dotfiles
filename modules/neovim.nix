@@ -17,9 +17,4 @@
         pynvim
       ];
   };
-
-  #xdg.configFile.astronvim = {
-  #  source = ../../dotfiles/astronvim;
-  #  recursive = true;
-  #};
 }

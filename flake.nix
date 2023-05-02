@@ -57,6 +57,8 @@
     deploy-rs.url = "github:serokell/deploy-rs";
     nix-serve-ng.url = "github:aristanetworks/nix-serve-ng";
     devenv.url = "github:cachix/devenv/v0.6.2";
+    ide.url = "github:adam-gaia/ide";
+    text-art.url = "git+https://github.com/adam-gaia/text-art.git";
   };
 
   outputs = inputs @ {
@@ -73,6 +75,8 @@
     cbtr,
     deploy-rs,
     devenv,
+    ide,
+    text-art,
     ...
   }: let
     inherit (flake-utils.lib) eachSystemMap;
@@ -93,6 +97,8 @@
         cbtr
         conda-flake
         deploy-rs
+        ide
+        text-art
         ;
     };
 
@@ -180,6 +186,7 @@
           ./modules/conda-flake.nix
           ./modules/git-track-repos.nix
           ./modules/ind.nix
+          ./modules/ide.nix
           ./modules/cbtr.nix
           #./modules/shim.nix
           ./modules/new-stow.nix
@@ -190,6 +197,7 @@
           ./modules/ansible.nix
           ./modules/rofi.nix
           ./modules/navi.nix
+          ./modules/text-art.nix
         ];
       };
       "agaia@x86_64-darwin" = util.mkHomeConfig {

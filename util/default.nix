@@ -12,6 +12,8 @@
   cbtr,
   conda-flake,
   deploy-rs,
+  ide,
+  text-art,
   ...
 }: rec {
   isDarwin = system: (builtins.elem system inputs.nixpkgs.lib.platforms.darwin);
@@ -93,7 +95,7 @@
         #config = { allowUnfree = true; }; # TODO: remove - set elsewhere?
         overlays = builtins.attrValues self.overlays;
       };
-      extraSpecialArgs = {inherit self inputs nixpkgs system term git-track-repos new-stow ind cbtr conda-flake fortune-quotes;}; # TODO: add back 'shim'
+      extraSpecialArgs = {inherit self inputs nixpkgs system term git-track-repos new-stow ind cbtr conda-flake fortune-quotes ide text-art;}; # TODO: add back 'shim'
       modules = baseModules ++ extraModules;
     };
 }

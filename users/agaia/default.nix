@@ -79,7 +79,6 @@ in {
     };
 
     packages = with pkgs; [
-      docker-compose
       python3
       jq
       lynx
@@ -134,6 +133,9 @@ in {
       ranger # TUI file navigator
       tasksh # Repl for taskwarrior
       sccache # Rust compiler cache
+      lazydocker
+      lazygit
+      lnav # Log viewer
       fortune-quotes.defaultPackage.${system}
     ];
   };

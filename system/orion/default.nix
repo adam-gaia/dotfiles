@@ -174,6 +174,26 @@
     };
   };
 
+  systemd.timers."empty-trash" = {
+    # Run the empty-trash service daily
+    wantedBy = ["timers.target"];
+    timerConfig = {
+      partOf = ["empty-trash.service"];
+      onCalendar = "daily";
+    };
+  };
+  systemd.services."empty-trash" = {
+    # Remove all trash files older than 30 days for my main user
+    script = ''
+      set -x
+      ${pkgs.trash-cli}/bin/trash-empty 30
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+      User = "agaia";
+    };
+  };
+
   # XDG standard - improces communication between bundled flatpak apps and Wayland
   xdg = {
     portal = {

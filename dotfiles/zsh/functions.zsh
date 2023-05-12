@@ -3,51 +3,52 @@
 # --------------------------------------------------------------------------------
 # Safety Settings
 # --------------------------------------------------------------------------------
-function rm()
-{
-    local DOCSTRING=("Back up before rm'ing"
-                      ""
-                      "Usage:"
-                      "    rm <file1> <file2> ..."
-                      ""
-                      "Files are backed up to the env's \$TRASHCAN var or ~/.trash if it doesn't exist"
-                      "Use the real rm (/bin/rm) for anything more advanced"
-    )
-    if [[ "$#" -eq 0 ]]; then
-        errprint "${DOCSTRING[@]}"
-        return 0
-    fi
-
-    if [[ -z "${TRASHCAN}" ]]; then
-        export TRASHCAN="${HOME}/.trash"
-    fi
-
-
-    if [[ ! -d "${TRASHCAN}" ]]; then
-        mkdir -p "${TRASHCAN}"
-    fi
-
-    # Parse args
-    args=("${@}")
-    for arg in "${args[@]}"; do
-        case "$arg" in
-            -*)
-                # Ignore flags. Habbit to call '-rf' from standard rm
-                ;;
-            *)
-                # mv files
-                timestamp="$(date +%d-%m-%Y_%H-%M-%S)"
-                original="${arg}"
-                new="${TRASHCAN}/$(basename "${original}")_${timestamp}"
-                echo "Moving trash can..."
-		# '-n' flag is mac and linux compatible and stops clobbering
-                $(which mv) -n "${original}" "${new}"
-                ;;
-        esac
-        shift
-    done
-
-}
+alias rm='echo "Use \"trash\" instead (or \"\\\rm\" to force)"; false'
+# function rm()
+# {
+#     local DOCSTRING=("Back up before rm'ing"
+#                       ""
+#                       "Usage:"
+#                       "    rm <file1> <file2> ..."
+#                       ""
+#                       "Files are backed up to the env's \$TRASHCAN var or ~/.trash if it doesn't exist"
+#                       "Use the real rm (/bin/rm) for anything more advanced"
+#     )
+#     if [[ "$#" -eq 0 ]]; then
+#         errprint "${DOCSTRING[@]}"
+#         return 0
+#     fi
+#
+#     if [[ -z "${TRASHCAN}" ]]; then
+#         export TRASHCAN="${HOME}/.trash"
+#     fi
+#
+#
+#     if [[ ! -d "${TRASHCAN}" ]]; then
+#         mkdir -p "${TRASHCAN}"
+#     fi
+#
+#     # Parse args
+#     args=("${@}")
+#     for arg in "${args[@]}"; do
+#         case "$arg" in
+#             -*)
+#                 # Ignore flags. Habbit to call '-rf' from standard rm
+#                 ;;
+#             *)
+#                 # mv files
+#                 timestamp="$(date +%d-%m-%Y_%H-%M-%S)"
+#                 original="${arg}"
+#                 new="${TRASHCAN}/$(basename "${original}")_${timestamp}"
+#                 echo "Moving trash can..."
+# 		# '-n' flag is mac and linux compatible and stops clobbering
+#                 $(which mv) -n "${original}" "${new}"
+#                 ;;
+#         esac
+#         shift
+#     done
+#
+# }
 
 # function cp()
 # {
@@ -99,161 +100,148 @@ function rm()
 #     /bin/mv --no-clobber "${source}" "${target}"
 # }
 
-
-
 # --------------------------------------------------------------------------------
 # Color Utilities
 # TODO: color functions should have a newline flag
 # ---------------------------------------------------------------------------------
-printRed()
-{
-    # Use argument or standard input. Reads from stdin unless an arg is given
-    if [[ "$#" -eq 0 ]]; then
-        while IFS= read -r line; do
-            echo -en "${RED}${line}${END_COLOR}"
-        done
-    else
-        echo -en "${RED}${*}${END_COLOR}"
-    fi
+printRed() {
+	# Use argument or standard input. Reads from stdin unless an arg is given
+	if [[ $# -eq 0 ]]; then
+		while IFS= read -r line; do
+			echo -en "${RED}${line}${END_COLOR}"
+		done
+	else
+		echo -en "${RED}${*}${END_COLOR}"
+	fi
 }
 
-printGreen()
-{
-    # Use argument or standard input. Reads from stdin unless an arg is given
-    if [[ "$#" -eq 0 ]]; then
-        while IFS= read -r line; do
-            echo -en "${GREEN}${line}${END_COLOR}"
-        done
-    else
-        echo -en "${GREEN}${*}${END_COLOR}"
-    fi
+printGreen() {
+	# Use argument or standard input. Reads from stdin unless an arg is given
+	if [[ $# -eq 0 ]]; then
+		while IFS= read -r line; do
+			echo -en "${GREEN}${line}${END_COLOR}"
+		done
+	else
+		echo -en "${GREEN}${*}${END_COLOR}"
+	fi
 }
 
-printYellow()
-{
-    # Use argument or standard input. Reads from stdin unless an arg is given
-    if [[ "$#" -eq 0 ]]; then
-        while IFS= read -r line; do
-            echo -en "${YELLOW}${line}${END_COLOR}"
-        done
-    else
-        echo -en "${YELLOW}${*}${END_COLOR}"
-    fi
+printYellow() {
+	# Use argument or standard input. Reads from stdin unless an arg is given
+	if [[ $# -eq 0 ]]; then
+		while IFS= read -r line; do
+			echo -en "${YELLOW}${line}${END_COLOR}"
+		done
+	else
+		echo -en "${YELLOW}${*}${END_COLOR}"
+	fi
 }
 
-printBlue()
-{
-    # Use argument or standard input. Reads from stdin unless an arg is given
-    if [[ "$#" -eq 0 ]]; then
-        while IFS= read -r line; do
-            echo -en "${BLUE}${line}${END_COLOR}"
-        done
-    else
-        echo -en "${BLUE}${*}${END_COLOR}"
-    fi
+printBlue() {
+	# Use argument or standard input. Reads from stdin unless an arg is given
+	if [[ $# -eq 0 ]]; then
+		while IFS= read -r line; do
+			echo -en "${BLUE}${line}${END_COLOR}"
+		done
+	else
+		echo -en "${BLUE}${*}${END_COLOR}"
+	fi
 }
 
-printBlack()
-{
-    # Use argument or standard input. Reads from stdin unless an arg is given
-    if [[ "$#" -eq 0 ]]; then
-        while IFS= read -r line; do
-            echo -en "${BLACK}${line}${END_COLOR}"
-        done
-    else
-        echo -en "${BLACK}${*}${END_COLOR}"
-    fi
+printBlack() {
+	# Use argument or standard input. Reads from stdin unless an arg is given
+	if [[ $# -eq 0 ]]; then
+		while IFS= read -r line; do
+			echo -en "${BLACK}${line}${END_COLOR}"
+		done
+	else
+		echo -en "${BLACK}${*}${END_COLOR}"
+	fi
 }
 
-printPurple()
-{
-    # Use argument or standard input. Reads from stdin unless an arg is given
-    if [[ "$#" -eq 0 ]]; then
-        while IFS= read -r line; do
-            echo -en "${PURPLE}${line}${END_COLOR}"
-        done
-    else
-        echo -en "${PURPLE}${*}${END_COLOR}"
-    fi
+printPurple() {
+	# Use argument or standard input. Reads from stdin unless an arg is given
+	if [[ $# -eq 0 ]]; then
+		while IFS= read -r line; do
+			echo -en "${PURPLE}${line}${END_COLOR}"
+		done
+	else
+		echo -en "${PURPLE}${*}${END_COLOR}"
+	fi
 }
 
-printCyan()
-{
-    # Use argument or standard input. Reads from stdin unless an arg is given
-    if [[ "$#" -eq 0 ]]; then
-        while IFS= read -r line; do
-            echo -en "${CYAN}${line}${END_COLOR}"
-        done
-    else
-        echo -en "${CYAN}${*}${END_COLOR}"
-    fi
+printCyan() {
+	# Use argument or standard input. Reads from stdin unless an arg is given
+	if [[ $# -eq 0 ]]; then
+		while IFS= read -r line; do
+			echo -en "${CYAN}${line}${END_COLOR}"
+		done
+	else
+		echo -en "${CYAN}${*}${END_COLOR}"
+	fi
 }
 
-printBold()
-{
-    # Use argument or standard input. Reads from stdin unless an arg is given
-    if [[ "$#" -eq 0 ]]; then
-        while IFS= read -r line; do
-            echo -en "${BOLD_ON}${line}${BOLD_OFF}"
-        done
-    else
-        echo -en "${BOLD_ON}${*}${END_COLOR}"
-    fi
+printBold() {
+	# Use argument or standard input. Reads from stdin unless an arg is given
+	if [[ $# -eq 0 ]]; then
+		while IFS= read -r line; do
+			echo -en "${BOLD_ON}${line}${BOLD_OFF}"
+		done
+	else
+		echo -en "${BOLD_ON}${*}${END_COLOR}"
+	fi
 }
 
-printUnderline()
-{
-     # Use argument or standard input. Reads from stdin unless an arg is given
-    if [[ "$#" -eq 0 ]]; then
-        while IFS= read -r line; do
-            echo -en "${UNDERLINE_ON}${line}${UNDERLINE_OFF}"
-        done
-    else
-        echo -en "${UNDERLINE_ON}${*}${END_COLOR}"
-    fi
+printUnderline() {
+	# Use argument or standard input. Reads from stdin unless an arg is given
+	if [[ $# -eq 0 ]]; then
+		while IFS= read -r line; do
+			echo -en "${UNDERLINE_ON}${line}${UNDERLINE_OFF}"
+		done
+	else
+		echo -en "${UNDERLINE_ON}${*}${END_COLOR}"
+	fi
 }
 
 # --------------------------------------------------------------------------------
 # Misc Utilities
 # ---------------------------------------------------------------------------------
-function wireguard()
-{
-  local error_msg=("Usage:" "wireguard <start|stop|status")
-  if [[ "$#" -eq 0 ]]; then
-      sudo systemctl status --no-pager wireguard-wg_sharper
-      return 0
-  elif [[ "$#" -gt 1 ]]; then
-      echo "${error_msg[@]}"
-      return 2
-  fi
+function wireguard() {
+	local error_msg=("Usage:" "wireguard <start|stop|status")
+	if [[ $# -eq 0 ]]; then
+		sudo systemctl status --no-pager wireguard-wg_sharper
+		return 0
+	elif [[ $# -gt 1 ]]; then
+		echo "${error_msg[@]}"
+		return 2
+	fi
 
-  case "$1" in
-      '--help' | 'help')
-          echo "${error_msg[@]}"
-          return 0
-          ;;
-      'start')
-          sudo systemctl start wireguard-wg_sharper.service
-          ;;
+	case "$1" in
+	'--help' | 'help')
+		echo "${error_msg[@]}"
+		return 0
+		;;
+	'start')
+		sudo systemctl start wireguard-wg_sharper.service
+		;;
 
-      'stop')
-          sudo systemctl stop wireguard-wg_sharper.service
-          ;;
+	'stop')
+		sudo systemctl stop wireguard-wg_sharper.service
+		;;
 
-      'status')
-          sudo systemctl status --no-pager wireguard-wg_sharper.service
-          return 0
-          ;;
+	'status')
+		sudo systemctl status --no-pager wireguard-wg_sharper.service
+		return 0
+		;;
 
-      *)
-          echo "${error_msg[@]}"
-          return 2
-        ;;
-  esac
-  # Show status after operation
-  sudo systemctl status --no-pager wireguard-wg_sharper
+	*)
+		echo "${error_msg[@]}"
+		return 2
+		;;
+	esac
+	# Show status after operation
+	sudo systemctl status --no-pager wireguard-wg_sharper
 }
-
 
 # function which()
 # {
@@ -385,7 +373,6 @@ function wireguard()
 #                         which "${q}" "${recursionCheck}" "${recursionIndent}" # Remove whitespace from first arg
 #                     done
 
-
 #                 fi
 #                 # Reset the variables that keep track of recursion
 #                     recursionCheck=''
@@ -467,192 +454,183 @@ function wireguard()
 #     done
 # }
 
-
-function barfix()
-{
-    # TODO: once I've figured out why waybar runs a second time on startup reove this function
-    local num_bars="$(pgrep waybar | wc -l)"
-    if [[ "${num_bars}" -gt 1 ]]; then
-        kill "$(pgrep waybar | tail -n 1)"
-    else
-      echo "There is not a redundant waybar running"
-      return 1
-    fi
+function barfix() {
+	# TODO: once I've figured out why waybar runs a second time on startup reove this function
+	local num_bars="$(pgrep waybar | wc -l)"
+	if [[ ${num_bars} -gt 1 ]]; then
+		kill "$(pgrep waybar | tail -n 1)"
+	else
+		echo "There is not a redundant waybar running"
+		return 1
+	fi
 }
 
-function page()
-{
-    # Run input command piped to a pager
-    # Must use 'eval' so that aliases are expanded
-    eval "$@ | ${PAGER}"
+function page() {
+	# Run input command piped to a pager
+	# Must use 'eval' so that aliases are expanded
+	eval "$@ | ${PAGER}"
 }
 
-function hist()
-{
-    # Search input in history. Show all history if no input arg provided
-    # Must use 'eval' so that the 'history' alias is expanded
-    if [[ -z "${@}" ]]; then
-        eval 'history'
-    else
-        eval "history | grep $@"
-    fi
+function hist() {
+	# Search input in history. Show all history if no input arg provided
+	# Must use 'eval' so that the 'history' alias is expanded
+	if [[ -z ${@} ]]; then
+		eval 'history'
+	else
+		eval "history | grep $@"
+	fi
 }
 
-function phist()
-{
-    # View shell history in a pager, but start at bottom
-    # Must use 'eval' so that the 'history' alias is expanded
-    eval "history | less +G"
+function phist() {
+	# View shell history in a pager, but start at bottom
+	# Must use 'eval' so that the 'history' alias is expanded
+	eval "history | less +G"
 }
 
-function cht()
-{
-    curl "cht.sh/${1}" 2> /dev/null | less --RAW-CONTROL-CHARS
+function cht() {
+	curl "cht.sh/${1}" 2>/dev/null | less --RAW-CONTROL-CHARS
 }
 
-function todo()
-{
-    ind /usr/bin/git -c color.grep.linenumber="green" -c color.grep.filename="magenta" grep -inI --color "TODO\|FIXME\|HACK\|WIP" || echo "No matches" # TODO only use ggrep on mac. use grep when gnu grep is default
+function todo() {
+	ind /usr/bin/git -c color.grep.linenumber="green" -c color.grep.filename="magenta" grep -inI --color "TODO\|FIXME\|HACK\|WIP" || echo "No matches" # TODO only use ggrep on mac. use grep when gnu grep is default
 }
 
-function cat()
-{
-    case "$#" in
-        0|1)
-            bat "${@}"
-            ;;
+function cat() {
+	case "$#" in
+	0 | 1)
+		bat "${@}"
+		;;
 
-        *)
-        # Fall back to default cat if more than 1 arg passed
-        # TODO: this function should take '--help and expline how it works'
-        /bin/cat $@
-    esac
+	*)
+		# Fall back to default cat if more than 1 arg passed
+		# TODO: this function should take '--help and expline how it works'
+		/bin/cat $@
+		;;
+	esac
 }
 
-
-function ascii()
-{
-    # Print the ascii table
-    # Stolen from github.com/nibalizer/bash-tricks
-    ascii | /bin/grep -m1 -A63 --color=never Oct
+function ascii() {
+	# Print the ascii table
+	# Stolen from github.com/nibalizer/bash-tricks
+	ascii | /bin/grep -m1 -A63 --color=never Oct
 }
 
 # Overide cd
-function cd()
-{
-    if [[ "$#" -eq '0' ]]; then
-        builtin cd
-    else
-        builtin cd "$*" && ind -- sh -c 'lsd | column' # TODO: figure out why lsd ran under 'ind' is not automatically doing its own columns
-    fi
+function cd() {
+	if [[ $# -eq '0' ]]; then
+		builtin cd
+	else
+		builtin cd "$*" && ind -- sh -c 'lsd | column' # TODO: figure out why lsd ran under 'ind' is not automatically doing its own columns
+	fi
 }
 
 # Create a directory and cd to it
-function mkcd()
-{
-    # TODO: take mkdir args like '-p'
-    mkdir "${1}" || { echo "mkdir ${1} failed"; return 1; }
-    cd "${1}" || { echo "${1} created, but cd failed"; return 1; }
+function mkcd() {
+	# TODO: take mkdir args like '-p'
+	mkdir "${1}" || {
+		echo "mkdir ${1} failed"
+		return 1
+	}
+	cd "${1}" || {
+		echo "${1} created, but cd failed"
+		return 1
+	}
 }
 
-function path()
-{
-    local SORT='0'
-    local TREE='0'
+function path() {
+	local SORT='0'
+	local TREE='0'
 
-    # Loop over args
-    while (( "$#" ));
-    do
-        arg="$1"
-        case "$arg" in
-        's'|'-s'|'sort'|'--sort')
-            SORT=1
-            ;;
+	# Loop over args
+	while (("$#")); do
+		arg="$1"
+		case "$arg" in
+		's' | '-s' | 'sort' | '--sort')
+			SORT=1
+			;;
 
-        't'|'-t'|'tree'|'--tree')
-            TREE=1
-            ;;
+		't' | '-t' | 'tree' | '--tree')
+			TREE=1
+			;;
 
-        '+'*)
-            # Add to path
-            inputDir="${arg/+}"
-            if [[ -d "${inputDir}" ]]; then
-                export PATH="${PATH}:${inputDir}"
-            else
-                errprint "Error, '${inputDir}' is not a directory."
-                return 1
-            fi
-            ;;
+		'+'*)
+			# Add to path
+			inputDir="${arg/+/}"
+			if [[ -d ${inputDir} ]]; then
+				export PATH="${PATH}:${inputDir}"
+			else
+				errprint "Error, '${inputDir}' is not a directory."
+				return 1
+			fi
+			;;
 
-        '-'*)
-            # Remove from path
-            inputDir="${arg/-}"
-            if [[ "${PATH}" -eq *"${inputDir}"* ]]; then
-                local tmp="${PATH/${inputDir}}"
-                export PATH="${tmp/::/:}" # Remove possible double colon
-            else
-                errprint "Error, '${inputDir}' was not on the path."
-                return 1
-            fi
-            ;;
+		'-'*)
+			# Remove from path
+			inputDir="${arg/-/}"
+			if [[ ${PATH} -eq *"${inputDir}"* ]]; then
+				local tmp="${PATH/${inputDir}/}"
+				export PATH="${tmp/::/:}" # Remove possible double colon
+			else
+				errprint "Error, '${inputDir}' was not on the path."
+				return 1
+			fi
+			;;
 
-        *) # Default case; unknown argument
-            errprint "Error, unknown argument '${arg}'."
-            return 1
-            ;;
+		*) # Default case; unknown argument
+			errprint "Error, unknown argument '${arg}'."
+			return 1
+			;;
 
-        esac
-        shift # move on to next arg
-    done
+		esac
+		shift # move on to next arg
+	done
 
-    if [[ "${SORT}" -eq 1 && "${TREE}" -eq 1 ]]; then
-        errprint "Error, 'sort' and 'tree' options are mutually exclusive."
-        return 1
-    fi
+	if [[ ${SORT} -eq 1 && ${TREE} -eq 1 ]]; then
+		errprint "Error, 'sort' and 'tree' options are mutually exclusive."
+		return 1
+	fi
 
-    if [[ "${SORT}" -eq '1' ]]; then
-        # shellcheck disable=SC2001
-        echo -e "${PATH//:/\\n}" | sort
-    else
-        if [[ "${TREE}" -eq 1 ]]; then
-            # shellcheck disable=SC2001
-            # Echo new line separated paths | replace '.' representation of pwd with actual pwd | display with tree reading from stdin | remove the '.' on first line, replace with '/'
-            echo -e "${PATH//:/\\n}" | sed "s|^\.$|$PWD|" | tree -C -F --fromfile . | sed '1s/\./\//'
-        else
-            # shellcheck disable=SC2001
-            echo -e "${PATH//:/\\n}"
-        fi
-    fi
+	if [[ ${SORT} -eq '1' ]]; then
+		# shellcheck disable=SC2001
+		echo -e "${PATH//:/\\n}" | sort
+	else
+		if [[ ${TREE} -eq 1 ]]; then
+			# shellcheck disable=SC2001
+			# Echo new line separated paths | replace '.' representation of pwd with actual pwd | display with tree reading from stdin | remove the '.' on first line, replace with '/'
+			echo -e "${PATH//:/\\n}" | sed "s|^\.$|$PWD|" | tree -C -F --fromfile . | sed '1s/\./\//'
+		else
+			# shellcheck disable=SC2001
+			echo -e "${PATH//:/\\n}"
+		fi
+	fi
 }
 alias spath='path --sort'
 alias tpath='path --tree'
 
+function uz() {
+	fileName="$1"
+	if [[ ! -f ${fileName} ]]; then
+		echo "Error, input file '${fileName}' is not a regular file. Cannot extract" # TODO: send to stderr
+		return 1
+	fi
 
-function uz()
-{
-    fileName="$1"
-    if [[ ! -f "${fileName}" ]]; then
-        echo "Error, input file '${fileName}' is not a regular file. Cannot extract" # TODO: send to stderr
-        return 1
-    fi
-
-    case $1 in
-        *.tar.bz2)   tar xjf "${fileName}"   ;;
-        *.tar.gz)    tar xzf "${fileName}"   ;;
-        *.bz2)       bunzip2 "${fileName}"   ;;
-        *.rar)       unrar x "${fileName}"   ;;
-        *.gz)        gunzip "${fileName}"    ;;
-        *.tar)       tar xf "${fileName}"    ;;
-        *.tbz2)      tar xjf "${fileName}"   ;;
-        *.tgz)       tar xzf "${fileName}"   ;;
-        *.zip)       unzip "${fileName}"     ;;
-        *.Z)         uncompress "${fileName}";;
-        *.7z)        7z x "${fileName}"      ;;
-        *)
-            echo "Error, '${fileName}' is of unknown type. Cannot extract" # TODO: send to stderr
-            return 1
-            ;;
-    esac
+	case $1 in
+	*.tar.bz2) tar xjf "${fileName}" ;;
+	*.tar.gz) tar xzf "${fileName}" ;;
+	*.bz2) bunzip2 "${fileName}" ;;
+	*.rar) unrar x "${fileName}" ;;
+	*.gz) gunzip "${fileName}" ;;
+	*.tar) tar xf "${fileName}" ;;
+	*.tbz2) tar xjf "${fileName}" ;;
+	*.tgz) tar xzf "${fileName}" ;;
+	*.zip) unzip "${fileName}" ;;
+	*.Z) uncompress "${fileName}" ;;
+	*.7z) 7z x "${fileName}" ;;
+	*)
+		echo "Error, '${fileName}' is of unknown type. Cannot extract" # TODO: send to stderr
+		return 1
+		;;
+	esac
 }
 alias extract='uz'
 
@@ -661,22 +639,22 @@ alias extract='uz'
 # https://zsh.sourceforge.io/Doc/Release/Functions.html#Special-Functions
 # ---------------
 function precmd() {
-    # Echo a newline after every command, before the next prompt is rendered
-    # By defining this function withing this function, the very first prompt will not have a pre-pended newline
-    function precmd() { 
-        echo ''
-    }
+	# Echo a newline after every command, before the next prompt is rendered
+	# By defining this function withing this function, the very first prompt will not have a pre-pended newline
+	function precmd() {
+		echo ''
+	}
 }
 
-function clear() { 
-    # This discusting function is needed to prevend a newline before the prompt immediatly after the screen is cleared
-    function precmd () {
-        function precmd() {
-            # Echo a newline after every command, before the next prompt is rendered
-            echo ''
-        }
-    }
-    command clear
+function clear() {
+	# This discusting function is needed to prevend a newline before the prompt immediatly after the screen is cleared
+	function precmd() {
+		function precmd() {
+			# Echo a newline after every command, before the next prompt is rendered
+			echo ''
+		}
+	}
+	command clear
 }
 
 # ---------------
@@ -684,16 +662,16 @@ function clear() {
 # ---------------
 # TODO: fix
 #function git(){
-    # Shim for git
-    # Created automatically by /home/agaia/repo/personal/org/shim/target/debug/shim
-    #    from config file /home/agaia/.config/shim/shims/git.yaml
-    #    at 2023-01-01 10:11:27
+# Shim for git
+# Created automatically by /home/agaia/repo/personal/org/shim/target/debug/shim
+#    from config file /home/agaia/.config/shim/shims/git.yaml
+#    at 2023-01-01 10:11:27
 #    shim exec -- git "$@"
 #}
 #function task(){
-    # Shim for task
-    # Created automatically by /home/agaia/repo/personal/org/shim/target/debug/shim
-    #    from config file /home/agaia/.config/shim/shims/task.yaml
-    #    at 2023-01-01 10:11:27
+# Shim for task
+# Created automatically by /home/agaia/repo/personal/org/shim/target/debug/shim
+#    from config file /home/agaia/.config/shim/shims/task.yaml
+#    at 2023-01-01 10:11:27
 #    shim exec -- task "$@"
 #}

@@ -136,6 +136,7 @@ in {
       lazydocker
       lazygit
       lnav # Log viewer
+      trash-cli
       fortune-quotes.defaultPackage.${system}
     ];
   };

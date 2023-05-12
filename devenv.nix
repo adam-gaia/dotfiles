@@ -26,7 +26,6 @@
       shfmt.enable = true;
       stylua.enable = true;
       yamllint.enable = true;
-      ansible-lint.enable = true;
       commitizen.enable = true;
       editorconfig-checker.enable = true;
     };

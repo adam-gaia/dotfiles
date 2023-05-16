@@ -14,6 +14,8 @@
   deploy-rs,
   ide,
   text-art,
+  settings-script,
+  format-aliases,
   ...
 }: rec {
   isDarwin = system: (builtins.elem system inputs.nixpkgs.lib.platforms.darwin);
@@ -66,7 +68,7 @@
     nixpkgs.lib.nixosSystem {
       inherit system;
       modules = baseModules ++ extraModules;
-      specialArgs = {inherit self inputs nixpkgs;};
+      specialArgs = {inherit self inputs nixpkgs settings-script system;};
     };
 
   mkHomeConfig = {
@@ -95,7 +97,7 @@
         #config = { allowUnfree = true; }; # TODO: remove - set elsewhere?
         overlays = builtins.attrValues self.overlays;
       };
-      extraSpecialArgs = {inherit self inputs nixpkgs system term git-track-repos new-stow ind cbtr conda-flake fortune-quotes ide text-art;}; # TODO: add back 'shim'
+      extraSpecialArgs = {inherit self inputs nixpkgs system term git-track-repos new-stow ind cbtr conda-flake fortune-quotes ide text-art format-aliases;}; # TODO: add back 'shim'
       modules = baseModules ++ extraModules;
     };
 }

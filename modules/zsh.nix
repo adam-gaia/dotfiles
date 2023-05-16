@@ -14,6 +14,15 @@
     history.ignoreDups = true;
     history.extended = true;
 
+    # oh-my-zsh = {
+    #   enable = true;
+    #   plugins = [
+    #     "aliases"
+    #     "git"
+    #     "docker"
+    #   ];
+    # };
+
     plugins = [
       {
         # This plugin hijacks 'nix-shell' in order to run zsh instead of bash
@@ -138,6 +147,13 @@
       # Disable 'r' builtin. I have an exec that is also called 'r'
       disable r
 
+      # --------------------------------------------------
+      # Alias listing plugin
+      # --------------------------------------------------
+      if command -v format-aliases &>/dev/null; then
+        eval "$(format-aliases init zsh)"
+      fi
+
       # --------------------------------------------------------------------------------
       # Starship prompt
       # --------------------------------------------------------------------------------
@@ -167,15 +183,6 @@
       vim = "nvim";
       vi = "vim";
       emacs = "vim"; # lol
-
-      # git
-      ga = "git add";
-      gc = "git commit";
-      gpl = "git pull";
-      gps = "git push";
-      gf = "git fetch";
-      gb = "git branch";
-      gm = "git merge";
 
       # cd with ease
       ".." = "cd ..";
@@ -236,5 +243,10 @@
       # I'll get in the habit of running 'bat' when I want a pager
       cat = "bat --plain --pager=never";
     };
+  };
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
+    options = ["--cmd" "j"]; # Use 'j' to jump instead of 'z'
   };
 }

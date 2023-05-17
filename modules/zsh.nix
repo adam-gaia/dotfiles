@@ -14,14 +14,16 @@
     history.ignoreDups = true;
     history.extended = true;
 
-    # oh-my-zsh = {
-    #   enable = true;
-    #   plugins = [
-    #     "aliases"
-    #     "git"
-    #     "docker"
-    #   ];
-    # };
+    oh-my-zsh = {
+      enable = true;
+      plugins = [
+        "git" # git aliases
+        "docker" # docker aliases
+        "git-auto-fetch"
+        "mosh" # use ssh completion for mosh
+        "vagrant" # vagrant aliases
+      ];
+    };
 
     plugins = [
       {
@@ -154,6 +156,19 @@
         eval "$(format-aliases init zsh)"
       fi
 
+      # --------------------------------------------------
+      # Plugin Overrides
+      # --------------------------------------------------
+      GIT_AUTO_FETCH_INTERVAL=3600 # 1 hour in seconds
+
+      # Stop forgit from creating aliases. We create our own later
+      # (https://github.com/wfxr/forgit#shell-aliases)
+      FORGIT_NO_ALIASES=1
+    '';
+
+    initExtra = ''
+      source ''${XDG_CONFIG_HOME}/zsh/functions.zsh
+
       # --------------------------------------------------------------------------------
       # Starship prompt
       # --------------------------------------------------------------------------------
@@ -161,8 +176,6 @@
         eval "$(starship init zsh)"
       fi
     '';
-
-    initExtra = "source \${XDG_CONFIG_HOME}/zsh/functions.zsh";
 
     loginExtra = "";
     logoutExtra = "[ $SHLVL = 1 ] && [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q || clear";
@@ -177,7 +190,6 @@
 
       grep = "grep --color=always";
       fd = "fd --color=always";
-
       ls = "ind -- lsd -alh --color=always";
 
       vim = "nvim";
@@ -238,6 +250,27 @@
       ifconfig = "colorify ifconfig";
 
       tree = "lsd --tree --color=always";
+      compose = "docker compose";
+
+      iga = "git forgit add";
+      igbl = "git forgit blame";
+      igcb = "git forgit checkout_branch";
+      igbd = "git forgit branch_delete";
+      igcc = "git forgit checkout_commit";
+      igcf = "git forgit checkout_file";
+      igct = "git forgit checkout_tag";
+      igcp = "git forgit cherry_pick";
+      igcpb = "git forgit cherry_pick_from_branch";
+      igclean = "git forgit clean";
+      igd = "git forgit diff";
+      igfix = "git forgit fixup";
+      igignore = "git forgit ignore";
+      iglog = "git forgit log";
+      igrebase = "git forgit rebase";
+      igreset = "git forgit reset_head";
+      igrevert = "git forgit revert_commit";
+      igstashshow = "git forgit stash_show";
+      igstash = "git forgit stash_push";
 
       # Let 'cat' invoke bat with only syntax highlighting.
       # I'll get in the habit of running 'bat' when I want a pager

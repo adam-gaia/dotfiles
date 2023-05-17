@@ -634,6 +634,16 @@ function uz() {
 }
 alias extract='uz'
 
+# ----------------
+# Git
+# ----------------
+function igit() {
+	# Use fzf to pick from a list of forgit options
+	local option="$(git-forgit | sed '1,3d' | fzf -1 -q "$1" | awk '{print $1}')"
+	[ -n "${option}" ] && git-forgit "${option}"
+}
+alias ig='igit'
+
 # ---------------
 # Zsh Hooks
 # https://zsh.sourceforge.io/Doc/Release/Functions.html#Special-Functions

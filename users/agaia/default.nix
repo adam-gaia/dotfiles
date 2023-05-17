@@ -137,6 +137,7 @@ in {
       lazygit
       lnav # Log viewer
       trash-cli
+      zsh-forgit
       fortune-quotes.defaultPackage.${system}
     ];
   };

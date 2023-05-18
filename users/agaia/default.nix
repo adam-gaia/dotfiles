@@ -138,6 +138,10 @@ in {
       lnav # Log viewer
       trash-cli
       zsh-forgit
+      dig # also contains nslookup
+      traceroute
+      tcpdump
+      netcat-gnu
       fortune-quotes.defaultPackage.${system}
     ];
   };

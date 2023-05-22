@@ -4,9 +4,11 @@
   lib,
   term,
   ...
-}: let
-  c = import ../../modules/colors/Sonokai.nix {};
-in {
+}:
+#let
+#  c = import ../../modules/colors/Sonokai.nix {};
+#in
+{
   programs.foot = {
     enable = true;
     settings = {
@@ -15,9 +17,9 @@ in {
         font = "FiraCode Nerd Font:size=14";
         dpi-aware = "yes";
       };
-      colors = {
-        background = c.primary.background;
-      };
+      #colors = {
+      #  background = c.primary.background;
+      #};
     };
   };
 }

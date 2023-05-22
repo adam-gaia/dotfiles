@@ -9,6 +9,7 @@ in {
   imports = [
     ../../modules/neovim.nix
     ../../modules/alacritty.nix
+    ../../modules/foot.nix
     ../../modules/bat.nix
     ../../modules/direnv.nix
     ../../modules/tmux.nix

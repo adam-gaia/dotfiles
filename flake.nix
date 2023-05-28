@@ -133,6 +133,8 @@
           ./modules/parted.nix
           ./modules/syncthing/orion.nix
           ./modules/wireguard
+          ./modules/teamviewer.nix
+          ./modules/networking.nix
         ];
       };
       "rpi01" = nixpkgs.lib.nixosSystem {

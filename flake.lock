@@ -1859,12 +1859,12 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-HdBMGr4u6AFlryzl39XIHA7je/MuS71A9TXXslDkxAQ=",
-        "path": "./scripts/settings",
+        "narHash": "sha256-YraOWKl6A2Q2tpGuvMjX9/AkZPc77BzKizlUhkvb6qA=",
+        "path": "scripts/settings",
         "type": "path"
       },
       "original": {
-        "path": "./scripts/settings",
+        "path": "scripts/settings",
         "type": "path"
       }
     },

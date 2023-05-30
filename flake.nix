@@ -59,7 +59,7 @@
     devenv.url = "github:cachix/devenv/v0.6.2";
     ide.url = "github:adam-gaia/ide";
     text-art.url = "git+https://github.com/adam-gaia/text-art.git";
-    settings-script.url = "path:./scripts/settings";
+    settings-script.url = "path:scripts/settings";
     format-aliases.url = "github:adam-gaia/format-aliases";
   };
 

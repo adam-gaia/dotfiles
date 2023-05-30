@@ -276,6 +276,9 @@
       igstashshow = "git forgit stash_show";
       igstash = "git forgit stash_push";
 
+      dps = "docker ps";
+      dpsa = "docker ps --all";
+
       # Let 'cat' invoke bat with only syntax highlighting.
       # I'll get in the habit of running 'bat' when I want a pager
       cat = "bat --plain --pager=never";

@@ -143,6 +143,7 @@ in {
       traceroute
       tcpdump
       netcat-gnu
+      comma # automatically run 'nix-shell -p <program>' with `, <program>`
       fortune-quotes.defaultPackage.${system}
     ];
   };

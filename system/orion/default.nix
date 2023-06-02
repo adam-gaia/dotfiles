@@ -38,7 +38,6 @@
     networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
     # Open ports in the firewall.
-    # firewall.allowedTCPPorts = [ ... ];
     firewall.allowedUDPPorts = [51820]; # Wireguard uses port 51820
     # Or disable the firewall altogether.
     firewall.enable = true;
@@ -62,6 +61,13 @@
   #programs.gnupg.agent = {
   #  enable = true;
   #  enableSSHSupport = true;
+  #};
+
+  #networking.firewall.allowedTCPPorts = [ 22 ];
+  #services.openssh = {
+  #  enable = true;
+  #  passwordAuthentication = false;
+  #  permitRootLogin = "no";
   #};
 
   services.opensnitch = {

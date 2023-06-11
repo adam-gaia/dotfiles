@@ -20,6 +20,7 @@ in {
     ../../modules/zsh.nix
     ../../modules/taskwarrior.nix
     ../../modules/ssh.nix
+    ../../modules/gtk.nix
   ];
 
   accounts.email = {

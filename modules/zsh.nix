@@ -124,6 +124,9 @@
       # If a parameter is completed whose content is the name of a directory, then add a trailing slash instead of a space.
       setopt AUTO_PARAM_SLASH
 
+      # Push the previous directory onto the stack when using cd
+      setopt AUTO_PUSHD
+
       # Glob will match dot files without the explicit dot. Lets tab complete suggest dotfiles
       setopt globdots
 
@@ -137,10 +140,6 @@
 
       # Suggestion strategies
       export ZSH_AUTOSUGGEST_STRATEGY=(completion history)
-
-      # History search with up and down arrows
-      #bindkey '^[[A' history-substring-search-up
-      #bindkey '^[[B' history-substring-search-down
 
       setopt HIST_SAVE_NO_DUPS       # Do not save duplicated command
       setopt HIST_REDUCE_BLANKS      # Remove unnecessary blanks

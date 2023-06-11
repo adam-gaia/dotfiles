@@ -33,6 +33,10 @@
     enable = true;
     lfs.enable = true;
 
+    delta = {
+      enable = true;
+    };
+
     # Aliases moved to 'shim' utility
     #aliases = {
     #  url = "remote get-url origin";
@@ -115,7 +119,6 @@
 
       core = {
         editor = "vim";
-        pager = "less";
         whitespace = "fix,-indent-with-non-tab,trailing-space,cr-at-eol";
       };
 

@@ -206,6 +206,19 @@ printUnderline() {
 # --------------------------------------------------------------------------------
 # Misc Utilities
 # ---------------------------------------------------------------------------------
+function web-search() {
+	if [[ $# -eq 0 ]]; then
+		echo "Usage: web-search <search term>"
+		return 1
+	fi
+	local search_term="${*}"
+	# Replace spaces
+	local search_term="${search_term// /+}"
+	local search_url="https://www.duckduckgo.com/?q=${search_term}"
+	xdg-open "${search_url}"
+}
+alias web='web-search'
+
 function wireguard() {
 	local error_msg=("Usage:" "wireguard <start|stop|status")
 	if [[ $# -eq 0 ]]; then

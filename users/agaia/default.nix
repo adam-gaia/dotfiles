@@ -35,9 +35,6 @@ in {
       GIT_DISCOVERY_ACROSS_FILESYSTEM = "1";
       PRE_COMMIT_ALLOW_NO_CONFIG = "1"; # TODO: can we configure pre-commit with a config instead of setting this?
 
-      XDG_CONFIG_HOME = "${homeDir}/.config";
-      XDG_CACHE_HOME = "${homeDir}/.cache";
-
       # Tell firefox to use wayland features
       MOZ_ENABLE_WAYLAND = 1;
 
@@ -209,6 +206,14 @@ in {
       #  source = ../../dotfiles/neomutt;
       #  recursive = true;
       #};
+    };
+    userDirs = {
+      enable = true;
+      createDirectories = true;
+      extraConfig = {
+        XDG_CONFIG_HOME = "${homeDir}/.config";
+        XDG_CACHE_HOME = "${homeDir}/.cache";
+      };
     };
   };
 

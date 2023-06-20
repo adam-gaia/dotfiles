@@ -81,21 +81,28 @@
 
     initExtraFirst = ''
       # --------------------------------------------------
-      # Tmux
+      # Start tmux with first terminal
       # --------------------------------------------------
-      # Check if we are running an interactive session and not already in tmux (or screen)
-      if command -v tmux &> /dev/null && [[ -n "$PS1" ]] && [[ ! "$TERM" =~ screen\|tmux ]] && [[ -z "$TMUX" ]]; then
-        exec tmux
+      # Start tmux on the first terminal, but only in a graphical session
+      # There is no good reason to skip starting tmux in a non-graphical session, I'm just worried that a bug in my zshrc
+      # could prevent me from loggin in during an emergency
+      if [[ -z ''${DISPLAY+unset} ]]; then
+        # Check if we are running an interactive session and not already in tmux (or screen)
+        if command -v tmux &> /dev/null && [[ -n "$PS1" ]] && [[ ! "$TERM" =~ screen\|tmux ]] && [[ -z "$TMUX" ]]; then
+          exec tmux
+        fi
+
+        # Tmux sets $SHLVL somehow.
+        # Tricks like 'exec env SHLVL=0 tmux' (from https://stackoverflow.com/a/22869763) do not work
+        # To get around this, check if we are the first shell (spawned by tmux) and set SHLVL manually
+        if [[ -z ''${FIX_SHLVL+unset} ]]; then
+          echo "fixing shlvl" >> ~/.zsh.log
+          export FIX_SHLVL=1
+          export SHLVL=1
+        fi
       fi
 
-      # Tmux sets $SHLVL somehow.
-      # Tricks like 'exec env SHLVL=0 tmux' (from https://stackoverflow.com/a/22869763) do not work
-      # To get around this, check if we are the first shell (spawned by tmux) and set SHLVL manually
-      if [[ -z ''${FIX_SHLVL+unset} ]]; then
-        echo "fixing shlvl" >> ~/.zsh.log
-        export FIX_SHLVL=1
-        export SHLVL=1
-      fi
+
 
       # --------------------------------------------------
       # Shell & term options

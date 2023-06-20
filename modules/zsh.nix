@@ -86,7 +86,7 @@
       # Start tmux on the first terminal, but only in a graphical session
       # There is no good reason to skip starting tmux in a non-graphical session, I'm just worried that a bug in my zshrc
       # could prevent me from loggin in during an emergency
-      if [[ -z ''${DISPLAY+unset} ]]; then
+      if [[ -n ''${DISPLAY+unset} ]]; then
         # Check if we are running an interactive session and not already in tmux (or screen)
         if command -v tmux &> /dev/null && [[ -n "$PS1" ]] && [[ ! "$TERM" =~ screen\|tmux ]] && [[ -z "$TMUX" ]]; then
           exec tmux

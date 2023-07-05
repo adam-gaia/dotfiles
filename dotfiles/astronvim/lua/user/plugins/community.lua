@@ -38,4 +38,7 @@ return {
 	-- {
 	--   import = "astrocommunity.pack.yaml",
 	-- },
+	--{
+	--		import = "astrocommunity.workflow.hardtime-nvim",
+	--},
 }

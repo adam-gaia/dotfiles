@@ -128,6 +128,7 @@
         system = "x86_64-linux";
         extraModules = [
           ./system/orion
+          ./modules/upgrade-diff.nix
           ./modules/persistence
           ./modules/desktop
           ./modules/parted.nix
@@ -140,6 +141,8 @@
       "rpi01" = nixpkgs.lib.nixosSystem {
         system = "aarch64-linux";
         modules = [
+          ./modules/upgrade-diff.nix
+
           ./system/picluster
           ./system/picluster/rpi01
         ];
@@ -147,6 +150,8 @@
       "rpi02" = nixpkgs.lib.nixosSystem {
         system = "aarch64-linux";
         modules = [
+          ./modules/upgrade-diff.nix
+
           ./system/picluster
           ./system/picluster/rpi02
         ];
@@ -154,6 +159,8 @@
       "rpi03" = nixpkgs.lib.nixosSystem {
         system = "aarch64-linux";
         modules = [
+          ./modules/upgrade-diff.nix
+
           ./system/picluster
           ./system/picluster/rpi03
         ];
@@ -161,13 +168,21 @@
       "rpi04" = nixpkgs.lib.nixosSystem {
         system = "aarch64-linux";
         modules = [
+          ./modules/upgrade-diff.nix
+
           ./system/picluster
           ./system/picluster/rpi04
         ];
       };
       "nixbox" = util.mkNixosConfig {
         system = "x86_64-linux";
-        extraModules = [./system/nixbox ./modules/persistence ./modules/gnome];
+        extraModules = [
+          ./modules/upgrade-diff.nix
+
+          ./system/nixbox
+          ./modules/persistence
+          ./modules/gnome
+        ];
       };
     };
 

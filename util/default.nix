@@ -94,7 +94,7 @@
     inputs.home-manager.lib.homeManagerConfiguration rec {
       pkgs = import nixpkgs {
         inherit system;
-        #config = { allowUnfree = true; }; # TODO: remove - set elsewhere?
+        config = {allowUnfree = true;}; # TODO: remove - set elsewhere?
         overlays = builtins.attrValues self.overlays;
       };
       extraSpecialArgs = {inherit self inputs nixpkgs system term git-track-repos new-stow ind cbtr conda-flake fortune-quotes ide text-art format-aliases;}; # TODO: add back 'shim'

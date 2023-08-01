@@ -138,11 +138,37 @@
           ./modules/networking.nix
         ];
       };
+
+      "hubble-initial-image" = let
+        system = "x86_64-linux";
+        vpsConfig = {
+          imports = [
+            "${nixpkgs}/nixos/modules/virtualisation/digital-ocean-image.nix"
+            ./system/hubble
+          ];
+        };
+      in
+        (nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [vpsConfig];
+        })
+        .config
+        .system
+        .build
+        .digitalOceanImage;
+
+      "hubble" = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./modules/upgrade-diff.nix
+          ./system/hubble
+        ];
+      };
+
       "rpi01" = nixpkgs.lib.nixosSystem {
         system = "aarch64-linux";
         modules = [
           ./modules/upgrade-diff.nix
-
           ./system/picluster
           ./system/picluster/rpi01
         ];
@@ -151,7 +177,6 @@
         system = "aarch64-linux";
         modules = [
           ./modules/upgrade-diff.nix
-
           ./system/picluster
           ./system/picluster/rpi02
         ];
@@ -160,7 +185,6 @@
         system = "aarch64-linux";
         modules = [
           ./modules/upgrade-diff.nix
-
           ./system/picluster
           ./system/picluster/rpi03
         ];
@@ -169,7 +193,6 @@
         system = "aarch64-linux";
         modules = [
           ./modules/upgrade-diff.nix
-
           ./system/picluster
           ./system/picluster/rpi04
         ];
@@ -178,10 +201,16 @@
         system = "x86_64-linux";
         extraModules = [
           ./modules/upgrade-diff.nix
-
           ./system/nixbox
           ./modules/persistence
-          ./modules/gnome
+          ./modules/desktop/gnome
+        ];
+      };
+      "argo" = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./modules/upgrade-diff.nix
+          ./system/argo
         ];
       };
     };
@@ -222,6 +251,7 @@
           ./modules/navi.nix
           ./modules/text-art.nix
           ./modules/format-aliases.nix
+          ./modules/newsboat.nix
         ];
       };
       "agaia@x86_64-darwin" = util.mkHomeConfig {
@@ -233,6 +263,11 @@
         username = "agaia";
         system = "aarch64-linux";
         extraModules = [./users/agaia-rpi];
+      };
+      "agaia-argo" = util.mkHomeConfig {
+        username = "agaia";
+        system = "x86_64-linux";
+        extraModules = [./users/agaia-argo];
       };
     };
 
@@ -288,6 +323,7 @@
         rpi02 = util.mkDeployNode "rpi02" "aarch64-linux" "192.168.1.136";
         rpi03 = util.mkDeployNode "rpi03" "aarch64-linux" "192.168.1.156";
         rpi04 = util.mkDeployNode "rpi04" "aarch64-linux" "192.168.1.144";
+        argo = util.mkDeployNodeX86 "argo" "x86_64-linux" "192.168.1.204";
       };
     };
   };

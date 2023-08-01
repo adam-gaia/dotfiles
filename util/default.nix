@@ -41,6 +41,27 @@
     };
   };
 
+  mkDeployNodeX86 = name: system: ip: {
+    hostname = ip;
+    # ssh in as agaia but run 'nixos-rebuild switch' as root
+    sshUser = "agaia";
+    user = "root";
+    profiles = {
+      system = {
+        path =
+          deploy-rs.lib."${system}".activate.nixos
+          self.nixosConfigurations."${name}";
+      };
+      user = {
+        user = "agaia";
+        profilePath = "/nix/var/nix/profiles/per-user/agaia/home-manager";
+        path =
+          deploy-rs.lib.${system}.activate.custom
+          self.homeConfigurations."agaia-argo".activationPackage "$PROFILE/activate";
+      };
+    };
+  };
+
   mkDarwinConfig = {
     system ? "x86_64-darwin",
     nixpkgs ? inputs.nixpkgs,

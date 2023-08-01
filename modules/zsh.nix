@@ -77,6 +77,17 @@
           sha256 = "sha256-diitszKbu530zXbJx4xmfOjLsITE9ucmWdsz9VTXsKg=";
         };
       }
+      {
+        # Yell at me when I use a full command where an alias exists
+        name = "zsh-you-should-use";
+        file = "you-should-use.plugin.zsh";
+        src = pkgs.fetchFromGitHub {
+          owner = "MichaelAquilina";
+          repo = "zsh-you-should-use";
+          rev = "1.7.3";
+          hash = "sha256-/uVFyplnlg9mETMi7myIndO6IG7Wr9M7xDFfY1pG5Lc=";
+        };
+      }
     ];
 
     initExtraFirst = ''
@@ -101,8 +112,6 @@
           export SHLVL=1
         fi
       fi
-
-
 
       # --------------------------------------------------
       # Shell & term options
@@ -168,6 +177,9 @@
       # --------------------------------------------------
       GIT_AUTO_FETCH_INTERVAL=3600 # 1 hour in seconds
 
+      # you-should-use
+      export YSU_MESSAGE_POSITION='after'
+
       # Stop forgit from creating aliases. We create our own later
       # (https://github.com/wfxr/forgit#shell-aliases)
       FORGIT_NO_ALIASES=1
@@ -176,12 +188,10 @@
     initExtra = ''
       source ''${XDG_CONFIG_HOME}/zsh/functions.zsh
 
-      # --------------------------------------------------------------------------------
-      # Starship prompt
-      # --------------------------------------------------------------------------------
-      if command -v starship &>/dev/null; then
-        eval "$(starship init zsh)"
-      fi
+      # Global aliases with dashes
+      # I'm not sure if home-manager's zsh.shellAliases can handle the '--'
+      alias -g -- -h='-h | bat --language=help --style=plain --wrap=character'
+      alias -g -- --help='--help | bat --language=help --style=plain --wrap=character'
     '';
 
     loginExtra = "";
@@ -197,7 +207,7 @@
 
       grep = "grep --color=always";
       fd = "fd --color=always";
-      ls = "ind -- lsd -alh --color=always";
+      ls = "ind -- lsd -a --color=always";
 
       vim = "nvim";
       vi = "vim";
@@ -213,6 +223,7 @@
       "...." = "cd ../../..";
       "....." = "cd ../../../..";
       "......" = "cd ../../../../..";
+      "g." = "cd $(git rev-parse --show-toplevel)"; # cd to git root
 
       ":q" = "exit";
 
@@ -260,7 +271,6 @@
       getsebool = "colorify getsebool";
       ifconfig = "colorify ifconfig";
 
-      tree = "lsd --tree --color=always";
       compose = "docker compose";
 
       iga = "git forgit add";
@@ -290,10 +300,5 @@
       # I'll get in the habit of running 'bat' when I want a pager
       cat = "bat --plain --pager=never";
     };
-  };
-  programs.zoxide = {
-    enable = true;
-    enableZshIntegration = true;
-    options = ["--cmd" "j"]; # Use 'j' to jump instead of 'z'
   };
 }

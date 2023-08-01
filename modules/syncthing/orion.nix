@@ -51,6 +51,11 @@
           };
         };
       };
+      "newsboat" = {
+        # TODO: find a better way to just sync the news file
+        path = "/home/agaia/.config/newsboat";
+        devices = ["helix"];
+      };
     };
   };
 

@@ -1,4 +1,0 @@
-.mode list
-.separator "|"
-
-PRAGMA foreign_keys = ON;

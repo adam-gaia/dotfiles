@@ -1,13 +1,7 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: {
-  programs.direnv = {
+{...}: {
+  programs.starship = {
     enable = true;
     enableZshIntegration = true;
     enableNushellIntegration = true;
-    nix-direnv.enable = true;
   };
 }

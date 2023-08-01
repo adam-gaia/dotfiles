@@ -6,3 +6,4 @@ modules/ssh.nix filter=git-crypt diff=git-crypt
 dotfiles/titwsync/titwsyncrc.yaml filter=git-crypt diff=git-crypt
 system/picluster/k3s/server_token.key filter=git-crypt diff=git-crypt
 *.key filter=git-crypt diff=git-crypt
+wireguard/* filter=git-crypt diff=git-crypt

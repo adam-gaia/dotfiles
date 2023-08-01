@@ -18,9 +18,14 @@ in {
     ../../modules/fzf.nix
     #../../modules/vscode.nix  # TODO: reenable - only works on linux
     ../../modules/zsh.nix
+    ../../modules/zoxide.nix
+    ../../modules/starship.nix
+    ../../modules/nushell.nix
+    ../../modules/atuin.nix
     ../../modules/taskwarrior.nix
     ../../modules/ssh.nix
     ../../modules/gtk.nix
+    ../../modules/less.nix
   ];
 
   accounts.email = {
@@ -126,7 +131,6 @@ in {
       glab
       onefetch
       tealdeer
-      starship
       ctop
       stylua
       ranger # TUI file navigator
@@ -145,6 +149,7 @@ in {
       fortune-quotes.defaultPackage.${system}
       git-annex
       obsidian
+      nurl # Generate Nix fetcher calls from repo urls
     ];
   };
 

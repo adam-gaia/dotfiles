@@ -5,6 +5,7 @@ add_newline = false
 
 format = """(${status}${cmd_duration}\n)\
 ${env_var}\
+${shell}\
 ${nix_shell}\
 ${conda}\
 ${container}\

@@ -17,7 +17,7 @@
     # You can update Home Manager without changing this value. See
     # the Home Manager release notes for a list of state version
     # changes in each release.
-    stateVersion = "22.05";
+    stateVersion = "23.05";
     sessionVariables = {
       # Tell firefox to use wayland features
       MOZ_ENASBLE_WAYLAND = 1;

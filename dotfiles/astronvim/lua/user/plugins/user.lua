@@ -44,6 +44,13 @@ return {
 		end,
 	},
 	{
+		-- Nushell
+		"LhKipp/nvim-nu",
+		config = function()
+			require("nu").setup()
+		end,
+	},
+	{
 		-- Collection of Nvim monokai schemes
 		"sainnhe/sonokai",
 	},

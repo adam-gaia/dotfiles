@@ -150,6 +150,9 @@ in {
       git-annex
       obsidian
       nurl # Generate Nix fetcher calls from repo urls
+      ripgrep-all # Use ripgrep on PDFs, zip files, Office docs, etc
+      bkt # subprocess caching utility
+      procs # ps replacement
     ];
   };
 

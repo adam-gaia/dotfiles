@@ -61,6 +61,7 @@
     text-art.url = "git+https://github.com/adam-gaia/text-art.git";
     settings-script.url = "path:scripts/settings";
     format-aliases.url = "github:adam-gaia/format-aliases";
+    stylix.url = "github:danth/stylix/release-23.05";
   };
 
   outputs = inputs @ {
@@ -81,6 +82,7 @@
     text-art,
     settings-script,
     format-aliases,
+    stylix,
     ...
   }: let
     inherit (flake-utils.lib) eachSystemMap;
@@ -127,7 +129,9 @@
       "orion" = util.mkNixosConfig {
         system = "x86_64-linux";
         extraModules = [
+          stylix.nixosModules.stylix
           ./system/orion
+          ./modules/stylix.nix
           ./modules/upgrade-diff.nix
           ./modules/persistence
           ./modules/desktop

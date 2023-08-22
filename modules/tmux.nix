@@ -1,8 +1,7 @@
-{
-  pkgs,
-  term,
-  ...
-}: {
+{pkgs, ...}: let
+  # TODO: make term a variable again and import here, alacritty, and foot
+  term = "xterm-256color";
+in {
   programs.tmux = {
     enable = true;
     tmuxp.enable = true; # https://github.com/tmux-python/tmuxp

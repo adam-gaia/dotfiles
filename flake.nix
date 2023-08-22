@@ -8,8 +8,10 @@
   inputs = {
     stable.url = "github:nixos/nixpkgs/nixos-22.05";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    small.url = "github:nixos/nixpkgs/nixos-unstable-small";
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
+    nur = {
+      url = "github:nix-community/NUR";
+    };
     darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -39,9 +41,6 @@
     new-stow = {
       url = "github:adam-gaia/new-stow";
     };
-    ind = {
-      url = "github:adam-gaia/ind";
-    };
     cbtr = {
       url = "github:adam-gaia/cbtr";
     };
@@ -69,20 +68,16 @@
     nixpkgs,
     home-manager,
     flake-utils,
-    #shim,
     git-track-repos,
     conda-flake,
-    new-stow,
     fortune-quotes,
-    ind,
-    cbtr,
     deploy-rs,
     devenv,
-    ide,
     text-art,
     settings-script,
     format-aliases,
     stylix,
+    nur,
     ...
   }: let
     inherit (flake-utils.lib) eachSystemMap;
@@ -94,16 +89,9 @@
         nixpkgs
         home-manager
         homePrefix
-        #shim
-        
         fortune-quotes
-        git-track-repos
-        new-stow
-        ind
-        cbtr
         conda-flake
         deploy-rs
-        ide
         text-art
         settings-script
         format-aliases
@@ -125,11 +113,27 @@
     # Checks taken from deploy-rs docs
     checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
 
-    nixosConfigurations = {
+    nixosConfigurations = let
+      system = "x86_64-linux";
+      pkgs = import nixpkgs {
+        inherit system;
+      };
+      inherit (pkgs) lib config;
+      utils = nixpkgs.utils;
+      inherit homePrefix;
+
+      term = "xterm-256color";
+    in {
       "orion" = util.mkNixosConfig {
-        system = "x86_64-linux";
         extraModules = [
+          {
+            nixpkgs.overlays = [nur.overlay];
+          }
+
           stylix.nixosModules.stylix
+          (import "${home-manager}/nixos")
+          (import ./agaia.nix {inherit nur term config inputs pkgs nixpkgs system homePrefix fortune-quotes;})
+
           ./system/orion
           ./modules/stylix.nix
           ./modules/upgrade-diff.nix
@@ -312,7 +316,6 @@
       channels = final: prev: {
         # Expose other channels via overlays
         stable = import inputs.stable {system = prev.system;};
-        small = import inputs.small {system = prev.system;};
       };
       extraPackages = final: prev: {
         sysdo = self.packages.${prev.system}.sysdo;

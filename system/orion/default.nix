@@ -16,8 +16,22 @@
       wireguard-tools
       wl-clipboard
       virt-manager
+      obsidian # TODO: move this to home-manager config
+      # Obsidian is non-free. There is an open issue where home-manager **as a nixos module**
+      # does not allow non-free packages to be installed.
+      # https://github.com/nix-community/home-manager/issues/2942
+      # Fixes in that issue (and related issues) such as setting
+      #  `nixpkgs.config.allowUnfree = true;` and `nixpkgs.config.allowUnfreePredicate = (_: true);`
+      # in either the home-manager config or the nixos config do not work.
     ];
   };
+
+  # Used for testing in VM
+  # See https://nixos.wiki/wiki/NixOS:nixos-rebuild_build-vm
+  users.users.nixosvmtest.isSystemUser = true;
+  users.users.nixosvmtest.initialPassword = "test";
+  users.users.nixosvmtest.group = "nixosvmtest";
+  users.groups.nixosvmtest = {};
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -35,7 +49,10 @@
     hostName = "orion"; # Define your hostname.
     # Pick only one of the below networking options.
     # wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-    networkmanager.enable = true; # Easiest to use and most distros use this by default.
+    networkmanager = {
+      enable = true; # Easiest to use and most distros use this by default.
+      insertNameservers = ["1.1.1.1" "8.8.8.8"];
+    };
 
     # Open ports in the firewall.
     firewall.allowedUDPPorts = [51820]; # Wireguard uses port 51820

@@ -207,7 +207,8 @@
 
       grep = "grep --color=always";
       fd = "fd --color=always";
-      ls = "ind -- lsd -a --color=always";
+      ls = "ind -- lsd -a --color=auto";
+      ll = "ind -- lsd -alh --git";
 
       vim = "nvim";
       vi = "vim";

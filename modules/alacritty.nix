@@ -2,9 +2,10 @@
   config,
   pkgs,
   lib,
-  term,
   ...
-}: {
+}: let
+  term = "xterm-256color";
+in {
   programs.alacritty = {
     enable = true;
     package = pkgs.alacritty;
@@ -14,38 +15,39 @@
       };
       dynamic_title = true;
 
-      font = {
-        normal = {
-          family = "FiraCode Nerd Font";
-          style = "Regular";
-          #family: monospace
-          #style: Regular
-        };
-
-        bold = {
-          family = "FiraCode Nerd Font";
-          style = "Bold";
-          # family: monospace
-          # style: Bold
-        };
-
-        italic = {
-          family = "FiraCode Nerd Font";
-          style = "Light";
-          # family: monospace
-          # style: Italic
-        };
-
-        bold_italic = {
-          family = "FiraCode Nerd Font";
-          style = "Regular";
-          # family: monospace
-          # style: Bold Italic
-        };
-
-        size = 14;
-        #use_thin_strokes = true;
-      };
+      # Moved to stylix.nix
+      # font = {
+      #   normal = {
+      #     family = "FiraCode Nerd Font";
+      #     style = "Regular";
+      #     #family: monospace
+      #     #style: Regular
+      #   };
+      #
+      #   bold = {
+      #     family = "FiraCode Nerd Font";
+      #     style = "Bold";
+      #     # family: monospace
+      #     # style: Bold
+      #   };
+      #
+      #   italic = {
+      #     family = "FiraCode Nerd Font";
+      #     style = "Light";
+      #     # family: monospace
+      #     # style: Italic
+      #   };
+      #
+      #   bold_italic = {
+      #     family = "FiraCode Nerd Font";
+      #     style = "Regular";
+      #     # family: monospace
+      #     # style: Bold Italic
+      #   };
+      #
+      #   size = 14;
+      #   #use_thin_strokes = true;
+      # };
 
       draw_bold_text_with_bright_colors = false;
 

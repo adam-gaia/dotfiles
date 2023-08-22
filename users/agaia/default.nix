@@ -36,6 +36,8 @@ in {
   };
 
   home = {
+    stateVersion = "23.05"; # TODO: make a variable to follow system state version
+
     sessionVariables = {
       GIT_DISCOVERY_ACROSS_FILESYSTEM = "1";
       PRE_COMMIT_ALLOW_NO_CONFIG = "1"; # TODO: can we configure pre-commit with a config instead of setting this?
@@ -151,7 +153,6 @@ in {
       obsidian
       nurl # Generate Nix fetcher calls from repo urls
       ripgrep-all # Use ripgrep on PDFs, zip files, Office docs, etc
-      bkt # subprocess caching utility
       procs # ps replacement
     ];
   };

@@ -4,15 +4,9 @@
   nixpkgs,
   home-manager,
   homePrefix,
-  #shim,
   fortune-quotes,
-  git-track-repos,
-  new-stow,
-  ind,
-  cbtr,
   conda-flake,
   deploy-rs,
-  ide,
   text-art,
   settings-script,
   format-aliases,
@@ -118,7 +112,7 @@
         config = {allowUnfree = true;}; # TODO: remove - set elsewhere?
         overlays = builtins.attrValues self.overlays;
       };
-      extraSpecialArgs = {inherit self inputs nixpkgs system term git-track-repos new-stow ind cbtr conda-flake fortune-quotes ide text-art format-aliases;}; # TODO: add back 'shim'
+      extraSpecialArgs = {inherit self inputs nixpkgs system term conda-flake fortune-quotes text-art format-aliases;};
       modules = baseModules ++ extraModules;
     };
 }

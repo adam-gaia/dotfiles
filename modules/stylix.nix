@@ -16,9 +16,10 @@ in {
     base16Scheme = theme;
     fonts = {
       monospace = {
-        package = pkgs.nerdfonts;
-        name = "Fira Code";
+        package = pkgs.nerdfonts.override {fonts = ["FiraCode"];};
+        name = "FiraCode Nerd Font";
       };
+      # TODO: dont just repeat font styles
       serif = config.stylix.fonts.monospace;
       sansSerif = config.stylix.fonts.monospace;
       emoji = config.stylix.fonts.monospace;
